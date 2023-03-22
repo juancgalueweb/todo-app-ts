@@ -5,3 +5,4 @@ export interface ITodo {
 }
 
 export type TodoId = Pick<ITodo, 'id'>
+export type TodoIdAndCompleted = Pick<ITodo, 'id' | 'completed'>

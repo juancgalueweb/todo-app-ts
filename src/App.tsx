@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import Todos from './components/Todos'
-import { type TodoId } from './interfaces/todo.interface'
+import {
+  type TodoId,
+  type TodoIdAndCompleted
+} from './interfaces/todo.interface'
 
 const mockTodos = [
   {
@@ -28,9 +31,26 @@ const App: React.FC = () => {
     setTodos(newTodos)
   }
 
+  const handleCompleted = ({ id, completed }: TodoIdAndCompleted): void => {
+    const newTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          completed
+        }
+      }
+      return todo
+    })
+    setTodos(newTodos)
+  }
+
   return (
     <div className='todoapp'>
-      <Todos todos={todos} onRemoveTodo={handleRemove} />
+      <Todos
+        todos={todos}
+        onRemoveTodo={handleRemove}
+        onToggleCompleteTodo={handleCompleted}
+      />
     </div>
   )
 }

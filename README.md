@@ -5,7 +5,7 @@
 - ✅ Añadir estilos del TodoMVC
 - ✅ Listar todos los TODOs
 - ✅ Poder borrar un TODO
-- ✅ Marcoar un TODO como completado
+- ✅ Marcar un TODO como completado
 - [ ] Añadir forma de filtrar TODOs (Footer)
 - [ ] Mostrar número de TODOs pendientes (Footer)
 - [ ] Añadir forma de borrar todos los TODOs completados
