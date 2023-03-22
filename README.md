@@ -6,8 +6,8 @@
 - ✅ Listar todos los TODOs
 - ✅ Poder borrar un TODO
 - ✅ Marcar un TODO como completado
-- [ ] Añadir forma de filtrar TODOs (Footer)
-- [ ] Mostrar número de TODOs pendientes (Footer)
+- ✅ Añadir forma de filtrar TODOs (Footer)
+- ✅ Mostrar número de TODOs pendientes (Footer)
 - [ ] Añadir forma de borrar todos los TODOs completados
 - [ ] Crear un Header con input (Header)
 - [ ] Crear un TODO (Header)
