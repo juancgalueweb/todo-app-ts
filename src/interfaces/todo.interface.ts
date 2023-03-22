@@ -7,6 +7,7 @@ export interface ITodo {
 }
 
 export type TodoId = Pick<ITodo, 'id'>
+export type TodoTitle = Pick<ITodo, 'title'>
 export type TodoIdAndCompleted = Pick<ITodo, 'id' | 'completed'>
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]

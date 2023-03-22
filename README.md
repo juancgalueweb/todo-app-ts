@@ -9,8 +9,8 @@
 - ✅ Añadir forma de filtrar TODOs (Footer)
 - ✅ Mostrar número de TODOs pendientes (Footer)
 - ✅ Añadir forma de borrar todos los TODOs completados
-- [ ] Crear un Header con input (Header)
-- [ ] Crear un TODO (Header)
+- ✅ Crear un Header con input (Header)
+- ✅ Crear un TODO (Header)
 - [ ] Poder editar el texto de un TODO (doble click)
 - [ ] Añadir animaciones con AutoAnimate
 - [ ] Pasar a Reducer
