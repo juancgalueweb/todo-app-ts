@@ -1,11 +1,9 @@
-import { useState } from 'react'
-import { type TodoTitle } from '../interfaces/todo.interface'
+import { useContext, useState } from 'react'
+import { TodosContext } from '../contexts/TodoContext'
+import { type TodoContextType } from '../interfaces/todo.interface'
 
-interface Props {
-  saveTodo: ({ title }: TodoTitle) => void
-}
-
-const CreateTodo: React.FC<Props> = ({ saveTodo }) => {
+const CreateTodo: React.FC = () => {
+  const { saveTodo } = useContext(TodosContext) as TodoContextType
   const [inputValue, setInputValue] = useState('')
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
