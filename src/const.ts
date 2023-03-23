@@ -10,7 +10,7 @@ export const FILTERS_BUTTONS = {
     href: `/?filter=${TODO_FILTERS.ALL}`
   },
   [TODO_FILTERS.PENDING]: {
-    literal: 'Pendiente',
+    literal: 'Pendientes',
     href: `/?filter=${TODO_FILTERS.PENDING}`
   },
   [TODO_FILTERS.COMPLETED]: {
