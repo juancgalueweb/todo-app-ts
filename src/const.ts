@@ -1,6 +1,6 @@
 export const TODO_FILTERS = {
   ALL: 'all',
-  ACTIVE: 'active',
+  PENDING: 'pending',
   COMPLETED: 'completed'
 } as const
 
@@ -9,9 +9,9 @@ export const FILTERS_BUTTONS = {
     literal: 'Todos',
     href: `/?filter=${TODO_FILTERS.ALL}`
   },
-  [TODO_FILTERS.ACTIVE]: {
-    literal: 'Activos',
-    href: `/?filter=${TODO_FILTERS.ACTIVE}`
+  [TODO_FILTERS.PENDING]: {
+    literal: 'Pendiente',
+    href: `/?filter=${TODO_FILTERS.PENDING}`
   },
   [TODO_FILTERS.COMPLETED]: {
     literal: 'Completados',

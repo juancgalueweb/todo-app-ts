@@ -25,7 +25,7 @@ export function useFilters(): Props {
   const completedCount = todos.length - activeCount
 
   const filteredTodos = todos.filter(todo => {
-    if (filterSelected === TODO_FILTERS.ACTIVE) return !todo.completed
+    if (filterSelected === TODO_FILTERS.PENDING) return !todo.completed
     if (filterSelected === TODO_FILTERS.COMPLETED) return todo.completed
     return todo
   })
