@@ -2,7 +2,7 @@ import React from 'react'
 import { useTodos } from '../hooks/useTodos'
 import { type TodoContextType } from '../interfaces/todo.interface'
 
-export const TodoContext = React.createContext<TodoContextType | null>(null)
+export const TodosContext = React.createContext<TodoContextType | null>(null)
 
 interface Props {
   children: React.ReactNode
@@ -10,25 +10,25 @@ interface Props {
 
 const TodoProvider: React.FC<Props> = ({ children }) => {
   const {
-    removeAllCompleted,
-    updateCompletedStatus,
-    removeTodo,
+    todos,
     saveTodo,
-    todos
+    removeTodo,
+    removeAllCompleted,
+    updateCompletedStatus
   } = useTodos()
 
   return (
-    <TodoContext.Provider
+    <TodosContext.Provider
       value={{
         todos,
         saveTodo,
         removeTodo,
-        updateCompletedStatus,
-        removeAllCompleted
+        removeAllCompleted,
+        updateCompletedStatus
       }}
     >
       {children}
-    </TodoContext.Provider>
+    </TodosContext.Provider>
   )
 }
 

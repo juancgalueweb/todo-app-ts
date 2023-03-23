@@ -1,11 +1,15 @@
+import { useContext } from 'react'
 import { FILTERS_BUTTONS } from '../const'
-import { type FilterValue } from '../interfaces/todo.interface'
-interface Props {
-  filterSelected: FilterValue
-  onFilterChange: (filter: FilterValue) => void
-}
+import { FiltersContext } from '../contexts/FilterContext'
+import {
+  type FiltersContextType,
+  type FilterValue
+} from '../interfaces/todo.interface'
 
-const Filters: React.FC<Props> = ({ filterSelected, onFilterChange }) => {
+const Filters: React.FC = () => {
+  const { filterSelected, filterChange } = useContext(
+    FiltersContext
+  ) as FiltersContextType
   return (
     <ul className='filters'>
       {Object.entries(FILTERS_BUTTONS).map(([key, { href, literal }]) => {
@@ -19,7 +23,7 @@ const Filters: React.FC<Props> = ({ filterSelected, onFilterChange }) => {
               className={className}
               onClick={event => {
                 event.preventDefault()
-                onFilterChange(key as FilterValue)
+                filterChange(key as FilterValue)
               }}
             >
               {literal}

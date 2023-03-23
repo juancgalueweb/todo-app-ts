@@ -20,7 +20,7 @@ const initialState = [
   },
   {
     id: '3',
-    title: 'LLamar a Wells Fargo',
+    title: 'Llamar a Wells Fargo',
     completed: false
   }
 ]

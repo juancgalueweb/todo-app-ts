@@ -19,3 +19,11 @@ export interface TodoContextType {
   updateCompletedStatus: ({ id, completed }: TodoIdAndCompleted) => void
   removeAllCompleted: () => void
 }
+
+export interface FiltersContextType {
+  filterChange: (filter: FilterValue) => void
+  activeCount: number
+  completedCount: number
+  filteredTodos: ITodo[]
+  filterSelected: FilterValue
+}

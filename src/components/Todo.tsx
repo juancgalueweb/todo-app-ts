@@ -1,5 +1,5 @@
 import { useContext, useId } from 'react'
-import { TodoContext } from '../contexts/todoContext'
+import { TodosContext } from '../contexts/TodoContext'
 import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
 
 type Props = ITodo
@@ -7,7 +7,7 @@ type Props = ITodo
 const Todo: React.FC<Props> = ({ id, title, completed }) => {
   const todoId = useId()
   const { removeTodo, updateCompletedStatus } = useContext(
-    TodoContext
+    TodosContext
   ) as TodoContextType
   const handleChangeCheckbox = (
     event: React.ChangeEvent<HTMLInputElement>
