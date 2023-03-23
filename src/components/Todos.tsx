@@ -1,21 +1,11 @@
-import {
-  type ITodo,
-  type TodoId,
-  type TodoIdAndCompleted
-} from '../interfaces/todo.interface'
+import { type ITodo } from '../interfaces/todo.interface'
 import Todo from './Todo'
 
 interface Props {
   todos: ITodo[]
-  onRemoveTodo: ({ id }: TodoId) => void
-  onToggleCompleteTodo: ({ id, completed }: TodoIdAndCompleted) => void
 }
 
-const Todos: React.FC<Props> = ({
-  todos,
-  onRemoveTodo,
-  onToggleCompleteTodo
-}) => {
+const Todos: React.FC<Props> = ({ todos }) => {
   return (
     <ul className='todo-list'>
       {todos.map(todo => (
@@ -25,8 +15,6 @@ const Todos: React.FC<Props> = ({
             id={todo.id}
             title={todo.title}
             completed={todo.completed}
-            onRemoveTodo={onRemoveTodo}
-            onToggleCompleteTodo={onToggleCompleteTodo}
           />
         </li>
       ))}

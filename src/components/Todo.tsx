@@ -1,27 +1,18 @@
-import { useId } from 'react'
-import {
-  type ITodo as TodoType,
-  type TodoId,
-  type TodoIdAndCompleted
-} from '../interfaces/todo.interface'
+import { useContext, useId } from 'react'
+import { TodoContext } from '../contexts/todoContext'
+import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
 
-interface Props extends TodoType {
-  onRemoveTodo: ({ id }: TodoId) => void
-  onToggleCompleteTodo: ({ id, completed }: TodoIdAndCompleted) => void
-}
+type Props = ITodo
 
-const Todo: React.FC<Props> = ({
-  id,
-  title,
-  completed,
-  onRemoveTodo,
-  onToggleCompleteTodo
-}) => {
+const Todo: React.FC<Props> = ({ id, title, completed }) => {
   const todoId = useId()
+  const { removeTodo, updateCompletedStatus } = useContext(
+    TodoContext
+  ) as TodoContextType
   const handleChangeCheckbox = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    onToggleCompleteTodo({ id, completed: event.target.checked })
+    updateCompletedStatus({ id, completed: event.target.checked })
   }
 
   return (
@@ -38,7 +29,7 @@ const Todo: React.FC<Props> = ({
         className='destroy'
         style={{ cursor: 'pointer' }}
         onClick={() => {
-          onRemoveTodo({ id })
+          removeTodo({ id })
         }}
       />
     </div>

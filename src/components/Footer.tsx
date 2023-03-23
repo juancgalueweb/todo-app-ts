@@ -1,10 +1,14 @@
-import { type FilterValue } from '../interfaces/todo.interface'
+import { useContext } from 'react'
+import { TodoContext } from '../contexts/todoContext'
+import {
+  type FilterValue,
+  type TodoContextType
+} from '../interfaces/todo.interface'
 import Filters from './Filters'
 
 interface Props {
   activeCount: number
   completedCount: number
-  onClearCompleted: () => void
   filterSelected: FilterValue
   handleFilterChange: (filter: FilterValue) => void
 }
@@ -12,10 +16,11 @@ interface Props {
 const Footer: React.FC<Props> = ({
   activeCount = 0,
   completedCount = 0,
-  onClearCompleted,
   filterSelected,
   handleFilterChange
 }) => {
+  const { removeAllCompleted } = useContext(TodoContext) as TodoContextType
+
   return (
     <footer className='footer'>
       {activeCount === 1 ? (
@@ -32,7 +37,7 @@ const Footer: React.FC<Props> = ({
         onFilterChange={handleFilterChange}
       />
       {completedCount > 0 && (
-        <button className='clear-completed' onClick={onClearCompleted}>
+        <button className='clear-completed' onClick={removeAllCompleted}>
           Borrar completadas
         </button>
       )}
