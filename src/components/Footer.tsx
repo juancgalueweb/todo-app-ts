@@ -1,3 +1,8 @@
+/**
+ * The Footer component displays the number of active tasks, a list of filters,
+ * and a button to remove all completed tasks.
+ */
+
 import { useContext } from 'react'
 import { FiltersContext } from '../contexts/FilterContext'
 import { TodosContext } from '../contexts/TodoContext'

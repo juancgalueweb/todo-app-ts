@@ -12,6 +12,9 @@ export type TodoIdAndCompleted = Pick<ITodo, 'id' | 'completed'>
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
 
+/**
+ * Represents the shape of the TodoContext.
+ */
 export interface TodoContextType {
   todos: ITodo[]
   saveTodo: ({ title }: TodoTitle) => void
@@ -20,6 +23,9 @@ export interface TodoContextType {
   removeAllCompleted: () => void
 }
 
+/**
+ * Represents the shape of the FiltersContext.
+ */
 export interface FiltersContextType {
   filterChange: (filter: FilterValue) => void
   activeCount: number

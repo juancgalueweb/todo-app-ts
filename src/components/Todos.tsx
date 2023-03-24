@@ -1,8 +1,15 @@
+/**
+ * This component renders a list of todos based on the current filter settings.
+ */
 import { useContext } from 'react'
 import { FiltersContext } from '../contexts/FilterContext'
 import { type FiltersContextType } from '../interfaces/todo.interface'
 import Todo from './Todo'
 
+/**
+ * Renders a list of todos.
+ * @returns The Todos component.
+ */
 const Todos: React.FC = () => {
   const { filteredTodos } = useContext(FiltersContext) as FiltersContextType
   return (

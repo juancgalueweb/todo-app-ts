@@ -29,9 +29,22 @@ type Props = TodoContextType
 
 const isNumberString = (str: string): boolean => /^[0-9]+$/.test(str)
 
+/**
+ * A custom React hook that manages a list of to-do items.
+ *
+ * @returns An object containing functions for adding, removing, and updating to-dos, as well as the current list of to-dos.
+ */
 export function useTodos(): Props {
+  /**
+   * An array of to-do items that the hook manages.
+   */
   const [todos, setTodos] = React.useState<ITodo[]>(initialState)
 
+  /**
+   * Adds a new to-do item to the list.
+   *
+   * @param title - The title of the new to-do item.
+   */
   const saveTodo = ({ title }: TodoTitle): void => {
     if (title.length === 0) return
     if (isNumberString(title)) return
@@ -45,11 +58,22 @@ export function useTodos(): Props {
     setTodos(newTodos)
   }
 
+  /**
+   * Removes a to-do item from the list.
+   *
+   * @param id - The ID of the to-do item to remove.
+   */
   const removeTodo = ({ id }: TodoId): void => {
     const newTodos = todos.filter(todo => todo.id !== id)
     setTodos(newTodos)
   }
 
+  /**
+   * Updates the completion status of a to-do item.
+   *
+   * @param id - The ID of the to-do item to update.
+   * @param completed - The new completion status of the to-do item.
+   */
   const updateCompletedStatus = ({
     id,
     completed
@@ -66,6 +90,9 @@ export function useTodos(): Props {
     setTodos(newTodos)
   }
 
+  /**
+   * Removes all completed to-do items from the list.
+   */
   const removeAllCompleted = (): void => {
     const newTodos = todos.filter(todo => !todo.completed)
     setTodos(newTodos)

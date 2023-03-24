@@ -1,3 +1,8 @@
+/**
+ * The CreateTodo component is a React functional component that renders a form
+ * with an input field for creating new todo items.
+ */
+
 import { useContext, useState } from 'react'
 import { TodosContext } from '../contexts/TodoContext'
 import { type TodoContextType } from '../interfaces/todo.interface'
