@@ -18,7 +18,7 @@ const Todos: React.FC = () => {
         <p
           style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '28px' }}
         >
-          Póngase a trabajar 😒
+          ¿Seguro que no tiene nada pendiente? 🧐
         </p>
       ) : (
         filteredTodos.map(todo => (
