@@ -9,6 +9,7 @@ export interface ITodo {
 export type TodoId = Pick<ITodo, 'id'>
 export type TodoTitle = Pick<ITodo, 'title'>
 export type TodoIdAndCompleted = Pick<ITodo, 'id' | 'completed'>
+export type TodoIdAndTitle = Pick<ITodo, 'id' | 'title'>
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
 
@@ -21,6 +22,7 @@ export interface TodoContextType {
   removeTodo: ({ id }: TodoId) => void
   updateCompletedStatus: ({ id, completed }: TodoIdAndCompleted) => void
   removeAllCompleted: () => void
+  updateTodoTitle: ({ id, title }: TodoIdAndTitle) => void
 }
 
 /**

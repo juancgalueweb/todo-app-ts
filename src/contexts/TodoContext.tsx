@@ -13,6 +13,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
     todos,
     saveTodo,
     removeTodo,
+    updateTodoTitle,
     removeAllCompleted,
     updateCompletedStatus
   } = useTodos()
@@ -23,6 +24,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
         todos,
         saveTodo,
         removeTodo,
+        updateTodoTitle,
         removeAllCompleted,
         updateCompletedStatus
       }}

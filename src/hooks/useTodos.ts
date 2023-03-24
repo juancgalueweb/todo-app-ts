@@ -4,6 +4,7 @@ import {
   type TodoContextType,
   type TodoId,
   type TodoIdAndCompleted,
+  type TodoIdAndTitle,
   type TodoTitle
 } from '../interfaces/todo.interface'
 
@@ -91,6 +92,22 @@ export function useTodos(): Props {
   }
 
   /**
+   * Updates the title of a to-do item.
+   *
+   * @param id - The ID of the to-do item to update.
+   * @param title - The new title of the to-do item.
+   */
+  const updateTodoTitle = ({ id, title }: TodoIdAndTitle): void => {
+    const newTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, title }
+      }
+      return todo
+    })
+    setTodos(newTodos)
+  }
+
+  /**
    * Removes all completed to-do items from the list.
    */
   const removeAllCompleted = (): void => {
@@ -103,6 +120,7 @@ export function useTodos(): Props {
     updateCompletedStatus,
     removeTodo,
     saveTodo,
-    todos
+    todos,
+    updateTodoTitle
   }
 }
