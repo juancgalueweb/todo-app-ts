@@ -16,9 +16,9 @@ const Todos: React.FC = () => {
     <ul className='todo-list'>
       {filteredTodos.length === 0 ? (
         <p
-          style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '28px' }}
+          style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '20px' }}
         >
-          ¿Seguro que no tiene nada pendiente? 🧐
+          ¿Seguro que no tienes más nada pendiente? 🧐
         </p>
       ) : (
         filteredTodos.map(todo => (
