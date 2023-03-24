@@ -1,4 +1,4 @@
-import { type TODO_FILTERS } from '../const'
+import { type TODO_FILTERS } from '../constants/const'
 
 export interface ITodo {
   id: string

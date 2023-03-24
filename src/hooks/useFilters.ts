@@ -1,5 +1,5 @@
 import React from 'react'
-import { TODO_FILTERS } from '../const'
+import { TODO_FILTERS } from '../constants/const'
 import { TodosContext } from '../contexts/TodoContext'
 import {
   type FiltersContextType,

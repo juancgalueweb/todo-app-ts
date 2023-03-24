@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { FILTERS_BUTTONS } from '../const'
+import { FILTERS_BUTTONS } from '../constants/const'
 import { FiltersContext } from '../contexts/FilterContext'
 import {
   type FiltersContextType,
