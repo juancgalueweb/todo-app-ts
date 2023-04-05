@@ -15,10 +15,14 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.0.1",
     "@formkit/auto-animate": "1.0.0-beta.6",
+    "@types/auth0": "^3.3.1",
     "@typescript-eslint/parser": "^5.56.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "6.10.0",
+    "react-spinners": "^0.13.8",
     "todomvc-app-css": "2.4.2"
   },
   "devDependencies": {

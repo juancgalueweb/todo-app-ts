@@ -8,7 +8,7 @@ const Header: React.FC = () => {
         <img
           src='ts-logo.png'
           alt='Imagen de Typescript'
-          style={{ width: '80px', height: 'auto', display: 'inline' }}
+          className='header-picture'
         />
       </h1>
       <CreateTodo />

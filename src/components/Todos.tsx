@@ -17,9 +17,7 @@ const Todos: React.FC = () => {
   return (
     <ul className='todo-list' ref={animationParent}>
       {filteredTodos.length === 0 ? (
-        <p
-          style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '20px' }}
-        >
+        <p className='nothing-pending'>
           ¿Seguro que no tienes más nada pendiente? 🧐
         </p>
       ) : (
