@@ -22,7 +22,8 @@
     "src/**/*.jsx",
     ".eslintrc.cjs",
     "vite.config.ts",
-    "jsxfiles.d.ts"
+    "jsxfiles.d.ts",
+    "server/**/*.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
