@@ -3,7 +3,7 @@ import { type IUser } from './../types/user'
 
 const userSchema: Schema = new Schema(
   {
-    name: {
+    userEmail: {
       type: String,
       required: [true, 'The user is required']
     }

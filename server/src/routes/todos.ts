@@ -9,7 +9,7 @@ import {
 
 const router: Router = Router()
 
-router.get('/todos', getTodosByUser)
+router.get('/todos/:userId', getTodosByUser)
 router.post('/add-todo', addTodo)
 router.put('/edit-todo/:id', updateTodo)
 router.delete('/delete-todo/:id', deleteTodo)
