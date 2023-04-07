@@ -3,24 +3,18 @@ import { type ITodo } from '../types/todo'
 
 const todoSchema: Schema = new Schema(
   {
-    userEmail: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: 'UserModel',
       required: [true, 'User ID is required']
     },
     title: {
       type: String,
-      required: true
+      required: [true, 'Title is required']
     },
-
-    id: {
-      type: String,
-      required: true
-    },
-
     completed: {
       type: Boolean,
-      required: true
+      required: [true, 'Completed status is required']
     }
   },
   { timestamps: true }

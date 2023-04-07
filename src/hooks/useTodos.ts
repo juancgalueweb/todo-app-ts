@@ -52,7 +52,7 @@ export function useTodos(): Props {
 
     const newTodo = {
       title,
-      id: crypto.randomUUID(),
+      id: crypto.randomUUID(), //! Revisar esto, porque el id lo genera la base de datos
       completed: false
     }
     const newTodos = [...todos, newTodo]

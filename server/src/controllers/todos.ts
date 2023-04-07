@@ -19,29 +19,22 @@ const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
-// ADD a new todo
+// Add a new todo
 const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const body = req.body as Pick<
       ITodo,
-      'title' | 'id' | 'completed' | 'userEmail'
+      'title' | 'id' | 'completed' | 'userId'
     >
     const {
-      params: { userEmail }
+      params: { userId }
     } = req
-    const todo: ITodo = new TodoModel({
-      user: body.userEmail,
-      title: body.title,
-      id: body.id,
-      completed: body.completed
-    })
-
-    const newTodo: ITodo = await todo.save()
-    const allTodos: ITodo[] = await TodoModel.find({ userEmail })
+    const newTodo: ITodo = await TodoModel.create(body)
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
 
     res.status(201).json({
       message: 'Todo added',
-      todo: newTodo,
+      newTodo,
       todos: allTodos,
       success: true
     })
@@ -54,18 +47,18 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
 const updateTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
-      params: { id, userEmail },
+      params: { userId, id },
       body
     } = req
-    const updateTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
+    const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
       { _id: id },
       body,
       { new: true, runValidators: true }
     )
-    const allTodos: ITodo[] = await TodoModel.find({ userEmail })
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(200).json({
       message: 'Todo updated',
-      todo: updateTodo,
+      updatedTodo,
       todos: allTodos,
       success: true
     })
@@ -78,10 +71,10 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
 const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
-      params: { id, userEmail }
+      params: { userId, id }
     } = req
     const deletedTodo: ITodo | null = await TodoModel.findByIdAndRemove(id)
-    const allTodos: ITodo[] = await TodoModel.find({ userEmail })
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(200).json({
       message: 'Todo deleted',
       todo: deletedTodo,
