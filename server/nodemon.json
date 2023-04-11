@@ -1,7 +1,0 @@
-{
-  "env": {
-    "MONGO_USER": "admin",
-    "MONGO_PASSWORD": "gVtDlBCyPhv2sbjM",
-    "PORT": 4000
-  }
-}

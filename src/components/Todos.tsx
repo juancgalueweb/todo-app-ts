@@ -22,10 +22,10 @@ const Todos: React.FC = () => {
         </p>
       ) : (
         filteredTodos.map(todo => (
-          <li key={todo.id} className={`${todo.completed ? 'completed' : ''}`}>
+          <li key={todo._id} className={`${todo.completed ? 'completed' : ''}`}>
             <Todo
-              key={todo.id}
-              id={todo.id}
+              key={todo._id}
+              _id={todo._id}
               title={todo.title}
               completed={todo.completed}
             />

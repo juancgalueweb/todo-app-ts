@@ -7,7 +7,7 @@ import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
  */
 type Props = ITodo
 
-const Todo: React.FC<Props> = ({ id, title, completed }) => {
+const Todo: React.FC<Props> = ({ _id, title, completed }) => {
   // State to keep track of the editing mode
   const [isEditing, setIsEditing] = useState(false)
   // State to keep track of the new title value
@@ -25,7 +25,7 @@ const Todo: React.FC<Props> = ({ id, title, completed }) => {
   const handleChangeCheckbox = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    updateCompletedStatus({ id, completed: event.target.checked })
+    updateCompletedStatus({ _id, completed: event.target.checked })
   }
 
   /**
@@ -55,7 +55,7 @@ const Todo: React.FC<Props> = ({ id, title, completed }) => {
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
     if (event.key === 'Enter') {
-      updateTodoTitle({ id, title: newTitle })
+      updateTodoTitle({ _id, title: newTitle })
       setIsEditing(false)
     }
     if (event.key === 'Escape') {
@@ -71,7 +71,7 @@ const Todo: React.FC<Props> = ({ id, title, completed }) => {
    */
   const handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
     if (event.type === 'blur') {
-      updateTodoTitle({ id, title: newTitle })
+      updateTodoTitle({ _id, title: newTitle })
       setIsEditing(false)
     }
   }
@@ -104,7 +104,7 @@ const Todo: React.FC<Props> = ({ id, title, completed }) => {
         className='destroy'
         style={{ cursor: 'pointer' }}
         onClick={() => {
-          removeTodo({ id })
+          removeTodo({ _id })
         }}
       />
     </div>

@@ -1,5 +1,3 @@
-import LoginButton from './LoginButton.jsx'
-
 const Home: React.FC = () => {
   return (
     <div className='home-container'>
@@ -10,9 +8,6 @@ const Home: React.FC = () => {
         y productividad.
       </p>
       <img src='app-preview1.png' alt='Foto de muestra de la app' />
-      <footer>
-        <LoginButton />
-      </footer>
     </div>
   )
 }

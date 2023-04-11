@@ -34,7 +34,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json({
       message: 'Todo added',
-      newTodo,
+      todo: newTodo,
       todos: allTodos,
       success: true
     })
@@ -58,7 +58,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
     const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(200).json({
       message: 'Todo updated',
-      updatedTodo,
+      todo: updatedTodo,
       todos: allTodos,
       success: true
     })
