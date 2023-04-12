@@ -47,9 +47,9 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
       ITodo,
       'title' | 'id' | 'completed' | 'userId'
     >
-
+    const { userId } = body
     // Check if the user exists
-    const user = await UserModel.findById(body.userId)
+    const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(401).json({
         msg: 'No se puede añadir una tarea de un usuario que no existe',
@@ -60,7 +60,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
 
     // Create the new todo and retrieve all todos for the user
     const newTodo: ITodo = await TodoModel.create(body)
-    const allTodos: ITodo[] = await TodoModel.find({ userId: body.userId })
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
 
     // Return success response with new todo and all todos for the user
     res.status(201).json({
@@ -80,11 +80,11 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
-      body
+      body: { userId }
     } = req
 
     // Check if user exists
-    const user = await UserModel.findById(body.userId)
+    const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(401).json({
         msg: 'No se puede actualizar una tarea de un usuario que no existe',
@@ -106,10 +106,10 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
     // Update the updated todo item and all the todos items for the user
     const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
       { _id: id },
-      body,
+      req.body,
       { new: true, runValidators: true }
     )
-    const allTodos: ITodo[] = await TodoModel.find({ userId: body.userId })
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
 
     // Return success response with updated todo and the rest of the todos for the user
     res.status(200).json({
@@ -131,11 +131,11 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
-      body
+      body: { userId }
     } = req
 
     // Check if user exits
-    const user = await UserModel.findById(body.userId)
+    const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(401).json({
         msg: 'No se puede eliminar una tarea de un usuario que no existe',
@@ -156,7 +156,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
 
     // Delete item and return the rest of the todos for the user
     const deletedTodo: ITodo | null = await TodoModel.findByIdAndRemove(id)
-    const allTodos: ITodo[] = await TodoModel.find({ userId: body.userId })
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(200).json({
       message: 'Tarea borrada',
       todo: deletedTodo,
