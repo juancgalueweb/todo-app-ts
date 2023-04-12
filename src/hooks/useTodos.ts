@@ -10,17 +10,17 @@ import {
 
 const initialState = [
   {
-    id: '1',
+    _id: '1',
     title: 'Ver el twitch de Midudev',
     completed: true
   },
   {
-    id: '2',
+    _id: '2',
     title: 'Estudiar Scrum Fundamentals',
     completed: false
   },
   {
-    id: '3',
+    _id: '3',
     title: 'Llamar a Wells Fargo',
     completed: false
   }
@@ -52,7 +52,7 @@ export function useTodos(): Props {
 
     const newTodo = {
       title,
-      id: crypto.randomUUID(),
+      _id: crypto.randomUUID(), //! Revisar esto, porque el id lo genera la base de datos
       completed: false
     }
     const newTodos = [...todos, newTodo]
@@ -64,8 +64,8 @@ export function useTodos(): Props {
    *
    * @param id - The ID of the to-do item to remove.
    */
-  const removeTodo = ({ id }: TodoId): void => {
-    const newTodos = todos.filter(todo => todo.id !== id)
+  const removeTodo = ({ _id }: TodoId): void => {
+    const newTodos = todos.filter(todo => todo._id !== _id)
     setTodos(newTodos)
   }
 
@@ -76,11 +76,11 @@ export function useTodos(): Props {
    * @param completed - The new completion status of the to-do item.
    */
   const updateCompletedStatus = ({
-    id,
+    _id,
     completed
   }: TodoIdAndCompleted): void => {
     const newTodos = todos.map(todo => {
-      if (todo.id === id) {
+      if (todo._id === _id) {
         return {
           ...todo,
           completed
@@ -97,9 +97,9 @@ export function useTodos(): Props {
    * @param id - The ID of the to-do item to update.
    * @param title - The new title of the to-do item.
    */
-  const updateTodoTitle = ({ id, title }: TodoIdAndTitle): void => {
+  const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
     const newTodos = todos.map(todo => {
-      if (todo.id === id) {
+      if (todo._id === _id) {
         return { ...todo, title }
       }
       return todo

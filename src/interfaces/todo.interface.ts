@@ -1,15 +1,17 @@
 import { type TODO_FILTERS } from '../constants/const'
 
 export interface ITodo {
-  id: string
+  _id: string
   title: string
   completed: boolean
+  createdAt?: string
+  updatedAt?: string
 }
 
-export type TodoId = Pick<ITodo, 'id'>
+export type TodoId = Pick<ITodo, '_id'>
 export type TodoTitle = Pick<ITodo, 'title'>
-export type TodoIdAndCompleted = Pick<ITodo, 'id' | 'completed'>
-export type TodoIdAndTitle = Pick<ITodo, 'id' | 'title'>
+export type TodoIdAndCompleted = Pick<ITodo, '_id' | 'completed'>
+export type TodoIdAndTitle = Pick<ITodo, '_id' | 'title'>
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
 
@@ -19,10 +21,10 @@ export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
 export interface TodoContextType {
   todos: ITodo[]
   saveTodo: ({ title }: TodoTitle) => void
-  removeTodo: ({ id }: TodoId) => void
-  updateCompletedStatus: ({ id, completed }: TodoIdAndCompleted) => void
+  removeTodo: ({ _id }: TodoId) => void
+  updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
   removeAllCompleted: () => void
-  updateTodoTitle: ({ id, title }: TodoIdAndTitle) => void
+  updateTodoTitle: ({ _id, title }: TodoIdAndTitle) => void
 }
 
 /**
@@ -34,4 +36,16 @@ export interface FiltersContextType {
   completedCount: number
   filteredTodos: ITodo[]
   filterSelected: FilterValue
+}
+
+export interface ApiDataTodosByUser {
+  todos: ITodo[]
+  success: boolean
+}
+
+export interface ApiDataType {
+  message: string
+  todo: ITodo
+  todos: ITodo[]
+  success: boolean
 }

@@ -22,7 +22,9 @@
     "src/**/*.jsx",
     ".eslintrc.cjs",
     "vite.config.ts",
-    "jsxfiles.d.ts"
+    "jsxfiles.d.ts",
+    "server/**/*.ts",
+    "server/src/helpers/mailVerify.js"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
