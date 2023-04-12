@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom'
+
 const Home: React.FC = () => {
+  const navigate = useNavigate()
   return (
     <div className='home-container'>
       <h1>App para administrar tus tareas pendientes</h1>
@@ -8,6 +11,16 @@ const Home: React.FC = () => {
         y productividad.
       </p>
       <img src='app-preview1.png' alt='Foto de muestra de la app' />
+      <footer>
+        <button
+          className='login-button'
+          onClick={() => {
+            navigate('/login')
+          }}
+        >
+          Iniciar sesión
+        </button>
+      </footer>
     </div>
   )
 }
