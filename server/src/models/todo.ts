@@ -6,15 +6,15 @@ const todoSchema: Schema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'UserModel',
-      required: [true, 'User ID is required']
+      required: [true, 'Se requiere el ID del usuario']
     },
     title: {
       type: String,
-      required: [true, 'Title is required']
+      required: [true, 'Se requiere el título']
     },
     completed: {
       type: Boolean,
-      required: [true, 'Completed status is required']
+      required: [true, 'Se requiere el estado de la tarea']
     }
   },
   { timestamps: true }

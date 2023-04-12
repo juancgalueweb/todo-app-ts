@@ -5,7 +5,7 @@ const userSchema: Schema = new Schema(
   {
     userEmail: {
       type: String,
-      required: [true, 'The user is required']
+      required: [true, 'Se requiere el correo del usuario']
     }
   },
   { timestamps: true }

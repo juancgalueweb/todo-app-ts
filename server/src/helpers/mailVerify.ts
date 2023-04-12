@@ -29,7 +29,7 @@ const mailTransport = (
   sendSmtpEmail.to = [
     {
       email: receiver,
-      name: 'Todo App user'
+      name: 'Usuario de Todos App'
     }
   ]
   sendSmtpEmail.replyTo = {
@@ -38,9 +38,7 @@ const mailTransport = (
   }
   apiInstance.sendTransacEmail(sendSmtpEmail).then(
     function (data) {
-      console.log(
-        'API called successfully. Returned data: ' + JSON.stringify(data)
-      )
+      console.log('Sendinblue API called successfully. OTP sent.')
     },
     function (error) {
       console.error(error)
