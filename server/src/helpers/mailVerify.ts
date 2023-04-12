@@ -1,5 +1,10 @@
 import * as SibApiV3Sdk from '@sendinblue/client'
 
+/**
+ * Generates a four-digit OTP code.
+ *
+ * @returns A string containing the four-digit OTP code.
+ */
 const generateOTP = (): string => {
   let otp = ''
   for (let i = 0; i <= 3; i++) {
@@ -9,6 +14,13 @@ const generateOTP = (): string => {
   return otp
 }
 
+/**
+ * Sends an email using the Sendinblue API.
+ *
+ * @param {string} subject - The subject of the email.
+ * @param {string} receiver - The email address of the recipient.
+ * @param {string} htmlContent - The HTML content of the email.
+ */
 const mailTransport = (
   subject: string,
   receiver: string,

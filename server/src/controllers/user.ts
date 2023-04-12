@@ -61,16 +61,19 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     // Validate user ID and OTP
     if (userId === '' || otp.trim().length === 0) {
       res.status(401).json({ msg: 'Solicitud inválida', success: false })
+      return
     }
 
     if (!isValidObjectId(userId)) {
       res.status(401).json({ msg: 'userId inválido', success: false })
+      return
     }
 
     // Check if user exists in the database
     const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(401).json({ msg: 'Usuario no encontrado', success: false })
+      return
     }
 
     // Validate the OTP using the token containing its hash
@@ -81,7 +84,8 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
 
     const isMatched = compareOTPWithItsHash(otp, otpHash)
     if (!isMatched) {
-      res.status(401).json({ msg: 'Token inválido', success: false })
+      res.status(401).json({ msg: 'OTP inválido', success: false })
+      return
     }
 
     // Generate a token for app access and return it with user ID and email

@@ -1,5 +1,11 @@
 import jwt from 'jsonwebtoken'
 
+/**
+ * This function generates a JWT token for a given user ID and email address
+ * @param {string} userId - The user ID
+ * @param {string} userEmail - The user's email address
+ * @returns {Promise<string>} - A Promise that resolves to a JWT token
+ */
 const jwtForApp = async (
   userId: string,
   userEmail: string
