@@ -1,5 +1,6 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
+import HttpStatusCode from '../constants/http'
 import { type JwtTokenAppVerificationResponse } from '../types/user'
 
 /**
@@ -22,26 +23,29 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     ) as JwtTokenAppVerificationResponse
     // Check if the userId from the token matches the userId in the request body
     if (userId === req.body.userId) {
+      res
+        .status(HttpStatusCode.OK)
+        .json({ success: true, msg: 'Validación exitosa del token' })
       // If they match, call the next middleware function in the chain
       next()
     } else {
       // If they don't match, send a 401 unauthorized response to the client
-      res.status(401).json({
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'El token no le pertenece al usuario que inició la sesión'
+        msg: 'El token no le pertenece al usuario que inició la sesión',
       })
     }
   } catch (error) {
     // If the token is not valid or missing, send an error response to the client
     if (error instanceof jwt.JsonWebTokenError) {
-      res.status(401).json({
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: `Error de jsonwebtoken: ${error.message}`
+        msg: `Error de jsonwebtoken: ${error.message}`,
       })
     } else {
-      res.status(401).json({
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'Token no válido'
+        msg: 'Token no válido',
       })
     }
   }
