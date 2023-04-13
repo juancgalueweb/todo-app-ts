@@ -1,5 +1,5 @@
 import { type AxiosError } from 'axios'
-import { useRef, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -13,17 +13,28 @@ const useLogin = (): UseLoginReturn => {
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const toastSuccessId = useId()
+  const toastErrorId = useId()
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setInputEmail(event.target.value)
+    const trimmedEmail = event.target.value.trim()
+    setInputEmail(trimmedEmail)
     setErrorMessage('')
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+
     // Check for empty email
     if (inputEmail.length === 0) {
       setErrorMessage('Por favor, ingrese su e-mail')
+      inputRef.current?.focus()
+      return
+    }
+
+    // Check for email length
+    if (inputEmail.length > 200) {
+      setErrorMessage('Su e-mail no puede tener más de 200 caracteres')
       inputRef.current?.focus()
       return
     }
@@ -53,7 +64,8 @@ const useLogin = (): UseLoginReturn => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          theme: 'light'
+          theme: 'light',
+          toastId: toastSuccessId
         })
       })
       .catch((error: AxiosError) => {
@@ -70,7 +82,8 @@ const useLogin = (): UseLoginReturn => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            theme: 'light'
+            theme: 'light',
+            toastId: toastErrorId
           })
         }
       })

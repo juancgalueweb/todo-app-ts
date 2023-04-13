@@ -44,7 +44,6 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Return a success response with the user's email and the token containing the OTP
     res.status(201).json({
       message: 'Usuario creado/OTP entregado con éxito',
-      user: userEmail,
       success: true,
       id: userFromDB?._id,
       token: tokenOTP
@@ -58,9 +57,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 const verifyEmail = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract user ID, OTP, and token from request body
-    const userId: string = req.body.userId
-    const otp: string = req.body.otp
-    const token: string = req.body.token
+    const { userId, otp, token } = req.body
 
     // Validate user ID and OTP
     if (userId === '' || otp.trim().length === 0) {

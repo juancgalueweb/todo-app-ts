@@ -10,13 +10,14 @@ const Login: React.FC = () => {
     <div className={styles.container}>
       <h1>Inicio de sesión</h1>
       <p>
-        No necesitará ingresar ninguna contraseña. A su correo electrónico le
-        llegará un código de 4 dígitos que deberá ingresar para usar la
-        aplicación.{' '}
-        <strong>Si no lo recibe, no olvide revisar su bandeja de SPAM.</strong>
+        No necesitas registrarte. A tu correo electrónico te llegará un código
+        de 4 dígitos que deberás ingresar para usar la aplicación.{' '}
+        <strong>
+          Si no lo recibes, no olvides revisar tu bandeja de SPAM.
+        </strong>
       </p>
       <form action='' onSubmit={handleSubmit} noValidate>
-        <label htmlFor='email'>Ingrese su correo electrónico</label>
+        <label htmlFor='email'>Ingresa tu correo electrónico</label>
         <input
           type='email'
           id='email'
