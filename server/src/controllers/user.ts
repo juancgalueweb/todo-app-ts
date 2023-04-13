@@ -1,13 +1,14 @@
 import { type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { isValidObjectId } from 'mongoose'
+import HttpStatusCode from '../constants/http'
 import { compareOTPWithItsHash, generateHashOTP } from '../helpers/hashOTP'
 import { jwtForApp } from '../helpers/jwtForApp'
 import { jwtOTPHash } from '../helpers/jwtOTPHash'
 import {
   generateOTP,
   generateSendOTPTemplate,
-  mailTransport
+  mailTransport,
 } from '../helpers/mailVerify'
 import UserModel from '../models/user'
 import { type IUser, type JwtOtpVerificationResponse } from '../types/user'
@@ -19,7 +20,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
     // Check if user already exists in the database
     const userExists = await UserModel.findOne({
-      userEmail
+      userEmail,
     })
     if (userExists === null) {
       const newUser = new UserModel(req.body)
@@ -42,15 +43,17 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     const tokenOTP = await jwtOTPHash(hashOTP)
 
     // Return a success response with the user's email and the token containing the OTP
-    res.status(201).json({
+    res.status(HttpStatusCode.CREATED).json({
       message: 'Usuario creado/OTP entregado con éxito',
       success: true,
       id: userFromDB?._id,
-      token: tokenOTP
+      token: tokenOTP,
     })
   } catch (error) {
     // Return an error response if user creation fails
-    res.status(500).json({ msg: 'No se pudo crear el usuario', success: false })
+    res
+      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
+      .json({ msg: 'No se pudo crear el usuario', success: false })
   }
 }
 
@@ -61,19 +64,25 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
 
     // Validate user ID and OTP
     if (userId === '' || otp.trim().length === 0) {
-      res.status(401).json({ msg: 'Solicitud inválida', success: false })
+      res
+        .status(HttpStatusCode.UNAUTHORIZED)
+        .json({ msg: 'Solicitud inválida', success: false })
       return
     }
 
     if (!isValidObjectId(userId)) {
-      res.status(401).json({ msg: 'userId inválido', success: false })
+      res
+        .status(HttpStatusCode.UNAUTHORIZED)
+        .json({ msg: 'userId inválido', success: false })
       return
     }
 
     // Check if user exists in the database
     const user = await UserModel.findById(userId)
     if (user === null) {
-      res.status(401).json({ msg: 'Usuario no encontrado', success: false })
+      res
+        .status(HttpStatusCode.UNAUTHORIZED)
+        .json({ msg: 'Usuario no encontrado', success: false })
       return
     }
 
@@ -85,22 +94,26 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
 
     const isMatched = compareOTPWithItsHash(otp, otpHash)
     if (!isMatched) {
-      res.status(401).json({ msg: 'OTP inválido', success: false })
+      res
+        .status(HttpStatusCode.UNAUTHORIZED)
+        .json({ msg: 'OTP inválido', success: false })
       return
     }
 
     // Generate a token for app access and return it with user ID and email
     if (user !== null) {
       const appToken = await jwtForApp(userId, user?.userEmail)
-      res.status(201).json({
+      res.status(HttpStatusCode.CREATED).json({
         userId,
         userEmail: user?.userEmail,
-        token: appToken
+        token: appToken,
       })
     }
   } catch (error) {
     // Return an error response if the verification of the email fails
-    res.status(500).json({ msg: 'No se pudo validar el email', success: false })
+    res
+      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
+      .json({ msg: 'No se pudo validar el email', success: false })
   }
 }
 
