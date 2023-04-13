@@ -1,0 +1,77 @@
+.container {
+  max-width: 56rem;
+  height: 100vh;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Ubuntu, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.container h1 {
+  text-align: center;
+  line-height: 32px;
+}
+
+.container p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.container form {
+  width: 32rem;
+  height: 18rem;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+.container form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  color: rgb(17 24 39);
+}
+
+.container form input {
+  background-color: rgb(249 250 251);
+  border-width: 1px;
+  border-color: rgb(209 213 219);
+  color: rgb(17 24 39);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  border-radius: 0.5rem;
+  display: block;
+  width: 50%;
+  padding: 0.625rem;
+  margin-bottom: 1.5rem;
+}
+
+.container form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  border-color: rgba(66, 153, 225, 0.5);
+}
+
+.error {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #9b2c2c;
+  border-radius: 0.5rem;
+  background-color: #fed7d7;
+}
+
+.error span {
+  font-weight: 500;
+}

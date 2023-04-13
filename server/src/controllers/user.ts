@@ -15,22 +15,25 @@ import { type IUser, type JwtOtpVerificationResponse } from '../types/user'
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract user data from request body
-    const userData: IUser = req.body
+    const { userEmail }: IUser = req.body
 
     // Check if user already exists in the database
     const userExists = await UserModel.findOne({
-      userEmail: userData.userEmail
+      userEmail
     })
     if (userExists === null) {
-      const newUser = new UserModel(userData)
+      const newUser = new UserModel(req.body)
       await newUser.save()
     }
+
+    // We need to get the ID of the user that we just created or from an existing one
+    const userFromDB = await UserModel.findOne({ userEmail })
 
     // Generate a new OTP and send it via email
     const OTP = generateOTP()
     mailTransport(
       'Necesita ingresar este OTP para usar la APP',
-      userData.userEmail,
+      userEmail,
       generateSendOTPTemplate(OTP)
     )
 
@@ -41,8 +44,9 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Return a success response with the user's email and the token containing the OTP
     res.status(201).json({
       message: 'Usuario creado/OTP entregado con éxito',
-      user: userData.userEmail,
+      user: userEmail,
       success: true,
+      id: userFromDB?._id,
       token: tokenOTP
     })
   } catch (error) {

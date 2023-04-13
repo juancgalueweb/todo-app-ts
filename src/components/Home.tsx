@@ -13,7 +13,7 @@ const Home: React.FC = () => {
       <img src='app-preview1.png' alt='Foto de muestra de la app' />
       <footer>
         <button
-          className='login-button'
+          className='button-app'
           onClick={() => {
             navigate('/login')
           }}
