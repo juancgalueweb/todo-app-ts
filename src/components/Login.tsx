@@ -1,5 +1,8 @@
+import { type AxiosError } from 'axios'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithoutToken } from '../api/axios'
 import styles from '../styles/Login.module.css'
 
@@ -12,8 +15,8 @@ const Login: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    event.preventDefault()
     setInputEmail(event.target.value)
+    setErrorMessage('')
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -36,11 +39,41 @@ const Login: React.FC = () => {
 
     axiosWithoutToken('auth/createUser', { userEmail: inputEmail }, 'POST')
       .then(response => {
-        localStorage.setItem(OTP_KEY, JSON.stringify(response?.data))
-        navigate('/validate-email')
+        const { id, token } = response.data
+        const dataToLocalStorate = {
+          userId: id,
+          token
+        }
+        localStorage.setItem(OTP_KEY, JSON.stringify(dataToLocalStorate))
+        toast.success('El código fue entregado. Revise su e-mail, por favor.', {
+          onClose: () => {
+            navigate('/validate-email')
+          },
+          position: 'top-center',
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: 'light'
+        })
       })
-      .catch(error => {
-        console.log(error)
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          toast.error(errorMessageFromAxios, {
+            position: 'top-center',
+            autoClose: 5000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: 'light'
+          })
+        }
       })
   }
 
@@ -72,6 +105,7 @@ const Login: React.FC = () => {
           Obtener código
         </button>
       </form>
+      <ToastContainer />
     </div>
   )
 }
