@@ -3,6 +3,8 @@
 
 echo '🏗️👷 Styling, testing and building your project before committing'
 
+cd client
+
 # Check Prettier standards
 pnpm run check-format ||
 (
