@@ -23,9 +23,6 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     ) as JwtTokenAppVerificationResponse
     // Check if the userId from the token matches the userId in the request body
     if (userId === req.body.userId) {
-      res
-        .status(HttpStatusCode.OK)
-        .json({ success: true, msg: 'Validación exitosa del token' })
       // If they match, call the next middleware function in the chain
       next()
     } else {

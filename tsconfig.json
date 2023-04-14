@@ -17,13 +17,13 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.jsx",
-    ".eslintrc.cjs",
-    "vite.config.ts",
-    "jsxfiles.d.ts",
-    "server/**/*.ts"
+    "./client/src/**/*.ts",
+    "./client/src/**/*.tsx",
+    "./client/src/**/*.jsx",
+    "./client/.eslintrc.cjs",
+    "./client/vite.config.ts",
+    "./client/jsxfiles.d.ts",
+    "./server/**/*.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
