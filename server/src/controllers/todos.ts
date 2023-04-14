@@ -15,27 +15,27 @@ const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
         msg: 'No se pueden encontrar las tareas de un usuario que no existe',
-        success: false,
+        success: false
       })
       return
     }
 
     // Fetch all the todos for the given user
     const allTodos: ITodo[] = await TodoModel.find({
-      userId,
+      userId
     })
 
     // Send the response with all the fetched todos
     res.status(HttpStatusCode.OK).json({
       message: 'Búsqueda exitosa de las tareas',
       todos: allTodos,
-      success: true,
+      success: true
     })
   } catch (error) {
     // Handle any errors that occur during the process
     res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
       msg: 'Error al traer todas las tareas del usuario',
-      success: false,
+      success: false
     })
   }
 }
@@ -54,7 +54,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
         msg: 'No se puede añadir una tarea de un usuario que no existe',
-        success: false,
+        success: false
       })
       return
     }
@@ -68,7 +68,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
       message: 'Tarea agregada',
       todo: newTodo,
       todos: allTodos,
-      success: true,
+      success: true
     })
   } catch (error) {
     // Return error response if an error occurs
@@ -83,7 +83,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
-      body: { userId },
+      body: { userId }
     } = req
 
     // Check if user exists
@@ -91,7 +91,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
         msg: 'No se puede actualizar una tarea de un usuario que no existe',
-        success: false,
+        success: false
       })
       return
     }
@@ -101,7 +101,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
     if (todoToBeUpdated === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
         msg: 'No se puede actualizar una tarea que no existe',
-        success: false,
+        success: false
       })
       return
     }
@@ -119,7 +119,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
       message: 'Tarea actualizada',
       todo: updatedTodo,
       todos: allTodos,
-      success: true,
+      success: true
     })
   } catch (error) {
     // Return error response if an error occurs
@@ -134,7 +134,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
-      body: { userId },
+      body: { userId }
     } = req
 
     // Check if user exits
@@ -142,7 +142,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
         msg: 'No se puede eliminar una tarea de un usuario que no existe',
-        success: false,
+        success: false
       })
       return
     }
@@ -152,7 +152,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
     if (todoToBeDeleted === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
         msg: 'No se puede eliminar una tarea que no existe',
-        success: false,
+        success: false
       })
       return
     }
@@ -164,7 +164,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
       message: 'Tarea borrada',
       todo: deletedTodo,
       todos: allTodos,
-      success: true,
+      success: true
     })
   } catch (error) {
     res

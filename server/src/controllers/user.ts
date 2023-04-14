@@ -8,7 +8,7 @@ import { jwtOTPHash } from '../helpers/jwtOTPHash'
 import {
   generateOTP,
   generateSendOTPTemplate,
-  mailTransport,
+  mailTransport
 } from '../helpers/mailVerify'
 import UserModel from '../models/user'
 import { type IUser, type JwtOtpVerificationResponse } from '../types/user'
@@ -20,7 +20,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
     // Check if user already exists in the database
     const userExists = await UserModel.findOne({
-      userEmail,
+      userEmail
     })
     if (userExists === null) {
       const newUser = new UserModel(req.body)
@@ -47,7 +47,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       message: 'Usuario creado/OTP entregado con éxito',
       success: true,
       id: userFromDB?._id,
-      token: tokenOTP,
+      token: tokenOTP
     })
   } catch (error) {
     // Return an error response if user creation fails
@@ -106,7 +106,7 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
       res.status(HttpStatusCode.CREATED).json({
         userId,
         userEmail: user?.userEmail,
-        token: appToken,
+        token: appToken
       })
     }
   } catch (error) {

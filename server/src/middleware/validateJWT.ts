@@ -29,7 +29,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
       // If they don't match, send a 401 unauthorized response to the client
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'El token no le pertenece al usuario que inició la sesión',
+        msg: 'El token no le pertenece al usuario que inició la sesión'
       })
     }
   } catch (error) {
@@ -37,12 +37,12 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     if (error instanceof jwt.JsonWebTokenError) {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: `Error de jsonwebtoken: ${error.message}`,
+        msg: `Error de jsonwebtoken: ${error.message}`
       })
     } else {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'Token no válido',
+        msg: 'Token no válido'
       })
     }
   }

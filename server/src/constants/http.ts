@@ -29,7 +29,7 @@ enum HttpStatusCode {
   /**
    * A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
    */
-  INTERNAL_SERVER_ERROR = 500,
+  INTERNAL_SERVER_ERROR = 500
 }
 
 export default HttpStatusCode
