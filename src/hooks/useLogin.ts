@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithoutToken } from '../api/axios'
-import { type UseLoginReturn } from '../interfaces/user.interface'
+import {
+  type AxiosWithoutTokenOptions,
+  type UseLoginReturn
+} from '../interfaces/user.interface'
 
 const OTP_KEY = 'todos-info-to-verify-email'
 
@@ -47,7 +50,10 @@ const useLogin = (): UseLoginReturn => {
       return
     }
 
-    axiosWithoutToken('auth/createUser', { userEmail: inputEmail }, 'POST')
+    const data: AxiosWithoutTokenOptions = {
+      data: { userEmail: inputEmail }
+    }
+    axiosWithoutToken('POST', 'auth/createUser', data)
       .then(response => {
         const { id, token } = response.data
         const dataToLocalStorate = {
