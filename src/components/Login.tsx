@@ -13,7 +13,7 @@ const Login: React.FC = () => {
         No necesitas registrarte. A tu correo electrónico te llegará un código
         de 4 dígitos que deberás ingresar para usar la aplicación.{' '}
         <strong>
-          Si no lo recibes, no olvides revisar tu bandeja de SPAM.
+          Si no lo recibes, no olvides revisar tu bandeja de SPAM 😎.
         </strong>
       </p>
       <form action='' onSubmit={handleSubmit} noValidate>
