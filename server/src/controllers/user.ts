@@ -44,7 +44,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
     // Return a success response with the user's email and the token containing the OTP
     res.status(HttpStatusCode.CREATED).json({
-      message: 'Usuario creado/OTP entregado con éxito',
+      message: 'Código entregado con éxito',
       success: true,
       id: userFromDB?._id,
       token: tokenOTP
@@ -96,7 +96,7 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (!isMatched) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'OTP inválido', success: false })
+        .json({ msg: 'Código inválido', success: false })
       return
     }
 
@@ -106,14 +106,16 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
       res.status(HttpStatusCode.CREATED).json({
         userId,
         userEmail: user?.userEmail,
-        token: appToken
+        token: appToken,
+        msg: 'Bienvenid@. Autenticación exitosa.'
       })
     }
   } catch (error) {
     // Return an error response if the verification of the email fails
-    res
-      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'No se pudo validar el email', success: false })
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      msg: 'No se pudo validar el email. Solicite un nuevo código.',
+      success: false
+    })
   }
 }
 

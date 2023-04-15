@@ -10,12 +10,8 @@ export const axiosWithoutToken = async (
   options: AxiosWithoutTokenOptions = {}
 ): Promise<AxiosResponse> => {
   const url = `${baseUrl}/${endpoint}`
-  try {
-    const response = await axios({ method, url, ...options })
-    return response
-  } catch (error) {
-    throw new Error('Error en la petición en axiosWithoutToken')
-  }
+  const response = await axios({ method, url, ...options })
+  return response
 }
 
 export const axiosWithToken = async (
@@ -25,15 +21,11 @@ export const axiosWithToken = async (
 ): Promise<AxiosResponse> => {
   const url = `${baseUrl}/${endpoint}`
   const token = JSON.parse(localStorage.getItem(OTP_KEY) as string)?.token ?? ''
-  try {
-    const response = await axios({
-      method,
-      url,
-      data,
-      headers: { 'Content-Type': 'application/json', 'x-token': token }
-    })
-    return response
-  } catch (error) {
-    throw new Error('Error en la petición en axiosWithToken')
-  }
+  const response = await axios({
+    method,
+    url,
+    data,
+    headers: { 'Content-Type': 'application/json', 'x-token': token }
+  })
+  return response
 }

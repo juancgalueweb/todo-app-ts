@@ -107,6 +107,13 @@
     rgba(50, 151, 211, 0.3) 0 0 0 4px;
 }
 
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
 /* Wrapper container */
 .wrapper-container {
   max-width: 48rem;

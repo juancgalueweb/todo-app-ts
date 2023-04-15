@@ -29,9 +29,9 @@
   opacity: 0.5;
 }
 
-swd-pin-field[completed] .pinField {
+.completed {
   border-color: rgb(40, 167, 69);
-  background-color: rgba(40, 167, 69, 0.1) !important;
+  background-color: rgba(40, 167, 69, 0.1);
 }
 
 @keyframes shake {

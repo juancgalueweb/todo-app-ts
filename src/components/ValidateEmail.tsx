@@ -1,3 +1,4 @@
+import { type AxiosError } from 'axios'
 import { useState } from 'react'
 import PinField from 'react-pin-field'
 import { axiosWithToken } from '../api/axios'
@@ -8,7 +9,7 @@ const OTP_KEY = 'todos-info-to-verify-email'
 
 const ValidateEmail: React.FC = () => {
   const [code, setCode] = useState('')
-  const [, setCompleted] = useState(false)
+  const [completed, setCompleted] = useState(false)
 
   const dataFromLocalStorage = JSON.parse(
     localStorage.getItem(OTP_KEY) as string
@@ -25,8 +26,16 @@ const ValidateEmail: React.FC = () => {
       .then(response => {
         console.log('Respuesta de axios', response)
       })
-      .catch(error => {
-        console.error('Error en axios', error)
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
       })
   }
 
@@ -39,7 +48,9 @@ const ValidateEmail: React.FC = () => {
         </p>
         <div style={{ display: 'block', textAlign: 'center' }}>
           <PinField
-            className={styles2.pinField}
+            className={`${styles2.pinField} ${
+              completed ? `${styles2.completed}` : ''
+            }`}
             length={4}
             onComplete={() => {
               setCompleted(true)
@@ -52,7 +63,14 @@ const ValidateEmail: React.FC = () => {
             validate='0123456789'
           />
         </div>
-        <button onClick={validateOPT}>Validar e-mail</button>
+        <button
+          style={{ margin: '0 auto', marginTop: '1.5rem' }}
+          className='button-app'
+          onClick={validateOPT}
+          disabled={!completed}
+        >
+          Validar e-mail
+        </button>
       </div>
     </>
   )
