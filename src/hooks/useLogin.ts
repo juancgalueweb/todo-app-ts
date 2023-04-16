@@ -55,18 +55,18 @@ const useLogin = (): UseLoginReturn => {
     }
     axiosWithoutToken('POST', 'auth/createUser', data)
       .then(response => {
-        const { id, token } = response.data
-        const dataToLocalStorate = {
-          userId: id,
+        const { userId, token, msg } = response.data
+        const dataToLocalStorage = {
+          userId,
           token
         }
-        localStorage.setItem(OTP_KEY, JSON.stringify(dataToLocalStorate))
-        toast.success('El código fue entregado. Revise su e-mail, por favor.', {
+        localStorage.setItem(OTP_KEY, JSON.stringify(dataToLocalStorage))
+        toast.success(msg, {
           onClose: () => {
             navigate('/validate-email')
           },
           position: 'top-center',
-          autoClose: 5000,
+          autoClose: 4000,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
@@ -84,7 +84,7 @@ const useLogin = (): UseLoginReturn => {
           const errorMessageFromAxios = errorData.msg as string
           toast.error(errorMessageFromAxios, {
             position: 'top-center',
-            autoClose: 5000,
+            autoClose: 4000,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,

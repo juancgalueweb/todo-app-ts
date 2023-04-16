@@ -44,9 +44,9 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
     // Return a success response with the user's email and the token containing the OTP
     res.status(HttpStatusCode.CREATED).json({
-      message: 'Código entregado con éxito',
+      msg: 'Código entregado con éxito',
       success: true,
-      id: userFromDB?._id,
+      userId: userFromDB?._id,
       token: tokenOTP
     })
   } catch (error) {
