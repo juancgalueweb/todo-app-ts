@@ -25,6 +25,7 @@ const Login: React.FC = () => {
           onChange={handleOnChange}
           required
           ref={inputRef}
+          name='email'
         />
         {errorMessage !== '' && (
           <div className={styles.error} role='alert'>

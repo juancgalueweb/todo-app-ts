@@ -1,4 +1,4 @@
-import { type AxiosError } from 'axios'
+import { type AxiosError, type AxiosResponse } from 'axios'
 import { useId, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -54,7 +54,7 @@ const useLogin = (): UseLoginReturn => {
       data: { userEmail: inputEmail }
     }
     axiosWithoutToken('POST', 'auth/createUser', data)
-      .then(response => {
+      .then((response: AxiosResponse) => {
         const { userId, token, msg } = response.data
         const dataToLocalStorage = {
           userId,

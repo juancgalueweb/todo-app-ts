@@ -39,7 +39,9 @@ const ValidateEmail: React.FC = () => {
         <button
           style={{ margin: '0 auto', marginTop: '1.5rem' }}
           className='button-app'
-          onClick={validateOPT}
+          onClick={() => {
+            validateOPT()
+          }}
           disabled={!completed}
         >
           Validar e-mail

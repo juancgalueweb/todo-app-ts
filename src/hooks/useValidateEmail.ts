@@ -1,7 +1,8 @@
-import { type AxiosError } from 'axios'
+import { type AxiosError, type AxiosResponse } from 'axios'
 import { useId, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithTokenValidateEmail } from '../api/axios'
 import {
   type AxiosWithTokenValidateEmailOptions,
@@ -32,7 +33,7 @@ const useValidateEmail = (): useValidateEmailResponse => {
 
   const validateOPT = (): void => {
     axiosWithTokenValidateEmail('POST', 'auth/verifyEmail', dataToAxios)
-      .then(response => {
+      .then((response: AxiosResponse) => {
         const { userId, userEmail, token, msg } = response.data
         const dataToLocalStorage = {
           userId,
