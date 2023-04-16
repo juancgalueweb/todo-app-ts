@@ -11,3 +11,19 @@ export interface UseLoginReturn {
 export interface AxiosWithoutTokenOptions extends AxiosRequestConfig {
   data?: { userEmail: string }
 }
+
+export interface AxiosWithTokenValidateEmailOptions extends AxiosRequestConfig {
+  data?: {
+    userId: string
+    otp: string
+    token: string
+  }
+}
+
+export interface useValidateEmailResponse {
+  validateOPT: () => void
+  code: string
+  completed: boolean
+  setCode: (code: string) => void
+  setCompleted: (completed: boolean) => void
+}
