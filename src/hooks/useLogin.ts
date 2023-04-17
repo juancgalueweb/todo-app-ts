@@ -4,12 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithoutToken } from '../api/axios'
+import { OTP_KEY } from '../constants/const'
 import {
   type AxiosWithoutTokenOptions,
   type UseLoginReturn
 } from '../interfaces/user.interface'
-
-const OTP_KEY = 'todos-info-to-verify-email'
 
 const useLogin = (): UseLoginReturn => {
   const [inputEmail, setInputEmail] = useState('')

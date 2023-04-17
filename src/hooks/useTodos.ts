@@ -8,24 +8,6 @@ import {
   type TodoTitle
 } from '../interfaces/todo.interface'
 
-const initialState = [
-  {
-    _id: '1',
-    title: 'Ver el twitch de Midudev',
-    completed: true
-  },
-  {
-    _id: '2',
-    title: 'Estudiar Scrum Fundamentals',
-    completed: false
-  },
-  {
-    _id: '3',
-    title: 'Llamar a Wells Fargo',
-    completed: false
-  }
-]
-
 type Props = TodoContextType
 
 const isNumberString = (str: string): boolean => /^[0-9]+$/.test(str)
@@ -39,7 +21,7 @@ export function useTodos(): Props {
   /**
    * An array of to-do items that the hook manages.
    */
-  const [todos, setTodos] = React.useState<ITodo[]>(initialState)
+  const [todos, setTodos] = React.useState<ITodo[]>([])
 
   /**
    * Adds a new to-do item to the list.

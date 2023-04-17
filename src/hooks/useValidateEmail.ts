@@ -4,13 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithTokenValidateEmail } from '../api/axios'
+import { APP_KEY, OTP_KEY } from '../constants/const'
 import {
   type AxiosWithTokenValidateEmailOptions,
   type useValidateEmailResponse
 } from '../interfaces/user.interface'
-
-const OTP_KEY = 'todos-info-to-verify-email'
-const APP_KEY = 'todos-info-to-use-app'
 
 const useValidateEmail = (): useValidateEmailResponse => {
   const [code, setCode] = useState('')

@@ -29,3 +29,6 @@ export const FILTERS_BUTTONS = {
     href: `/?filter=${TODO_FILTERS.COMPLETED}`
   }
 } as const
+
+export const OTP_KEY = 'todos-info-to-verify-email'
+export const APP_KEY = 'todos-info-to-use-app'

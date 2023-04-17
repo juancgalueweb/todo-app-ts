@@ -7,7 +7,8 @@ import { type ITodo } from '../types/todo'
 // Get all the tasks
 const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Extract user ID from request parameters
+    //! Tengo que cambiar esto y sacar el id del query
+    //! Esto me va a dañar el middleware así que debo pensar qué cambios hacer
     const { userId } = req.body
 
     // Check if user exists in the databse
@@ -27,7 +28,7 @@ const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
 
     // Send the response with all the fetched todos
     res.status(HttpStatusCode.OK).json({
-      message: 'Búsqueda exitosa de las tareas',
+      msg: 'Búsqueda exitosa de las tareas',
       todos: allTodos,
       success: true
     })
@@ -65,7 +66,7 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
 
     // Return success response with new todo and all todos for the user
     res.status(HttpStatusCode.CREATED).json({
-      message: 'Tarea agregada',
+      msg: 'Tarea agregada',
       todo: newTodo,
       todos: allTodos,
       success: true
@@ -116,7 +117,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
 
     // Return success response with updated todo and the rest of the todos for the user
     res.status(HttpStatusCode.OK).json({
-      message: 'Tarea actualizada',
+      msg: 'Tarea actualizada',
       todo: updatedTodo,
       todos: allTodos,
       success: true
@@ -161,7 +162,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
     const deletedTodo: ITodo | null = await TodoModel.findByIdAndRemove(id)
     const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(HttpStatusCode.OK).json({
-      message: 'Tarea borrada',
+      msg: 'Tarea borrada',
       todo: deletedTodo,
       todos: allTodos,
       success: true
