@@ -5,10 +5,8 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithoutToken } from '../api/axios'
 import { OTP_KEY } from '../constants/const'
-import {
-  type AxiosWithoutTokenOptions,
-  type UseLoginReturn
-} from '../interfaces/user.interface'
+import { type AxiosWithoutTokenOptions } from '../interfaces/axios.interface'
+import { type UseLoginReturn } from '../interfaces/user.interface'
 
 const useLogin = (): UseLoginReturn => {
   const [inputEmail, setInputEmail] = useState('')

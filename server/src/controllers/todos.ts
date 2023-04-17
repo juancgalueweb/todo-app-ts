@@ -101,7 +101,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
       return
     }
 
-    // Update the updated todo item and all the todos items for the user
+    // Update the todo item and get all the todos items for the user
     const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
       { _id: id },
       req.body,

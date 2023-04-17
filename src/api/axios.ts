@@ -1,11 +1,11 @@
 import axios, { type AxiosResponse } from 'axios'
 import { APP_KEY, OTP_KEY } from '../constants/const'
-import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
 import {
   type AxiosWithTokenValidateEmailOptions,
   type AxiosWithoutTokenOptions,
-  type axiosWithTokenSaveTodoOptions
-} from '../interfaces/user.interface'
+  type axiosWithTokenSaveAndEditTodoOptions
+} from '../interfaces/axios.interface'
+import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
 
 const baseUrl = import.meta.env.VITE_BASE_URL as string
 
@@ -49,10 +49,10 @@ export const axiosWithTokenGetTodos = async (
   return response
 }
 
-export const axiosWithTokenSaveTodo = async (
+export const axiosWithTokenSaveAndEditTodo = async (
   method: string,
   endpoint: string,
-  options: axiosWithTokenSaveTodoOptions = {}
+  options: axiosWithTokenSaveAndEditTodoOptions = {}
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
   const url = `${baseUrl}/${endpoint}`
   const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''

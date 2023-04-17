@@ -5,10 +5,8 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithTokenValidateEmail } from '../api/axios'
 import { APP_KEY, OTP_KEY } from '../constants/const'
-import {
-  type AxiosWithTokenValidateEmailOptions,
-  type useValidateEmailReturn
-} from '../interfaces/user.interface'
+import { type AxiosWithTokenValidateEmailOptions } from '../interfaces/axios.interface'
+import { type useValidateEmailReturn } from '../interfaces/user.interface'
 
 const useValidateEmail = (): useValidateEmailReturn => {
   const [code, setCode] = useState('')

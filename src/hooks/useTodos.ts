@@ -1,6 +1,9 @@
 import { type AxiosError, type AxiosResponse } from 'axios'
 import { useState } from 'react'
-import { axiosWithTokenGetTodos, axiosWithTokenSaveTodo } from '../api/axios'
+import {
+  axiosWithTokenGetTodos,
+  axiosWithTokenSaveAndEditTodo
+} from '../api/axios'
 import {
   type ITodo,
   type TodoContextType,
@@ -62,7 +65,7 @@ export function useTodos(): Props {
         completed: false
       }
     }
-    axiosWithTokenSaveTodo('POST', 'add-todo', dataToAxios)
+    axiosWithTokenSaveAndEditTodo('POST', 'add-todo', dataToAxios)
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
@@ -100,16 +103,33 @@ export function useTodos(): Props {
     _id,
     completed
   }: TodoIdAndCompleted): void => {
-    const newTodos = todos.map(todo => {
-      if (todo._id === _id) {
-        return {
-          ...todo,
-          completed
-        }
+    const todoToBeUpdated = todos.find(todo => todo._id === _id)
+    const dataToAxios = {
+      data: {
+        title: todoToBeUpdated?.title as string,
+        completed
       }
-      return todo
-    })
-    setTodos(newTodos)
+    }
+    axiosWithTokenSaveAndEditTodo(
+      'PUT',
+      `edit-todo/${_id as string}`,
+      dataToAxios
+    )
+      .then((response: AxiosResponse) => {
+        const { todos } = response?.data
+        setTodos(todos)
+      })
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
+      })
   }
 
   /**
@@ -119,13 +139,33 @@ export function useTodos(): Props {
    * @param title - The new title of the to-do item.
    */
   const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
-    const newTodos = todos.map(todo => {
-      if (todo._id === _id) {
-        return { ...todo, title }
+    const todoToBeUpdated = todos.find(todo => todo._id === _id)
+    const dataToAxios = {
+      data: {
+        title,
+        completed: todoToBeUpdated?.completed as boolean
       }
-      return todo
-    })
-    setTodos(newTodos)
+    }
+    axiosWithTokenSaveAndEditTodo(
+      'PUT',
+      `edit-todo/${_id as string}`,
+      dataToAxios
+    )
+      .then((response: AxiosResponse) => {
+        const { todos } = response?.data
+        setTodos(todos)
+      })
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
+      })
   }
 
   /**
