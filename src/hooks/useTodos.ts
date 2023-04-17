@@ -1,6 +1,6 @@
 import { type AxiosError, type AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
-import { axiosWithTokenGetTodos } from '../api/axios'
+import { axiosWithTokenGetTodos, axiosWithTokenSaveTodo } from '../api/axios'
 import {
   type ITodo,
   type TodoContextType,
@@ -60,12 +60,28 @@ export function useTodos(): Props {
     if (title.length === 0) return
     if (isNumberString(title)) return
 
-    const newTodo = {
-      title,
-      completed: false
+    const dataToAxios = {
+      data: {
+        title,
+        completed: false
+      }
     }
-    const newTodos = [...todos, newTodo]
-    setTodos(newTodos)
+    axiosWithTokenSaveTodo('POST', 'add-todo', dataToAxios)
+      .then((response: AxiosResponse) => {
+        const { todos } = response?.data
+        setTodos(todos)
+      })
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
+      })
   }
 
   /**
@@ -128,6 +144,7 @@ export function useTodos(): Props {
     todos,
     getTodos,
     saveTodo,
+    setTodos,
     removeTodo,
     updateTodoTitle,
     removeAllCompleted,

@@ -100,11 +100,10 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
       return
     }
 
-    // Generate a token for app access and return it with user ID and email
+    // Generate a token for app access and return it with user ID
     if (user !== null) {
-      const appToken = await jwtForApp(userId, user?.userEmail)
+      const appToken = await jwtForApp(userId)
       res.status(HttpStatusCode.CREATED).json({
-        userId,
         userEmail: user?.userEmail,
         token: appToken,
         msg: 'Bienvenid@. Autenticación exitosa.'

@@ -8,6 +8,14 @@ export interface UseLoginReturn {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }
 
+export interface useValidateEmailReturn {
+  validateOPT: () => void
+  code: string
+  completed: boolean
+  setCode: (code: string) => void
+  setCompleted: (completed: boolean) => void
+}
+
 export interface AxiosWithoutTokenOptions extends AxiosRequestConfig {
   data?: { userEmail: string }
 }
@@ -20,10 +28,9 @@ export interface AxiosWithTokenValidateEmailOptions extends AxiosRequestConfig {
   }
 }
 
-export interface useValidateEmailResponse {
-  validateOPT: () => void
-  code: string
-  completed: boolean
-  setCode: (code: string) => void
-  setCompleted: (completed: boolean) => void
+export interface axiosWithTokenSaveTodoOptions extends AxiosRequestConfig {
+  data?: {
+    title: string
+    completed: boolean
+  }
 }

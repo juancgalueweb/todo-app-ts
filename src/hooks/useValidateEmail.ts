@@ -7,10 +7,10 @@ import { axiosWithTokenValidateEmail } from '../api/axios'
 import { APP_KEY, OTP_KEY } from '../constants/const'
 import {
   type AxiosWithTokenValidateEmailOptions,
-  type useValidateEmailResponse
+  type useValidateEmailReturn
 } from '../interfaces/user.interface'
 
-const useValidateEmail = (): useValidateEmailResponse => {
+const useValidateEmail = (): useValidateEmailReturn => {
   const [code, setCode] = useState('')
   const [completed, setCompleted] = useState(false)
   const navigate = useNavigate()
@@ -32,9 +32,8 @@ const useValidateEmail = (): useValidateEmailResponse => {
   const validateOPT = (): void => {
     axiosWithTokenValidateEmail('POST', 'auth/verifyEmail', dataToAxios)
       .then((response: AxiosResponse) => {
-        const { userId, userEmail, token, msg } = response.data
+        const { userEmail, token, msg } = response.data
         const dataToLocalStorage = {
-          userId,
           token,
           userEmail
         }

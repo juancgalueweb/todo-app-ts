@@ -1,5 +1,5 @@
+import { type Dispatch, type SetStateAction } from 'react'
 import { type TODO_FILTERS } from '../constants/const'
-
 export interface ITodo {
   _id?: string
   title: string
@@ -27,6 +27,7 @@ export interface TodoContextType {
   updateTodoTitle: ({ _id, title }: TodoIdAndTitle) => void
   removeAllCompleted: () => void
   getTodos: () => void
+  setTodos: Dispatch<SetStateAction<ITodo[]>>
 }
 
 /**
