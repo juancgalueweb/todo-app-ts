@@ -78,7 +78,7 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
-      body: { userId }
+      userId
     } = req
 
     // Check if user exists
@@ -129,7 +129,7 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
-      body: { userId }
+      userId
     } = req
 
     // Check if user exits

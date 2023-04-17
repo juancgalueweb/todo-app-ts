@@ -1,5 +1,5 @@
 import { type AxiosError, type AxiosResponse } from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { axiosWithTokenGetTodos, axiosWithTokenSaveTodo } from '../api/axios'
 import {
   type ITodo,
@@ -46,10 +46,6 @@ export function useTodos(): Props {
         }
       })
   }
-
-  useEffect(() => {
-    getTodos()
-  }, [])
 
   /**
    * Adds a new to-do item to the list.

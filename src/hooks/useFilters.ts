@@ -1,12 +1,11 @@
-import React from 'react'
+import { useContext, useState } from 'react'
 import { TODO_FILTERS } from '../constants/const'
 import { TodosContext } from '../contexts/TodoContext'
 import {
-  type FiltersContextType,
   type FilterValue,
+  type FiltersContextType,
   type TodoContextType
 } from '../interfaces/todo.interface'
-
 type Props = FiltersContextType
 
 /**
@@ -16,10 +15,10 @@ type Props = FiltersContextType
  */
 export function useFilters(): Props {
   // Retrieve the todos from the TodosContext.
-  const { todos } = React.useContext(TodosContext) as TodoContextType
+  const { todos } = useContext(TodosContext) as TodoContextType
 
   // Set the initial filter to show all todos.
-  const [filterSelected, setFilterSelected] = React.useState<FilterValue>(
+  const [filterSelected, setFilterSelected] = useState<FilterValue>(
     TODO_FILTERS.ALL
   )
 
