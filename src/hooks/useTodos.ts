@@ -1,4 +1,6 @@
-import React from 'react'
+import { type AxiosError, type AxiosResponse } from 'axios'
+import { useEffect, useState } from 'react'
+import { axiosWithTokenGetTodos } from '../api/axios'
 import {
   type ITodo,
   type TodoContextType,
@@ -21,7 +23,33 @@ export function useTodos(): Props {
   /**
    * An array of to-do items that the hook manages.
    */
-  const [todos, setTodos] = React.useState<ITodo[]>([])
+  const [todos, setTodos] = useState<ITodo[]>([])
+
+  /**
+   * Get todos by userId
+   */
+  const getTodos = (): void => {
+    axiosWithTokenGetTodos('GET', 'todos')
+      .then((response: AxiosResponse) => {
+        const { todos } = response.data
+        setTodos(todos)
+      })
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
+      })
+  }
+
+  useEffect(() => {
+    getTodos()
+  }, [])
 
   /**
    * Adds a new to-do item to the list.
@@ -34,7 +62,6 @@ export function useTodos(): Props {
 
     const newTodo = {
       title,
-      _id: crypto.randomUUID(), //! Revisar esto, porque el id lo genera la base de datos
       completed: false
     }
     const newTodos = [...todos, newTodo]
@@ -98,11 +125,12 @@ export function useTodos(): Props {
   }
 
   return {
-    removeAllCompleted,
-    updateCompletedStatus,
-    removeTodo,
-    saveTodo,
     todos,
-    updateTodoTitle
+    getTodos,
+    saveTodo,
+    removeTodo,
+    updateTodoTitle,
+    removeAllCompleted,
+    updateCompletedStatus
   }
 }

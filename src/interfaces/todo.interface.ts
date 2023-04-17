@@ -1,11 +1,12 @@
 import { type TODO_FILTERS } from '../constants/const'
 
 export interface ITodo {
-  _id: string
+  _id?: string
   title: string
   completed: boolean
   createdAt?: string
   updatedAt?: string
+  __v?: number
 }
 
 export type TodoId = Pick<ITodo, '_id'>
@@ -23,8 +24,9 @@ export interface TodoContextType {
   saveTodo: ({ title }: TodoTitle) => void
   removeTodo: ({ _id }: TodoId) => void
   updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
-  removeAllCompleted: () => void
   updateTodoTitle: ({ _id, title }: TodoIdAndTitle) => void
+  removeAllCompleted: () => void
+  getTodos: () => void
 }
 
 /**
@@ -39,13 +41,7 @@ export interface FiltersContextType {
 }
 
 export interface ApiDataTodosByUser {
-  todos: ITodo[]
-  success: boolean
-}
-
-export interface ApiDataType {
-  message: string
-  todo: ITodo
+  msg: string
   todos: ITodo[]
   success: boolean
 }

@@ -1,14 +1,15 @@
 import axios, { type AxiosResponse } from 'axios'
+import { APP_KEY, OTP_KEY } from '../constants/const'
+import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
 import {
   type AxiosWithoutTokenOptions,
   type AxiosWithTokenValidateEmailOptions
 } from '../interfaces/user.interface'
 
 const baseUrl = import.meta.env.VITE_BASE_URL as string
-const OTP_KEY = 'todos-info-to-verify-email'
 
 export const axiosWithoutToken = async (
-  method: string = 'GET',
+  method: string,
   endpoint: string,
   options: AxiosWithoutTokenOptions = {}
 ): Promise<AxiosResponse> => {
@@ -18,7 +19,7 @@ export const axiosWithoutToken = async (
 }
 
 export const axiosWithTokenValidateEmail = async (
-  method: string = 'GET',
+  method: string,
   endpoint: string,
   options: AxiosWithTokenValidateEmailOptions = {}
 ): Promise<AxiosResponse> => {
@@ -28,6 +29,20 @@ export const axiosWithTokenValidateEmail = async (
     method,
     url,
     ...options,
+    headers: { 'Content-Type': 'application/json', 'x-token': token }
+  })
+  return response
+}
+
+export const axiosWithTokenGetTodos = async (
+  method: string,
+  endpoint: string
+): Promise<AxiosResponse<ApiDataTodosByUser>> => {
+  const url = `${baseUrl}/${endpoint}`
+  const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''
+  const response = await axios({
+    method,
+    url,
     headers: { 'Content-Type': 'application/json', 'x-token': token }
   })
   return response

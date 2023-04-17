@@ -7,9 +7,7 @@ import { type ITodo } from '../types/todo'
 // Get all the tasks
 const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    //! Tengo que cambiar esto y sacar el id del query
-    //! Esto me va a dañar el middleware así que debo pensar qué cambios hacer
-    const { userId } = req.body
+    const { userId } = req
 
     // Check if user exists in the databse
     const user = await UserModel.findById(userId)
@@ -45,11 +43,8 @@ const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
 const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract todo information and user ID from request body and parameters
-    const body = req.body as Pick<
-      ITodo,
-      'title' | 'id' | 'completed' | 'userId'
-    >
-    const { userId } = body
+    const body = req.body as Pick<ITodo, 'title' | 'completed'>
+    const { userId } = req
     // Check if the user exists
     const user = await UserModel.findById(userId)
     if (user === null) {
@@ -59,9 +54,8 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
       })
       return
     }
-
     // Create the new todo and retrieve all todos for the user
-    const newTodo: ITodo = await TodoModel.create(body)
+    const newTodo: ITodo = await TodoModel.create({ ...body, userId })
     const allTodos: ITodo[] = await TodoModel.find({ userId })
 
     // Return success response with new todo and all todos for the user

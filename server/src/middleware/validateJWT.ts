@@ -14,24 +14,23 @@ import { type JwtTokenAppVerificationResponse } from '../types/user'
 const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
   // Get the token from the request header
   const token = req.header('x-token')
+  if (token?.length === 0 || token === undefined || token === null) {
+    res.status(HttpStatusCode.UNAUTHORIZED).json({
+      success: false,
+      msg: 'No hay token en la petición'
+    })
+  }
 
   try {
     // Verify the token using the secret key and extract the userId
-    const { userId } = jwt.verify(
+    const { userId, userEmail } = jwt.verify(
       token as string,
       process.env.SECRET_KEY_APP_USE_JWT as string
     ) as JwtTokenAppVerificationResponse
-    // Check if the userId from the token matches the userId in the request body
-    if (userId === req.body.userId) {
-      // If they match, call the next middleware function in the chain
-      next()
-    } else {
-      // If they don't match, send a 401 unauthorized response to the client
-      res.status(HttpStatusCode.UNAUTHORIZED).json({
-        success: false,
-        msg: 'El token no le pertenece al usuario que inició la sesión'
-      })
-    }
+    // Add properties userId and userEmail to the req object
+    req.userId = userId
+    req.userEmail = userEmail
+    next()
   } catch (error) {
     // If the token is not valid or missing, send an error response to the client
     if (error instanceof jwt.JsonWebTokenError) {
