@@ -2,10 +2,13 @@ import { type Request, type Response } from 'express'
 import HttpStatusCode from '../constants/http'
 import TodoModel from '../models/todo'
 import UserModel from '../models/user'
-import { type ITodo } from '../types/todo'
+import { type DeleteResult, type ITodo } from '../types/todo'
 
 // Get all the tasks
-const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
+export const getTodosByUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { userId } = req
 
@@ -40,7 +43,7 @@ const getTodosByUser = async (req: Request, res: Response): Promise<void> => {
 }
 
 // Add a new todo
-const addTodo = async (req: Request, res: Response): Promise<void> => {
+export const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract todo information and user ID from request body and parameters
     const body = req.body as Pick<ITodo, 'title' | 'completed'>
@@ -74,7 +77,10 @@ const addTodo = async (req: Request, res: Response): Promise<void> => {
 }
 
 // Update a todo
-const updateTodo = async (req: Request, res: Response): Promise<void> => {
+export const updateTodo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const {
       params: { id },
@@ -125,7 +131,10 @@ const updateTodo = async (req: Request, res: Response): Promise<void> => {
 }
 
 // Delete a todo
-const deleteTodo = async (req: Request, res: Response): Promise<void> => {
+export const deleteTodo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const {
       params: { id },
@@ -168,4 +177,49 @@ const deleteTodo = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
-export { getTodosByUser, addTodo, updateTodo, deleteTodo }
+export const deleteCompletedTodos = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { userId, body: ids } = req
+    // Check if user exits
+    const user = await UserModel.findById(userId)
+    if (user === null) {
+      res.status(HttpStatusCode.NOT_FOUND).json({
+        msg: 'No se pueden eliminar las tareas completadas de un usuario que no existe',
+        success: false
+      })
+      return
+    }
+    // Check if todo items exist
+    const todosToBeDeleted: ITodo[] = await TodoModel.find({
+      _id: { $in: ids },
+      userId
+    })
+    if (todosToBeDeleted.length === 0) {
+      res.status(HttpStatusCode.NOT_FOUND).json({
+        msg: 'No se pueden eliminar tareas que no existen',
+        success: false
+      })
+      return
+    }
+
+    // Delete items and return the rest of the todos for the user
+    const deletedTodos: DeleteResult = await TodoModel.deleteMany({
+      _id: { $in: ids },
+      userId
+    })
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
+    res.status(HttpStatusCode.OK).json({
+      msg: 'Tareas borradas',
+      deletedTodos,
+      todos: allTodos,
+      success: true
+    })
+  } catch (error) {
+    res
+      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
+      .json({ msg: 'Error al borrar tareas', success: false })
+  }
+}

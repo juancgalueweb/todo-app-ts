@@ -3,7 +3,7 @@ import { APP_KEY, OTP_KEY } from '../constants/const'
 import {
   type AxiosWithTokenValidateEmailOptions,
   type AxiosWithoutTokenOptions,
-  type axiosWithTokenSaveAndEditTodoOptions
+  type axiosWithTokenAndDataOptions
 } from '../interfaces/axios.interface'
 import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
 
@@ -49,10 +49,10 @@ export const axiosWithToken = async (
   return response
 }
 
-export const axiosWithTokenSaveAndEditTodo = async (
+export const axiosWithTokenAndData = async (
   method: string,
   endpoint: string,
-  options: axiosWithTokenSaveAndEditTodoOptions = {}
+  options: axiosWithTokenAndDataOptions = {}
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
   const url = `${baseUrl}/${endpoint}`
   const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''
@@ -60,6 +60,22 @@ export const axiosWithTokenSaveAndEditTodo = async (
     method,
     url,
     ...options,
+    headers: { 'Content-Type': 'application/json', 'x-token': token }
+  })
+  return response
+}
+
+export const axiosWithTokenDeleteCompleted = async (
+  method: string,
+  endpoint: string,
+  data: string[]
+): Promise<AxiosResponse<ApiDataTodosByUser>> => {
+  const url = `${baseUrl}/${endpoint}`
+  const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''
+  const response = await axios({
+    method,
+    url,
+    data,
     headers: { 'Content-Type': 'application/json', 'x-token': token }
   })
   return response

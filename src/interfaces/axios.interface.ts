@@ -12,8 +12,7 @@ export interface AxiosWithTokenValidateEmailOptions extends AxiosRequestConfig {
   }
 }
 
-export interface axiosWithTokenSaveAndEditTodoOptions
-  extends AxiosRequestConfig {
+export interface axiosWithTokenAndDataOptions extends AxiosRequestConfig {
   data?: {
     title: string
     completed: boolean

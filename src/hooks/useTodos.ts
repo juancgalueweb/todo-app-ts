@@ -1,6 +1,10 @@
 import { type AxiosError, type AxiosResponse } from 'axios'
 import { useState } from 'react'
-import { axiosWithToken, axiosWithTokenSaveAndEditTodo } from '../api/axios'
+import {
+  axiosWithToken,
+  axiosWithTokenAndData,
+  axiosWithTokenDeleteCompleted
+} from '../api/axios'
 import {
   type ITodo,
   type TodoContextType,
@@ -29,7 +33,7 @@ export function useTodos(): Props {
    * Get todos by userId
    */
   const getTodos = (): void => {
-    axiosWithToken('GET', 'todos')
+    axiosWithToken('GET', 'todos/user')
       .then((response: AxiosResponse) => {
         const { todos } = response.data
         setTodos(todos)
@@ -62,7 +66,7 @@ export function useTodos(): Props {
         completed: false
       }
     }
-    axiosWithTokenSaveAndEditTodo('POST', 'add-todo', dataToAxios)
+    axiosWithTokenAndData('POST', 'todos', dataToAxios)
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
@@ -86,7 +90,7 @@ export function useTodos(): Props {
    * @param id - The ID of the to-do item to remove.
    */
   const removeTodo = ({ _id }: TodoId): void => {
-    axiosWithToken('DELETE', `delete-todo/${_id as string}`)
+    axiosWithToken('DELETE', `todo/${_id as string}`)
       .then((response: AxiosResponse) => {
         const { todos } = response.data
         setTodos(todos)
@@ -121,11 +125,7 @@ export function useTodos(): Props {
         completed
       }
     }
-    axiosWithTokenSaveAndEditTodo(
-      'PUT',
-      `edit-todo/${_id as string}`,
-      dataToAxios
-    )
+    axiosWithTokenAndData('PUT', `todo/${_id as string}`, dataToAxios)
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
@@ -157,11 +157,7 @@ export function useTodos(): Props {
         completed: todoToBeUpdated?.completed as boolean
       }
     }
-    axiosWithTokenSaveAndEditTodo(
-      'PUT',
-      `edit-todo/${_id as string}`,
-      dataToAxios
-    )
+    axiosWithTokenAndData('PUT', `todo/${_id as string}`, dataToAxios)
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
@@ -183,8 +179,25 @@ export function useTodos(): Props {
    * Removes all completed to-do items from the list.
    */
   const removeAllCompleted = (): void => {
-    const newTodos = todos.filter(todo => !todo.completed)
-    setTodos(newTodos)
+    const idsToDelete = todos
+      .filter(todo => todo.completed)
+      .map(todo => todo._id) as string[]
+    axiosWithTokenDeleteCompleted('DELETE', 'todos/completed', idsToDelete)
+      .then((response: AxiosResponse) => {
+        const { todos } = response?.data
+        setTodos(todos)
+      })
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
+      })
   }
 
   return {

@@ -6,3 +6,8 @@ export interface ITodo extends Document {
   id: string
   completed: boolean
 }
+
+export interface DeleteResult {
+  deletedCount?: number
+  acknowledged?: boolean
+}

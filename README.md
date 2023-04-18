@@ -14,4 +14,4 @@
 - ✅ Poder editar el texto de un TODO (doble click)
 - ✅ Añadir animaciones con AutoAnimate
 - ✅ Agregar una forma de hacer login
-- [ ] Sincronizar con el back-end
+- ✅ Sincronizar con el back-end

@@ -2,6 +2,7 @@
 import { Router } from 'express'
 import {
   addTodo,
+  deleteCompletedTodos,
   deleteTodo,
   getTodosByUser,
   updateTodo
@@ -10,9 +11,10 @@ import { validateJWT } from '../middleware/validateJWT'
 
 const router: Router = Router()
 
-router.get('/todos', validateJWT, getTodosByUser)
-router.post('/add-todo', validateJWT, addTodo)
-router.put('/edit-todo/:id', validateJWT, updateTodo)
-router.delete('/delete-todo/:id', validateJWT, deleteTodo)
+router.get('/todos/user', validateJWT, getTodosByUser)
+router.post('/todos', validateJWT, addTodo)
+router.put('/todo/:id', validateJWT, updateTodo)
+router.delete('/todo/:id', validateJWT, deleteTodo)
+router.delete('/todos/completed', validateJWT, deleteCompletedTodos)
 
 export default router
