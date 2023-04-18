@@ -35,7 +35,7 @@ export const axiosWithTokenValidateEmail = async (
   return response
 }
 
-export const axiosWithTokenGetTodos = async (
+export const axiosWithToken = async (
   method: string,
   endpoint: string
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {

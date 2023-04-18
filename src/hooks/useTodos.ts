@@ -1,9 +1,6 @@
 import { type AxiosError, type AxiosResponse } from 'axios'
 import { useState } from 'react'
-import {
-  axiosWithTokenGetTodos,
-  axiosWithTokenSaveAndEditTodo
-} from '../api/axios'
+import { axiosWithToken, axiosWithTokenSaveAndEditTodo } from '../api/axios'
 import {
   type ITodo,
   type TodoContextType,
@@ -32,7 +29,7 @@ export function useTodos(): Props {
    * Get todos by userId
    */
   const getTodos = (): void => {
-    axiosWithTokenGetTodos('GET', 'todos')
+    axiosWithToken('GET', 'todos')
       .then((response: AxiosResponse) => {
         const { todos } = response.data
         setTodos(todos)
@@ -89,8 +86,22 @@ export function useTodos(): Props {
    * @param id - The ID of the to-do item to remove.
    */
   const removeTodo = ({ _id }: TodoId): void => {
-    const newTodos = todos.filter(todo => todo._id !== _id)
-    setTodos(newTodos)
+    axiosWithToken('DELETE', `delete-todo/${_id as string}`)
+      .then((response: AxiosResponse) => {
+        const { todos } = response.data
+        setTodos(todos)
+      })
+      .catch((error: AxiosError) => {
+        const errorData = error.response?.data
+        if (
+          typeof errorData === 'object' &&
+          errorData !== null &&
+          'msg' in errorData
+        ) {
+          const errorMessageFromAxios = errorData.msg as string
+          console.log(errorMessageFromAxios)
+        }
+      })
   }
 
   /**
