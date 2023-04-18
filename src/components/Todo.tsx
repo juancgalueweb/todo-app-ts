@@ -89,6 +89,7 @@ const Todo: React.FC<Props> = ({ _id, title, completed }) => {
         <input
           className='my-own-editing'
           type='text'
+          maxLength={38}
           value={newTitle}
           onChange={handleChangeInput}
           onKeyDown={handleKeyDown}

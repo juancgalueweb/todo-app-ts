@@ -18,7 +18,7 @@ const Home: React.FC = () => {
             navigate('/login')
           }}
         >
-          Iniciar sesión
+          Login
         </button>
       </footer>
     </div>
