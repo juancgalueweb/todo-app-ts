@@ -5,6 +5,7 @@ import {
   axiosWithTokenAndData,
   axiosWithTokenDeleteCompleted
 } from '../api/axios'
+import { handleError } from '../helpers/axiosErrorHandler'
 import {
   type ITodo,
   type TodoContextType,
@@ -39,15 +40,7 @@ export function useTodos(): Props {
         setTodos(todos)
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromAxios = errorData.msg as string
-          console.log(errorMessageFromAxios)
-        }
+        handleError(error)
       })
   }
 
@@ -72,15 +65,7 @@ export function useTodos(): Props {
         setTodos(todos)
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromAxios = errorData.msg as string
-          console.log(errorMessageFromAxios)
-        }
+        handleError(error)
       })
   }
 
@@ -96,15 +81,7 @@ export function useTodos(): Props {
         setTodos(todos)
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromAxios = errorData.msg as string
-          console.log(errorMessageFromAxios)
-        }
+        handleError(error)
       })
   }
 
@@ -131,15 +108,7 @@ export function useTodos(): Props {
         setTodos(todos)
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromAxios = errorData.msg as string
-          console.log(errorMessageFromAxios)
-        }
+        handleError(error)
       })
   }
 
@@ -163,15 +132,7 @@ export function useTodos(): Props {
         setTodos(todos)
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromAxios = errorData.msg as string
-          console.log(errorMessageFromAxios)
-        }
+        handleError(error)
       })
   }
 
@@ -188,15 +149,7 @@ export function useTodos(): Props {
         setTodos(todos)
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromAxios = errorData.msg as string
-          console.log(errorMessageFromAxios)
-        }
+        handleError(error)
       })
   }
 

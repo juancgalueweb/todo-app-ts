@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import InfoMessage from './components/InfoMessage'
@@ -62,12 +63,12 @@ const App: React.FC = () => {
           />
         </div>
       )}
-
       <div className='todoapp'>
         <Header />
         <Todos />
         <Footer />
       </div>
+      <ToastContainer />
     </>
   )
 }

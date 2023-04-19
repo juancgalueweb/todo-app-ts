@@ -35,7 +35,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     if (error instanceof jwt.JsonWebTokenError) {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: `Error de jsonwebtoken: ${error.message}`
+        msg: 'Su sesión ha expirado, por favor, inicie sesión nuevamente.'
       })
     } else {
       res.status(HttpStatusCode.UNAUTHORIZED).json({

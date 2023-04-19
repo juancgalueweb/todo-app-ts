@@ -4,7 +4,7 @@ const jwtOTPHash = async (otpHash: string): Promise<string> => {
   return await new Promise((resolve, reject) => {
     const payload = { otpHash }
     const secretKey = process.env.SECRET_KEY_OTP_JWT as string
-    const expiresIn = 600 // 10 minutos
+    const expiresIn = '10m' // 10 minutos
     jwt.sign(payload, secretKey, { expiresIn }, (error, token) => {
       if (error != null) {
         reject(new Error('Error al generar token para el OTP'))

@@ -11,7 +11,7 @@ const jwtForApp = async (userId: string): Promise<string> => {
     jwt.sign(
       payload,
       process.env.SECRET_KEY_APP_USE_JWT as string,
-      { expiresIn: '7 days' },
+      { expiresIn: '7d' },
       (error, token) => {
         if (error != null) {
           reject(new Error('Error al generar token para la App'))
