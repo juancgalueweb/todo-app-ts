@@ -1,4 +1,5 @@
 import { type Request, type Response } from 'express'
+import Isemail from 'isemail'
 import jwt from 'jsonwebtoken'
 import { isValidObjectId } from 'mongoose'
 import HttpStatusCode from '../constants/http'
@@ -17,6 +18,15 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract user data from request body
     const { userEmail }: IUser = req.body
+
+    // Check email format in the backend, in case frontend validation fails
+    if (!Isemail.validate(userEmail)) {
+      res.status(HttpStatusCode.UNPROCESSABLE_ENTITY).json({
+        msg: 'El e-mail no es válido, por favor, revisar.',
+        success: false
+      })
+      return
+    }
 
     // Check if user already exists in the database
     const userExists = await UserModel.findOne({
@@ -53,7 +63,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Return an error response if user creation fails
     res
       .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'No se pudo crear el usuario', success: false })
+      .json({ msg: 'No se pudo crear el usuario.', success: false })
   }
 }
 
@@ -66,14 +76,14 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (userId === '' || otp.trim().length === 0) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Solicitud inválida', success: false })
+        .json({ msg: 'Solicitud inválida.', success: false })
       return
     }
 
     if (!isValidObjectId(userId)) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'userId inválido', success: false })
+        .json({ msg: 'userId inválido.', success: false })
       return
     }
 
@@ -82,7 +92,7 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (user === null) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Usuario no encontrado', success: false })
+        .json({ msg: 'Usuario no encontrado.', success: false })
       return
     }
 
@@ -96,7 +106,7 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (!isMatched) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Código inválido', success: false })
+        .json({ msg: 'Código inválido.', success: false })
       return
     }
 

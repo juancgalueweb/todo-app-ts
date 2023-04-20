@@ -22,6 +22,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  isemail:
+    specifier: ^3.2.0
+    version: 3.2.0
   jsonwebtoken:
     specifier: ^9.0.0
     version: 9.0.0
@@ -846,6 +849,13 @@ packages:
 
   /is-typedarray@1.0.0:
     resolution: {integrity: sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==}
+    dev: false
+
+  /isemail@3.2.0:
+    resolution: {integrity: sha512-zKqkK+O+dGqevc93KNsbZ/TqTUFd46MwWjYOoMrjIMZ51eU7DtQG3Wmd9SQQT7i7RVnuTPEiYEWHU3MSbxC1Tg==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      punycode: 2.3.0
     dev: false
 
   /isstream@0.1.2:

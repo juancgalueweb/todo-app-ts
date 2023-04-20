@@ -17,7 +17,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (token?.length === 0 || token === undefined || token === null) {
     res.status(HttpStatusCode.UNAUTHORIZED).json({
       success: false,
-      msg: 'No hay token en la petición'
+      msg: 'No hay token en la petición.'
     })
   }
 
@@ -40,7 +40,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     } else {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'Token no válido'
+        msg: 'Token no válido.'
       })
     }
   }
