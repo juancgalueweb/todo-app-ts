@@ -1,4 +1,5 @@
 import PinField from 'react-pin-field'
+import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import useValidateEmail from '../hooks/useValidateEmail'
 import styles from '../styles/Login.module.css'
@@ -17,7 +18,11 @@ const ValidateEmail: React.FC = () => {
         </p>
         <p>
           Recuerde que el código expira a los 10 minutos luego de ser recibido,
-          si ya pasó ese tiempo, puede solicitar otro sin problema.
+          si ya pasó ese tiempo, puede solicitar otro sin problema en el{' '}
+          <Link className='back-to-login' to='/login'>
+            login
+          </Link>
+          .
         </p>
         <div className='pin-field-wrapper'>
           <PinField

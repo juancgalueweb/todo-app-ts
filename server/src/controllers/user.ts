@@ -110,11 +110,19 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
       })
     }
   } catch (error) {
-    // Return an error response if the verification of the email fails
-    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-      msg: 'No se pudo validar el email. Solicite un nuevo código.',
-      success: false
-    })
+    // If the token is not valid or missing, send an error response to the client
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
+        success: false,
+        msg: 'Su código ha expirado, por favor, solicite uno nuevo.'
+      })
+    } else {
+      // Return an error response if the verification of the email fails
+      res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        msg: 'No se pudo validar el email. Solicite un nuevo código.',
+        success: false
+      })
+    }
   }
 }
 

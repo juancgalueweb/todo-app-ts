@@ -59,6 +59,10 @@ const useValidateEmail = (): useValidateEmailReturn => {
         ) {
           const errorMessageFromAxios = errorData.msg as string
           toast.error(errorMessageFromAxios, {
+            onClose: () => {
+              localStorage.removeItem(OTP_KEY)
+              navigate('/login')
+            },
             position: 'top-center',
             autoClose: 4000,
             closeOnClick: true,

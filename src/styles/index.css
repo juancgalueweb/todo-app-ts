@@ -204,3 +204,30 @@ button[disabled] {
   width: 1.25rem;
   height: 1.25rem;
 }
+
+.back-to-login {
+  outline: none;
+}
+
+.back-to-login:link {
+  color: #6900ff;
+}
+
+.back-to-login:visited {
+  color: #6900ff;
+}
+
+.back-to-login:focus {
+  text-decoration: none;
+  background: #bae498;
+}
+
+.back-to-login:hover {
+  text-decoration: none;
+  background: #cdfeaa;
+}
+
+.back-to-login:active {
+  background: #6900ff;
+  color: #cdfeaa;
+}
