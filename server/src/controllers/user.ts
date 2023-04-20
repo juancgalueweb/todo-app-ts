@@ -33,7 +33,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Generate a new OTP and send it via email
     const OTP = generateOTP()
     mailTransport(
-      'Necesita ingresar este OTP para usar la APP',
+      'Necesita ingresar este código para usar la APP',
       userEmail,
       generateSendOTPTemplate(OTP)
     )

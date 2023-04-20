@@ -11,6 +11,7 @@ import { type useValidateEmailReturn } from '../interfaces/user.interface'
 const useValidateEmail = (): useValidateEmailReturn => {
   const [code, setCode] = useState('')
   const [completed, setCompleted] = useState(false)
+  const [attempts, setAttempts] = useState(3)
   const navigate = useNavigate()
   const toastSuccessId = useId()
   const toastErrorId = useId()
@@ -58,19 +59,55 @@ const useValidateEmail = (): useValidateEmailReturn => {
           'msg' in errorData
         ) {
           const errorMessageFromAxios = errorData.msg as string
-          toast.error(errorMessageFromAxios, {
-            onClose: () => {
-              localStorage.removeItem(OTP_KEY)
-              navigate('/login')
-            },
-            position: 'top-center',
-            autoClose: 4000,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: 'light',
-            toastId: toastErrorId
-          })
+          if (errorMessageFromAxios === 'Código inválido' && attempts > 1) {
+            setAttempts(attempts - 1)
+            toast.error(
+              `Código inválido. Intentos restantes: ${attempts - 1}`,
+              {
+                position: 'top-center',
+                autoClose: 4000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: 'light',
+                toastId: toastErrorId
+              }
+            )
+          } else if (
+            errorMessageFromAxios === 'Código inválido' &&
+            attempts === 1
+          ) {
+            toast.error(
+              'Se te acabaron los intentos, pide un código nuevamente.',
+              {
+                onClose: () => {
+                  localStorage.removeItem(OTP_KEY)
+                  navigate('/login')
+                },
+                position: 'top-center',
+                autoClose: 4000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: 'light',
+                toastId: toastErrorId
+              }
+            )
+          } else {
+            toast.error(errorMessageFromAxios, {
+              onClose: () => {
+                localStorage.removeItem(OTP_KEY)
+                navigate('/login')
+              },
+              position: 'top-center',
+              autoClose: 4000,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: 'light',
+              toastId: toastErrorId
+            })
+          }
         }
       })
   }

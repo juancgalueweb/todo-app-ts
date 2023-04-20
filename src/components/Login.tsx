@@ -17,7 +17,7 @@ const Login: React.FC = () => {
         </strong>
       </p>
       <form action='' onSubmit={handleSubmit} noValidate>
-        <label htmlFor='email'>Ingresa tu correo electrónico</label>
+        <label htmlFor='email'>Ingresa un correo electrónico válido</label>
         <input
           type='email'
           id='email'

@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { APP_KEY } from '../constants/const'
 
 const Home: React.FC = () => {
+  const dataFromLocalStorage = JSON.parse(
+    localStorage.getItem(APP_KEY) as string
+  )
   const navigate = useNavigate()
   return (
     <div className='home-container'>
@@ -12,14 +16,25 @@ const Home: React.FC = () => {
       </p>
       <img src='app-preview1.png' alt='Foto de muestra de la app' />
       <footer>
-        <button
-          className='button-app'
-          onClick={() => {
-            navigate('/login')
-          }}
-        >
-          Login
-        </button>
+        {dataFromLocalStorage === null ? (
+          <button
+            className='button-app'
+            onClick={() => {
+              navigate('/login')
+            }}
+          >
+            Login
+          </button>
+        ) : (
+          <button
+            className='button-app'
+            onClick={() => {
+              navigate('/todos')
+            }}
+          >
+            Ver mis tareas
+          </button>
+        )}
       </footer>
     </div>
   )
