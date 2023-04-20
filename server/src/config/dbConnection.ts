@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 mongoose.set('strictQuery', false)
 
 const LOCAL_DB = process.env.LOCAL_DB_URL
+// const DEPLOYMENT_DB = process.env.MONGO_URI
 
 dbConnect().catch(err => {
   console.log(err)
