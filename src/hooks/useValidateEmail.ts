@@ -56,10 +56,12 @@ const useValidateEmail = (): useValidateEmailReturn => {
         if (
           typeof errorData === 'object' &&
           errorData !== null &&
+          'invalidOTP' in errorData &&
           'msg' in errorData
         ) {
-          const errorMessageFromAxios = errorData.msg as string
-          if (errorMessageFromAxios === 'Código inválido.' && attempts > 1) {
+          const errorMessageFromBackend = errorData.msg as string
+          const invalidOTP = errorData.invalidOTP as boolean
+          if (invalidOTP && attempts > 1) {
             setAttempts(attempts - 1)
             toast.error(
               `Código inválido. Intentos restantes: ${attempts - 1}`,
@@ -73,10 +75,7 @@ const useValidateEmail = (): useValidateEmailReturn => {
                 toastId: toastErrorId
               }
             )
-          } else if (
-            errorMessageFromAxios === 'Código inválido.' &&
-            attempts === 1
-          ) {
+          } else if (invalidOTP && attempts === 1) {
             toast.error(
               'Se te acabaron los intentos, pide un código nuevamente.',
               {
@@ -94,7 +93,7 @@ const useValidateEmail = (): useValidateEmailReturn => {
               }
             )
           } else {
-            toast.error(errorMessageFromAxios, {
+            toast.error(errorMessageFromBackend, {
               onClose: () => {
                 localStorage.removeItem(OTP_KEY)
                 navigate('/login')

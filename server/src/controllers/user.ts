@@ -106,7 +106,7 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (!isMatched) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Código inválido.', success: false })
+        .json({ msg: 'Código inválido.', success: false, invalidOTP: true })
       return
     }
 
