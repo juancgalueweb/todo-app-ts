@@ -4,7 +4,7 @@ import { createUser, verifyEmail } from '../controllers/user'
 
 const router: Router = Router()
 
-router.post('/auth/createUser', createUser)
-router.post('/auth/verifyEmail', verifyEmail)
+router.post('/api/auth/createUser', createUser)
+router.post('/api/auth/verifyEmail', verifyEmail)
 
 export default router

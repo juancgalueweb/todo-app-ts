@@ -11,10 +11,10 @@ import { validateJWT } from '../middleware/validateJWT'
 
 const router: Router = Router()
 
-router.get('/todos/user', validateJWT, getTodosByUser)
-router.post('/todos', validateJWT, addTodo)
-router.put('/todo/:id', validateJWT, updateTodo)
-router.delete('/todo/:id', validateJWT, deleteTodo)
-router.delete('/todos/completed', validateJWT, deleteCompletedTodos)
+router.get('/api/todos/user', validateJWT, getTodosByUser)
+router.post('/api/todos', validateJWT, addTodo)
+router.put('/api/todo/:id', validateJWT, updateTodo)
+router.delete('/api/todo/:id', validateJWT, deleteTodo)
+router.delete('/api/todos/completed', validateJWT, deleteCompletedTodos)
 
 export default router
