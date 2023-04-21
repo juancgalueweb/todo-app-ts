@@ -11,10 +11,11 @@ import './config/dbConnection'
 
 const app: Express = express()
 
-const PORT: string | number = process.env.PORT ?? 8000
+const PORT = 4000
 
-app.use(cors())
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(todoRoutes)
 app.use(userRoute)
 
