@@ -59,7 +59,7 @@ const useValidateEmail = (): useValidateEmailReturn => {
           'msg' in errorData
         ) {
           const errorMessageFromAxios = errorData.msg as string
-          if (errorMessageFromAxios === 'Código inválido' && attempts > 1) {
+          if (errorMessageFromAxios === 'Código inválido.' && attempts > 1) {
             setAttempts(attempts - 1)
             toast.error(
               `Código inválido. Intentos restantes: ${attempts - 1}`,
@@ -74,7 +74,7 @@ const useValidateEmail = (): useValidateEmailReturn => {
               }
             )
           } else if (
-            errorMessageFromAxios === 'Código inválido' &&
+            errorMessageFromAxios === 'Código inválido.' &&
             attempts === 1
           ) {
             toast.error(

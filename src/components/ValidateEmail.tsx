@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import PinField from 'react-pin-field'
 import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -7,6 +8,21 @@ import styles2 from '../styles/ValidateEmail.module.css'
 
 const ValidateEmail: React.FC = () => {
   const { validateOPT, setCode, completed, setCompleted } = useValidateEmail()
+  const pinFieldRef = useRef(null)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Enter' && completed) {
+        validateOPT()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [completed, validateOPT])
 
   return (
     <>
@@ -26,6 +42,7 @@ const ValidateEmail: React.FC = () => {
         </p>
         <div className='pin-field-wrapper'>
           <PinField
+            ref={pinFieldRef}
             className={`${styles2.pinField} ${
               completed ? `${styles2.completed}` : ''
             }`}

@@ -7,7 +7,7 @@ import userRoute from './routes/user'
 import 'dotenv/config'
 
 // Mongoose config
-import('./config/dbConnection')
+import './config/dbConnection'
 
 const app: Express = express()
 
