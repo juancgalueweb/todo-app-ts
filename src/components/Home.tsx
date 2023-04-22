@@ -14,7 +14,12 @@ const Home: React.FC = () => {
         tareas pendientes, lo que te ayudará con tu planificación, organización
         y productividad.
       </p>
-      <img src='app-preview1.png' alt='Foto de muestra de la app' />
+      <figure>
+        <figcaption>
+          Esto es una imagen de prueba de cómo se vería la aplicación
+        </figcaption>
+        <img src='app-preview1.png' alt='Foto de muestra de la app' />
+      </figure>
       <footer>
         {dataFromLocalStorage === null ? (
           <button

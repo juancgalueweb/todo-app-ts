@@ -53,6 +53,13 @@
   align-items: center;
 }
 
+.home-container figcaption {
+  text-align: center;
+  color: red;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 /* Buttons */
 .button-app {
   appearance: button;
