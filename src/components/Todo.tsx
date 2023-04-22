@@ -1,105 +1,108 @@
-import { useContext, useId, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { TodosContext } from '../contexts/TodoContext'
 import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
 
-/**
- * A single todo item in the list of todos.
- */
+// Define the props for a single todo item, including additional props for editing
 type Props = ITodo
+interface ExtendedProps extends Props {
+  isEditing: string
+  setIsEditing: (_id: string) => void
+}
 
-const Todo: React.FC<Props> = ({ _id, title, completed }) => {
-  // State to keep track of the editing mode
-  const [isEditing, setIsEditing] = useState(false)
+const Todo: React.FC<ExtendedProps> = ({
+  _id,
+  title,
+  completed,
+  isEditing,
+  setIsEditing
+}) => {
   // State to keep track of the new title value
-  const [newTitle, setNewTitle] = useState(title)
-  const todoId = useId()
+  const [editedTitle, setEditedTitle] = useState(title)
+  // Reference to the input element for editing the todo title
+  const inputEditTitle = useRef<HTMLInputElement>(null)
+  // Get the necessary todo-related methods from the TodosContext
   const { removeTodo, updateCompletedStatus, updateTodoTitle } = useContext(
     TodosContext
   ) as TodoContextType
 
-  /**
-   * Event handler for when the user double clicks the label to enter editing mode.
-   */
-  const handleDoubleClickLabel = (): void => {
-    setIsEditing(true)
-  }
-
-  /**
-   * Event handler for when the user changes the value of the input field in editing mode.
-   * @param event - The event object from the onChange event of the input field.
-   */
-  const handleChangeInput = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setNewTitle(event.target.value)
-  }
-
-  /**
-   * Event handler for when the user presses a key in the input field in editing mode.
-   * If the key is "Enter", calls the updateTodoTitle function from the TodosContext with the new title value and sets isEditing to false.
-   * If the key is "Escape", sets the newTitle state back to the original title and sets isEditing to false.
-   * @param event - The event object from the onKeyDown event of the input field.
-   */
-  const handleKeyDown = (
-    event: React.KeyboardEvent<HTMLInputElement>
+  // Event handler for keyboard events when editing the todo title
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+    event
   ): void => {
     if (event.key === 'Enter') {
-      updateTodoTitle({ _id, title: newTitle })
-      setIsEditing(false)
+      // Save the new title when the Enter key is pressed
+      setEditedTitle(editedTitle.trim())
+
+      // Update the todo title in the TodosContext if it has changed
+      if (editedTitle !== title) {
+        updateTodoTitle({ _id, title: editedTitle })
+      }
+
+      // Remove the todo if the new title is an empty string
+      if (editedTitle === '') removeTodo({ _id })
+
+      // Stop editing the todo title
+      setIsEditing('')
     }
+
     if (event.key === 'Escape') {
-      setNewTitle(title)
-      setIsEditing(false)
+      // Cancel editing the todo title if the Escape key is pressed
+      setEditedTitle(title)
+      setIsEditing('')
     }
   }
 
-  /**
-   * Event handler for when the user clicks outside of the input field in editing mode.
-   * Calls the updateTodoTitle function from the TodosContext with the new title value and sets isEditing to false.
-   * @param event - The event object from the onBlur event of the input field.
-   */
-  const handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
-    if (event.type === 'blur') {
-      updateTodoTitle({ _id, title: newTitle })
-      setIsEditing(false)
-    }
-  }
+  // Set the editedTitle state to the todo title whenever it changes
+  useEffect(() => {
+    setEditedTitle(title)
+  }, [title])
+
+  // Focus on the input element for editing the todo title whenever the isEditing prop changes
+  useEffect(() => {
+    inputEditTitle.current?.focus()
+  }, [isEditing])
 
   return (
-    <div className='view'>
-      <input
-        className='toggle'
-        type='checkbox'
-        checked={completed}
-        onChange={event => {
-          updateCompletedStatus({ _id, completed: event.target.checked })
-        }}
-        id={todoId}
-      />
-      {isEditing ? (
+    <>
+      <div className='view'>
         <input
-          className='my-own-editing'
-          type='text'
-          maxLength={38}
-          value={newTitle}
-          onChange={handleChangeInput}
-          onKeyDown={handleKeyDown}
-          onBlur={handleBlur}
-          autoFocus
+          style={{ cursor: 'pointer' }}
+          className='toggle'
+          type='checkbox'
+          checked={completed}
+          onChange={event => {
+            // Update the completed status of the todo in the TodosContext when the checkbox is toggled
+            updateCompletedStatus({ _id, completed: event.target.checked })
+          }}
         />
-      ) : (
-        <label onDoubleClick={handleDoubleClickLabel} htmlFor='todoId'>
-          {title}
-        </label>
-      )}
-      <button
-        className='destroy'
-        style={{ cursor: 'pointer' }}
-        onClick={() => {
-          removeTodo({ _id })
+        <label>{title}</label>
+        <button
+          className='destroy'
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            // Remove the todo when the "destroy" button is clicked
+            removeTodo({ _id })
+          }}
+        />
+      </div>
+
+      <input
+        className='edit'
+        maxLength={38}
+        value={editedTitle}
+        onChange={event => {
+          // Update the editedTitle state whenever the input value changes
+          setEditedTitle(event.target.value)
         }}
+        onKeyDown={handleKeyDown}
+        onBlur={() => {
+          // Cancel editing the todo title when the input loses focus
+          setEditedTitle(title)
+          setIsEditing('')
+        }}
+        ref={inputEditTitle}
       />
-    </div>
+    </>
   )
 }
 

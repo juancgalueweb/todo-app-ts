@@ -87,6 +87,11 @@ export const updateTodo = async (
       userId
     } = req
 
+    // If title is empty, the task won't update, but will be deleted
+    if (req.body.title === '') {
+      return
+    }
+
     // Check if user exists
     const user = await UserModel.findById(userId)
     if (user === null) {
