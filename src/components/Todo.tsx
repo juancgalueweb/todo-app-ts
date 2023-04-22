@@ -18,17 +18,6 @@ const Todo: React.FC<Props> = ({ _id, title, completed }) => {
   ) as TodoContextType
 
   /**
-   * Event handler for when the user clicks the checkbox to mark a todo as completed.
-   * Calls the updateCompletedStatus function from the TodosContext with the new completed value.
-   * @param event - The event object from the onChange event of the checkbox.
-   */
-  const handleChangeCheckbox = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    updateCompletedStatus({ _id, completed: event.target.checked })
-  }
-
-  /**
    * Event handler for when the user double clicks the label to enter editing mode.
    */
   const handleDoubleClickLabel = (): void => {
@@ -82,7 +71,9 @@ const Todo: React.FC<Props> = ({ _id, title, completed }) => {
         className='toggle'
         type='checkbox'
         checked={completed}
-        onChange={handleChangeCheckbox}
+        onChange={event => {
+          updateCompletedStatus({ _id, completed: event.target.checked })
+        }}
         id={todoId}
       />
       {isEditing ? (
