@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
 import HttpStatusCode from '../constants/http'
+import { MSGS_RESPONSES } from '../constants/msgs'
 import { type JwtTokenAppVerificationResponse } from '../types/user'
 
 /**
@@ -17,7 +18,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (token?.length === 0 || token === undefined || token === null) {
     res.status(HttpStatusCode.UNAUTHORIZED).json({
       success: false,
-      msg: 'No hay token en la petición.'
+      msg: MSGS_RESPONSES.MIDDLEWARE_NO_TOKEN
     })
   }
 
@@ -35,12 +36,12 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     if (error instanceof jwt.JsonWebTokenError) {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'Su sesión ha expirado, por favor, inicie sesión nuevamente.'
+        msg: MSGS_RESPONSES.MIDDLEWARE_EXPIRED_TOKEN
       })
     } else {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'Token no válido.'
+        msg: MSGS_RESPONSES.MIDDLEWARE_INVALID_TOKEN
       })
     }
   }

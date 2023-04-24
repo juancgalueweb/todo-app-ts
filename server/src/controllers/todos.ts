@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import HttpStatusCode from '../constants/http'
+import { MSGS_RESPONSES } from '../constants/msgs'
 import TodoModel from '../models/todo'
 import UserModel from '../models/user'
 import { type DeleteResult, type ITodo } from '../types/todo'
@@ -16,7 +17,7 @@ export const getTodosByUser = async (
     const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se pueden encontrar las tareas de un usuario que no existe.',
+        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK,
         success: false
       })
       return
@@ -29,14 +30,14 @@ export const getTodosByUser = async (
 
     // Send the response with all the fetched todos
     res.status(HttpStatusCode.OK).json({
-      msg: 'Búsqueda exitosa de las tareas.',
+      msg: MSGS_RESPONSES.GET_TODOS_OK,
       todos: allTodos,
       success: true
     })
   } catch (error) {
     // Handle any errors that occur during the process
     res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-      msg: 'Error al traer todas las tareas del usuario.',
+      msg: MSGS_RESPONSES.GET_TODOS_ERROR,
       success: false
     })
   }
@@ -52,7 +53,7 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
     const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se puede añadir una tarea de un usuario que no existe.',
+        msg: MSGS_RESPONSES.ADD_TODO_USER_CHECK,
         success: false
       })
       return
@@ -63,7 +64,7 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
 
     // Return success response with new todo and all todos for the user
     res.status(HttpStatusCode.CREATED).json({
-      msg: 'Tarea agregada.',
+      msg: MSGS_RESPONSES.ADD_TODO_OK,
       todo: newTodo,
       todos: allTodos,
       success: true
@@ -72,7 +73,7 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
     // Return error response if an error occurs
     res
       .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'Error al crear una tarea.', success: false })
+      .json({ msg: MSGS_RESPONSES.ADD_TODO_ERROR, success: false })
   }
 }
 
@@ -96,7 +97,7 @@ export const updateTodo = async (
     const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se puede actualizar una tarea de un usuario que no existe.',
+        msg: MSGS_RESPONSES.UPDATE_TODO_USER_CHECK,
         success: false
       })
       return
@@ -106,7 +107,7 @@ export const updateTodo = async (
     const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
     if (todoToBeUpdated === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se puede actualizar una tarea que no existe.',
+        msg: MSGS_RESPONSES.UPDATE_TODO_CHECK_EXISTENCE,
         success: false
       })
       return
@@ -122,7 +123,7 @@ export const updateTodo = async (
 
     // Return success response with updated todo and the rest of the todos for the user
     res.status(HttpStatusCode.OK).json({
-      msg: 'Tarea actualizada.',
+      msg: MSGS_RESPONSES.UPDATE_TODO_OK,
       todo: updatedTodo,
       todos: allTodos,
       success: true
@@ -131,7 +132,7 @@ export const updateTodo = async (
     // Return error response if an error occurs
     res
       .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'Error al actualizar una tarea.', success: false })
+      .json({ msg: MSGS_RESPONSES.UPDATE_TODO_ERROR, success: false })
   }
 }
 
@@ -150,7 +151,7 @@ export const deleteTodo = async (
     const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se puede eliminar una tarea de un usuario que no existe.',
+        msg: MSGS_RESPONSES.DELETE_TODO_USER_CHECK,
         success: false
       })
       return
@@ -160,7 +161,7 @@ export const deleteTodo = async (
     const todoToBeDeleted: ITodo | null = await TodoModel.findById({ _id: id })
     if (todoToBeDeleted === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se puede eliminar una tarea que no existe.',
+        msg: MSGS_RESPONSES.DELETE_TODO_CHECK_EXISTENCE,
         success: false
       })
       return
@@ -170,7 +171,7 @@ export const deleteTodo = async (
     const deletedTodo: ITodo | null = await TodoModel.findByIdAndRemove(id)
     const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(HttpStatusCode.OK).json({
-      msg: 'Tarea borrada.',
+      msg: MSGS_RESPONSES.DELETE_TODO_OK,
       todo: deletedTodo,
       todos: allTodos,
       success: true
@@ -178,7 +179,7 @@ export const deleteTodo = async (
   } catch (error) {
     res
       .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'Error al borrar una tarea.', success: false })
+      .json({ msg: MSGS_RESPONSES.DELETE_TODO_ERROR, success: false })
   }
 }
 
@@ -192,7 +193,7 @@ export const deleteCompletedTodos = async (
     const user = await UserModel.findById(userId)
     if (user === null) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se pueden eliminar las tareas completadas de un usuario que no existe.',
+        msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_USER_CHECK,
         success: false
       })
       return
@@ -204,7 +205,7 @@ export const deleteCompletedTodos = async (
     })
     if (todosToBeDeleted.length === 0) {
       res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: 'No se pueden eliminar tareas que no existen.',
+        msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_CHECK_EXISTENCE,
         success: false
       })
       return
@@ -217,14 +218,15 @@ export const deleteCompletedTodos = async (
     })
     const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(HttpStatusCode.OK).json({
-      msg: 'Tareas borradas.',
+      msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_OK,
       deletedTodos,
       todos: allTodos,
       success: true
     })
   } catch (error) {
-    res
-      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'Error al borrar tareas.', success: false })
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_ERROR,
+      success: false
+    })
   }
 }

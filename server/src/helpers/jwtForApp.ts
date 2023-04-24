@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import { MSGS_RESPONSES } from '../constants/msgs'
 
 /**
  * This function generates a JWT token for a given user ID and email address
@@ -14,11 +15,11 @@ const jwtForApp = async (userId: string): Promise<string> => {
       { expiresIn: '7d' },
       (error, token) => {
         if (error != null) {
-          reject(new Error('Error al generar token para la App'))
+          reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR1))
         } else if (token !== undefined) {
           resolve(token)
         } else {
-          reject(new Error('El token es undefined'))
+          reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR2))
         }
       }
     )

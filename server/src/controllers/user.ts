@@ -3,6 +3,7 @@ import Isemail from 'isemail'
 import jwt from 'jsonwebtoken'
 import { isValidObjectId } from 'mongoose'
 import HttpStatusCode from '../constants/http'
+import { MSGS_RESPONSES } from '../constants/msgs'
 import { compareOTPWithItsHash, generateHashOTP } from '../helpers/hashOTP'
 import { jwtForApp } from '../helpers/jwtForApp'
 import { jwtOTPHash } from '../helpers/jwtOTPHash'
@@ -22,7 +23,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Check email format in the backend, in case frontend validation fails
     if (!Isemail.validate(userEmail)) {
       res.status(HttpStatusCode.UNPROCESSABLE_ENTITY).json({
-        msg: 'El e-mail no es válido, por favor, revisar.',
+        msg: MSGS_RESPONSES.USER_EMAIL_NOT_VALID,
         success: false
       })
       return
@@ -43,7 +44,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Generate a new OTP and send it via email
     const OTP = generateOTP()
     mailTransport(
-      'Necesita ingresar este código para usar la APP',
+      MSGS_RESPONSES.USER_OTP_MAILTRANSPORT_MSG,
       userEmail,
       generateSendOTPTemplate(OTP)
     )
@@ -54,7 +55,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 
     // Return a success response with the user's email and the token containing the OTP
     res.status(HttpStatusCode.CREATED).json({
-      msg: 'Código entregado con éxito',
+      msg: MSGS_RESPONSES.USER_OTP_DELIVERED,
       success: true,
       userId: userFromDB?._id,
       token: tokenOTP
@@ -63,7 +64,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     // Return an error response if user creation fails
     res
       .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: 'No se pudo crear el usuario.', success: false })
+      .json({ msg: MSGS_RESPONSES.USER_ERROR, success: false })
   }
 }
 
@@ -76,23 +77,24 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (userId === '' || otp.trim().length === 0) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Solicitud inválida.', success: false })
+        .json({ msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_REQ, success: false })
       return
     }
 
     if (!isValidObjectId(userId)) {
       res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'userId inválido.', success: false })
+        .json({ msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_USER, success: false })
       return
     }
 
     // Check if user exists in the database
     const user = await UserModel.findById(userId)
     if (user === null) {
-      res
-        .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Usuario no encontrado.', success: false })
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
+        msg: MSGS_RESPONSES.VERIFY_EMAIL_USER_NOT_FOUND,
+        success: false
+      })
       return
     }
 
@@ -104,9 +106,11 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
 
     const isMatched = compareOTPWithItsHash(otp, otpHash)
     if (!isMatched) {
-      res
-        .status(HttpStatusCode.UNAUTHORIZED)
-        .json({ msg: 'Código inválido.', success: false, invalidOTP: true })
+      res.status(HttpStatusCode.UNAUTHORIZED).json({
+        msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_OTP,
+        success: false,
+        invalidOTP: true
+      })
       return
     }
 
@@ -116,7 +120,7 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
       res.status(HttpStatusCode.CREATED).json({
         userEmail: user?.userEmail,
         token: appToken,
-        msg: 'Bienvenid@. Autenticación exitosa.'
+        msg: MSGS_RESPONSES.VERIFY_EMAIL_OK
       })
     }
   } catch (error) {
@@ -124,12 +128,12 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
     if (error instanceof jwt.JsonWebTokenError) {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
-        msg: 'Su código ha expirado, por favor, solicite uno nuevo.'
+        msg: MSGS_RESPONSES.VERIFY_EMAIL_JWT_ERROR
       })
     } else {
       // Return an error response if the verification of the email fails
       res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-        msg: 'No se pudo validar el email. Solicite un nuevo código.',
+        msg: MSGS_RESPONSES.VERIFY_EMAIL_ERROR,
         success: false
       })
     }
