@@ -1,4 +1,4 @@
-enum HttpStatusCode {
+export enum HttpStatusCode {
   /**
    * Standard response for successful HTTP requests.
    * The actual response will depend on the request method used.
@@ -36,5 +36,3 @@ enum HttpStatusCode {
    */
   UNPROCESSABLE_ENTITY = 422
 }
-
-export default HttpStatusCode

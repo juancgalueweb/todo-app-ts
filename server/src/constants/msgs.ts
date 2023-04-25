@@ -21,7 +21,7 @@ export enum MSGS_RESPONSES {
   DELETE_COMPLETED_TODOS_ERROR = 'Error al borrar las tareas completadas.',
   USER_EMAIL_NOT_VALID = 'El e-mail no es válido, por favor, revisar.',
   USER_OTP_MAILTRANSPORT_MSG = 'Necesita ingresar este código para usar la APP',
-  USER_OTP_DELIVERED = 'Código entregado con éxito',
+  USER_OTP_DELIVERED = 'Código entregado con éxito.',
   USER_ERROR = 'No se pudo crear el usuario.',
   VERIFY_EMAIL_INVALID_REQ = 'Solicitud inválida.',
   VERIFY_EMAIL_INVALID_USER = 'userId inválido.',

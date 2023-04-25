@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
-import HttpStatusCode from '../constants/http'
+import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
 import TodoModel from '../models/todo'
 import UserModel from '../models/user'
