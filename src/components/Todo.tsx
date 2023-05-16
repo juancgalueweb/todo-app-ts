@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { TodosContext } from '../contexts/TodoContext'
 import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
+import { FormatTitle } from './FormatTitle'
 
 // Define the props for a single todo item, including additional props for editing
 type Props = ITodo
@@ -75,7 +76,9 @@ const Todo: React.FC<ExtendedProps> = ({
             updateCompletedStatus({ _id, completed: event.target.checked })
           }}
         />
-        <label>{title}</label>
+        <label style={{ whiteSpace: 'pre-wrap' }}>
+          <FormatTitle title={title} />
+        </label>
         <button
           className='destroy'
           style={{ cursor: 'pointer' }}
@@ -88,7 +91,6 @@ const Todo: React.FC<ExtendedProps> = ({
 
       <input
         className='edit'
-        maxLength={38}
         value={editedTitle}
         onChange={event => {
           // Update the editedTitle state whenever the input value changes

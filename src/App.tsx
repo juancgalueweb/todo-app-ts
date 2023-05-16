@@ -55,8 +55,8 @@ const App: React.FC = () => {
           role='info'
         >
           <InfoMessage
-            title='Instrucciones de uso e info importante:'
-            message='para modificar una tarea debe darle doble click a la respectiva tarea. El texto de las tareas está truncado a 38 caracteres, recuerden que esto es una demo.'
+            title='Instrucciones de uso:'
+            message='para modificar una tarea debe darle doble click a la respectiva tarea.'
             onClose={() => {
               handleClose()
             }}

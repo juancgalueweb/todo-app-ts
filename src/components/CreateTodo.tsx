@@ -23,7 +23,6 @@ const CreateTodo: React.FC = () => {
         type='text'
         className='new-todo'
         value={inputValue}
-        maxLength={38}
         onChange={event => {
           setInputValue(event.target.value)
         }}
