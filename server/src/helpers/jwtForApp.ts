@@ -12,7 +12,7 @@ const jwtForApp = async (userId: string): Promise<string> => {
     jwt.sign(
       payload,
       process.env.SECRET_KEY_APP_USE_JWT as string,
-      { expiresIn: '7d' },
+      { expiresIn: '14d' },
       (error, token) => {
         if (error != null) {
           reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR1))
