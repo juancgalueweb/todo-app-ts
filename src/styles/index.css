@@ -221,3 +221,7 @@ button[disabled] {
   background: #6900ff;
   color: #cdfeaa;
 }
+
+#custom-footer {
+  font-size: 0.875rem;
+}

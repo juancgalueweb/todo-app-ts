@@ -26,7 +26,7 @@ const CreateTodo: React.FC = () => {
         onChange={event => {
           setInputValue(event.target.value)
         }}
-        placeholder='¿Qué quieres hacer?'
+        placeholder='¿Qué necesitas hacer?'
       />
     </form>
   )

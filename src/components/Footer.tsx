@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
   ) as FiltersContextType
 
   return (
-    <footer className='footer'>
+    <footer className='footer' id='custom-footer'>
       {activeCount === 1 ? (
         <span className='todo-count'>
           <strong>{activeCount}</strong> tarea pendiente
@@ -31,7 +31,12 @@ const Footer: React.FC = () => {
       )}
       <Filters />
       {completedCount > 0 && (
-        <button className='clear-completed' onClick={removeAllCompleted}>
+        <button
+          className='clear-completed'
+          onClick={() => {
+            removeAllCompleted()
+          }}
+        >
           Borrar completadas
         </button>
       )}
