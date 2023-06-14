@@ -14,9 +14,9 @@ const App: React.FC = () => {
   const [showInfoMessage, setShowInfoMessage] = useState(true)
   const { getTodos } = useContext(TodosContext) as TodoContextType
   const navigate = useNavigate()
-  const dataFromLocalStorage = JSON.parse(
-    localStorage.getItem(APP_KEY) as string
-  )
+  const localStorageInfo = localStorage.getItem(APP_KEY)
+  const dataFromLocalStorage =
+    typeof localStorageInfo === 'string' && JSON.parse(localStorageInfo)
 
   const handleClose = (): void => {
     setIsClosing(true)

@@ -11,3 +11,5 @@ export interface DeleteResult {
   deletedCount?: number
   acknowledged?: boolean
 }
+
+export type AddTodoBody = Pick<ITodo, 'title' | 'completed'>

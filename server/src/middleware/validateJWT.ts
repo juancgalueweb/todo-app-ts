@@ -24,13 +24,16 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
 
   try {
     // Verify the token using the secret key and extract the userId
-    const { userId } = jwt.verify(
-      token as string,
-      process.env.SECRET_KEY_APP_USE_JWT as string
-    ) as JwtTokenAppVerificationResponse
-    // Add properties userId and userEmail to the req object
-    req.userId = userId
-    next()
+    const secretKey = process?.env?.SECRET_KEY_APP_USE_JWT
+    if (typeof secretKey === 'string' && typeof token === 'string') {
+      const { userId } = jwt.verify(
+        token,
+        secretKey
+      ) as JwtTokenAppVerificationResponse
+      // Add properties userId and userEmail to the req object
+      req.userId = userId
+      next()
+    }
   } catch (error) {
     // If the token is not valid or missing, send an error response to the client
     if (error instanceof jwt.JsonWebTokenError) {

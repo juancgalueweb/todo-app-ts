@@ -3,7 +3,7 @@ import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
 import TodoModel from '../models/todo'
 import UserModel from '../models/user'
-import { type DeleteResult, type ITodo } from '../types/todo'
+import { type AddTodoBody, type DeleteResult, type ITodo } from '../types/todo'
 
 // Get all the tasks
 export const getTodosByUser = async (
@@ -47,7 +47,7 @@ export const getTodosByUser = async (
 export const addTodo = async (req: Request, res: Response): Promise<void> => {
   try {
     // Extract todo information and user ID from request body and parameters
-    const body = req.body as Pick<ITodo, 'title' | 'completed'>
+    const body: AddTodoBody = req.body
     const { userId } = req
     // Check if the user exists
     const user = await UserModel.findById(userId)

@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express'
 import Isemail from 'isemail'
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 import { isValidObjectId } from 'mongoose'
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
@@ -98,20 +98,22 @@ const verifyEmail = async (req: Request, res: Response): Promise<void> => {
       return
     }
 
+    const secretKey = process?.env?.SECRET_KEY_OTP_JWT
     // Validate the OTP using the token containing its hash
-    const { otpHash } = jwt.verify(
-      token,
-      process.env.SECRET_KEY_OTP_JWT as string
-    ) as JwtOtpVerificationResponse
-
-    const isMatched = compareOTPWithItsHash(otp, otpHash)
-    if (!isMatched) {
-      res.status(HttpStatusCode.UNAUTHORIZED).json({
-        msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_OTP,
-        success: false,
-        invalidOTP: true
-      })
-      return
+    if (typeof secretKey === 'string') {
+      const { otpHash } = jwt.verify(
+        token,
+        secretKey
+      ) as JwtOtpVerificationResponse & JwtPayload
+      const isMatched = compareOTPWithItsHash(otp, otpHash)
+      if (!isMatched) {
+        res.status(HttpStatusCode.UNAUTHORIZED).json({
+          msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_OTP,
+          success: false,
+          invalidOTP: true
+        })
+        return
+      }
     }
 
     // Generate a token for app access and return it with user ID

@@ -7,8 +7,7 @@ import {
 } from '../interfaces/axios.interface'
 import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
 
-const baseUrl = import.meta.env.VITE_BASE_URL as string
-
+const baseUrl: string = import.meta.env.VITE_BASE_URL
 export const axiosWithoutToken = async (
   method: string,
   endpoint: string,
@@ -25,7 +24,8 @@ export const axiosWithTokenValidateEmail = async (
   options: AxiosWithTokenValidateEmailOptions = {}
 ): Promise<AxiosResponse> => {
   const url = `${baseUrl}/${endpoint}`
-  const token = JSON.parse(localStorage.getItem(OTP_KEY) as string)?.token ?? ''
+  const tokenData = localStorage.getItem(OTP_KEY)
+  const token = tokenData != null ? JSON.parse(tokenData).token : ''
   const response = await axios({
     method,
     url,
@@ -40,7 +40,8 @@ export const axiosWithToken = async (
   endpoint: string
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
   const url = `${baseUrl}/${endpoint}`
-  const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''
+  const tokenData = localStorage.getItem(APP_KEY)
+  const token = tokenData != null ? JSON.parse(tokenData).token : ''
   const response = await axios({
     method,
     url,
@@ -55,7 +56,8 @@ export const axiosWithTokenAndData = async (
   options: axiosWithTokenAndDataOptions = {}
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
   const url = `${baseUrl}/${endpoint}`
-  const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''
+  const tokenData = localStorage.getItem(APP_KEY)
+  const token = tokenData != null ? JSON.parse(tokenData).token : ''
   const response = await axios({
     method,
     url,
@@ -71,7 +73,8 @@ export const axiosWithTokenDeleteCompleted = async (
   data: string[]
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
   const url = `${baseUrl}/${endpoint}`
-  const token = JSON.parse(localStorage.getItem(APP_KEY) as string)?.token ?? ''
+  const tokenData = localStorage.getItem(APP_KEY)
+  const token = tokenData != null ? JSON.parse(tokenData).token : ''
   const response = await axios({
     method,
     url,

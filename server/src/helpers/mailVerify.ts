@@ -27,10 +27,12 @@ const mailTransport = (
   htmlContent: string
 ): void => {
   const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi()
-  apiInstance.setApiKey(
-    SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey,
-    process.env.SENDINBLUE_API_KEY as string
-  )
+  const apiKey = process?.env?.SENDINBLUE_API_KEY
+  typeof apiKey === 'string' &&
+    apiInstance.setApiKey(
+      SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey,
+      apiKey
+    )
   const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail()
   sendSmtpEmail.subject = subject
   sendSmtpEmail.htmlContent = htmlContent

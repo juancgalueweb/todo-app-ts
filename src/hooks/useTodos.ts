@@ -75,14 +75,16 @@ export function useTodos(): Props {
    * @param id - The ID of the to-do item to remove.
    */
   const removeTodo = ({ _id }: TodoId): void => {
-    axiosWithToken('DELETE', `todo/${_id as string}`)
-      .then((response: AxiosResponse) => {
-        const { todos } = response.data
-        setTodos(todos)
-      })
-      .catch((error: AxiosError) => {
-        handleError(error)
-      })
+    if (_id != null) {
+      axiosWithToken('DELETE', `todo/${_id}`)
+        .then((response: AxiosResponse) => {
+          const { todos } = response.data
+          setTodos(todos)
+        })
+        .catch((error: AxiosError) => {
+          handleError(error)
+        })
+    }
   }
 
   /**
@@ -95,21 +97,25 @@ export function useTodos(): Props {
     _id,
     completed
   }: TodoIdAndCompleted): void => {
-    const todoToBeUpdated = todos.find(todo => todo._id === _id)
-    const dataToAxios = {
-      data: {
-        title: todoToBeUpdated?.title as string,
-        completed
+    if (_id != null) {
+      const todoToBeUpdated = todos.find(todo => todo._id === _id)
+      if (typeof todoToBeUpdated?.title === 'string') {
+        const dataToAxios = {
+          data: {
+            title: todoToBeUpdated?.title,
+            completed
+          }
+        }
+        axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
+          .then((response: AxiosResponse) => {
+            const { todos } = response?.data
+            setTodos(todos)
+          })
+          .catch((error: AxiosError) => {
+            handleError(error)
+          })
       }
     }
-    axiosWithTokenAndData('PUT', `todo/${_id as string}`, dataToAxios)
-      .then((response: AxiosResponse) => {
-        const { todos } = response?.data
-        setTodos(todos)
-      })
-      .catch((error: AxiosError) => {
-        handleError(error)
-      })
   }
 
   /**
@@ -119,30 +125,35 @@ export function useTodos(): Props {
    * @param title - The new title of the to-do item.
    */
   const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
-    const todoToBeUpdated = todos.find(todo => todo._id === _id)
-    const dataToAxios = {
-      data: {
-        title,
-        completed: todoToBeUpdated?.completed as boolean
+    if (_id != null) {
+      const todoToBeUpdated = todos.find(todo => todo._id === _id)
+      if (typeof todoToBeUpdated?.completed === 'boolean') {
+        const dataToAxios = {
+          data: {
+            title,
+            completed: todoToBeUpdated?.completed
+          }
+        }
+        axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
+          .then((response: AxiosResponse) => {
+            const { todos } = response?.data
+            setTodos(todos)
+          })
+          .catch((error: AxiosError) => {
+            handleError(error)
+          })
       }
     }
-    axiosWithTokenAndData('PUT', `todo/${_id as string}`, dataToAxios)
-      .then((response: AxiosResponse) => {
-        const { todos } = response?.data
-        setTodos(todos)
-      })
-      .catch((error: AxiosError) => {
-        handleError(error)
-      })
   }
 
   /**
    * Removes all completed to-do items from the list.
    */
   const removeAllCompleted = (): void => {
-    const idsToDelete = todos
+    const idsToDelete: string[] = todos
       .filter(todo => todo.completed)
-      .map(todo => todo._id) as string[]
+      .map(todo => todo._id)
+      .filter((id): id is string => typeof id === 'string')
     axiosWithTokenDeleteCompleted('DELETE', 'todos/completed', idsToDelete)
       .then((response: AxiosResponse) => {
         const { todos } = response?.data

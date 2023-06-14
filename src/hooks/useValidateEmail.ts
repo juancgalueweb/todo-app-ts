@@ -6,7 +6,10 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import { axiosWithTokenValidateEmail } from '../api/axios'
 import { APP_KEY, OTP_KEY } from '../constants/const'
 import { type AxiosWithTokenValidateEmailOptions } from '../interfaces/axios.interface'
-import { type useValidateEmailReturn } from '../interfaces/user.interface'
+import {
+  type errorDataType,
+  type useValidateEmailReturn
+} from '../interfaces/user.interface'
 
 const useValidateEmail = (): useValidateEmailReturn => {
   const [code, setCode] = useState('')
@@ -16,9 +19,9 @@ const useValidateEmail = (): useValidateEmailReturn => {
   const toastSuccessId = useId()
   const toastErrorId = useId()
 
-  const dataFromLocalStorage = JSON.parse(
-    localStorage.getItem(OTP_KEY) as string
-  )
+  const localStorageInfo = localStorage.getItem(OTP_KEY)
+  const dataFromLocalStorage =
+    typeof localStorageInfo === 'string' && JSON.parse(localStorageInfo)
 
   const dataToAxios: AxiosWithTokenValidateEmailOptions = {
     data: {
@@ -52,48 +55,24 @@ const useValidateEmail = (): useValidateEmailReturn => {
         })
       })
       .catch((error: AxiosError) => {
-        const errorData = error.response?.data
-        if (
-          typeof errorData === 'object' &&
-          errorData !== null &&
-          'invalidOTP' in errorData &&
-          'msg' in errorData
-        ) {
-          const errorMessageFromBackend = errorData.msg as string
-          const invalidOTP = errorData.invalidOTP as boolean
-          if (invalidOTP && attempts > 1) {
-            setAttempts(attempts - 1)
-            toast.error(
-              `Código inválido. Intentos restantes: ${attempts - 1}`,
-              {
-                position: 'top-center',
-                autoClose: 4000,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: 'light',
-                toastId: toastErrorId
-              }
-            )
-          } else if (invalidOTP && attempts === 1) {
-            toast.error(
-              'Se te acabaron los intentos, pide un código nuevamente.',
-              {
-                onClose: () => {
-                  localStorage.removeItem(OTP_KEY)
-                  navigate('/login')
-                },
-                position: 'top-center',
-                autoClose: 4000,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: 'light',
-                toastId: toastErrorId
-              }
-            )
-          } else {
-            toast.error(errorMessageFromBackend, {
+        const errorData = error.response?.data as errorDataType
+        const errorMessageFromBackend = errorData?.msg
+        const invalidOTP = errorData?.invalidOTP
+        if (invalidOTP && attempts > 1) {
+          setAttempts(attempts - 1)
+          toast.error(`Código inválido. Intentos restantes: ${attempts - 1}`, {
+            position: 'top-center',
+            autoClose: 4000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: 'light',
+            toastId: toastErrorId
+          })
+        } else if (invalidOTP && attempts === 1) {
+          toast.error(
+            'Se te acabaron los intentos, pide un código nuevamente.',
+            {
               onClose: () => {
                 localStorage.removeItem(OTP_KEY)
                 navigate('/login')
@@ -105,8 +84,22 @@ const useValidateEmail = (): useValidateEmailReturn => {
               draggable: true,
               theme: 'light',
               toastId: toastErrorId
-            })
-          }
+            }
+          )
+        } else {
+          toast.error(errorMessageFromBackend, {
+            onClose: () => {
+              localStorage.removeItem(OTP_KEY)
+              navigate('/login')
+            },
+            position: 'top-center',
+            autoClose: 4000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: 'light',
+            toastId: toastErrorId
+          })
         }
       })
   }

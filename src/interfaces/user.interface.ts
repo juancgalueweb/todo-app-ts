@@ -13,3 +13,9 @@ export interface useValidateEmailReturn {
   setCode: (code: string) => void
   setCompleted: (completed: boolean) => void
 }
+
+export interface errorDataType {
+  msg: string
+  success: boolean
+  invalidOTP: boolean
+}
