@@ -88,7 +88,8 @@ export const updateTodo = async (
       userId
     } = req
 
-    // If title is empty, the task won't update, but will be deleted
+    // If title is empty, the task won't update, but will be deleted.
+    // In the front-end, when title === '', the deleteTodo function is called
     if (req.body.title === '') {
       return
     }
