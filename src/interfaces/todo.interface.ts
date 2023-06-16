@@ -28,6 +28,7 @@ export interface TodoContextType {
   removeAllCompleted: () => void
   getTodos: () => void
   setTodos: Dispatch<SetStateAction<ITodo[]>>
+  loading: boolean
 }
 
 /**

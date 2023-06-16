@@ -11,6 +11,7 @@ interface Props {
 const TodoProvider: React.FC<Props> = ({ children }) => {
   const {
     todos,
+    loading,
     getTodos,
     saveTodo,
     setTodos,
@@ -24,6 +25,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
     <TodosContext.Provider
       value={{
         todos,
+        loading,
         getTodos,
         saveTodo,
         setTodos,

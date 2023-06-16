@@ -29,7 +29,7 @@ export function useTodos(): Props {
    * An array of to-do items that the hook manages.
    */
   const [todos, setTodos] = useState<ITodo[]>([])
-
+  const [loading, setLoading] = useState<boolean>(false)
   /**
    * Get todos by userId
    */
@@ -53,6 +53,8 @@ export function useTodos(): Props {
     if (title.length === 0) return
     if (isNumberString(title)) return
 
+    setLoading(true)
+
     const dataToAxios = {
       data: {
         title,
@@ -63,9 +65,11 @@ export function useTodos(): Props {
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
+        setLoading(false)
       })
       .catch((error: AxiosError) => {
         handleError(error)
+        setLoading(false)
       })
   }
 
@@ -75,14 +79,17 @@ export function useTodos(): Props {
    * @param id - The ID of the to-do item to remove.
    */
   const removeTodo = ({ _id }: TodoId): void => {
+    setLoading(true)
     if (_id != null) {
       axiosWithToken('DELETE', `todo/${_id}`)
         .then((response: AxiosResponse) => {
           const { todos } = response.data
           setTodos(todos)
+          setLoading(false)
         })
         .catch((error: AxiosError) => {
           handleError(error)
+          setLoading(false)
         })
     }
   }
@@ -97,6 +104,7 @@ export function useTodos(): Props {
     _id,
     completed
   }: TodoIdAndCompleted): void => {
+    setLoading(true)
     if (_id != null) {
       const todoToBeUpdated = todos.find(todo => todo._id === _id)
       if (typeof todoToBeUpdated?.title === 'string') {
@@ -110,9 +118,11 @@ export function useTodos(): Props {
           .then((response: AxiosResponse) => {
             const { todos } = response?.data
             setTodos(todos)
+            setLoading(false)
           })
           .catch((error: AxiosError) => {
             handleError(error)
+            setLoading(false)
           })
       }
     }
@@ -125,6 +135,7 @@ export function useTodos(): Props {
    * @param title - The new title of the to-do item.
    */
   const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
+    setLoading(true)
     if (_id != null) {
       const todoToBeUpdated = todos.find(todo => todo._id === _id)
       if (typeof todoToBeUpdated?.completed === 'boolean') {
@@ -138,9 +149,11 @@ export function useTodos(): Props {
           .then((response: AxiosResponse) => {
             const { todos } = response?.data
             setTodos(todos)
+            setLoading(false)
           })
           .catch((error: AxiosError) => {
             handleError(error)
+            setLoading(false)
           })
       }
     }
@@ -150,6 +163,7 @@ export function useTodos(): Props {
    * Removes all completed to-do items from the list.
    */
   const removeAllCompleted = (): void => {
+    setLoading(true)
     const idsToDelete: string[] = todos
       .filter(todo => todo.completed)
       .map(todo => todo._id)
@@ -158,14 +172,17 @@ export function useTodos(): Props {
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
+        setLoading(false)
       })
       .catch((error: AxiosError) => {
         handleError(error)
+        setLoading(false)
       })
   }
 
   return {
     todos,
+    loading,
     getTodos,
     saveTodo,
     setTodos,

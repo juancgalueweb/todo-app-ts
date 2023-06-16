@@ -1,7 +1,9 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { TodosContext } from '../contexts/TodoContext'
 import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
+import styles from '../styles/Loader.module.css'
 import { FormatTitle } from './FormatTitle'
+import Loader from './Loader'
 
 // Define the props for a single todo item, including additional props for editing
 type Props = ITodo
@@ -22,9 +24,8 @@ const Todo: React.FC<ExtendedProps> = ({
   // Reference to the input element for editing the todo title
   const inputEditTitle = useRef<HTMLInputElement>(null)
   // Get the necessary todo-related methods from the TodosContext
-  const { removeTodo, updateCompletedStatus, updateTodoTitle } = useContext(
-    TodosContext
-  ) as TodoContextType
+  const { removeTodo, updateCompletedStatus, updateTodoTitle, loading } =
+    useContext(TodosContext) as TodoContextType
 
   // Event handler for keyboard events when editing the todo title
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
@@ -63,27 +64,35 @@ const Todo: React.FC<ExtendedProps> = ({
   return (
     <>
       <div className='view'>
-        <input
-          style={{ cursor: 'pointer' }}
-          className='toggle'
-          type='checkbox'
-          checked={completed}
-          onChange={event => {
-            // Update the completed status of the todo in the TodosContext when the checkbox is toggled
-            updateCompletedStatus({ _id, completed: event.target.checked })
-          }}
-        />
-        <label style={{ whiteSpace: 'pre-wrap' }}>
-          <FormatTitle title={title} />
-        </label>
-        <button
-          className='destroy'
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            // Remove the todo when the "destroy" button is clicked
-            removeTodo({ _id })
-          }}
-        />
+        {loading ? (
+          <div className={styles.loader}>
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <input
+              style={{ cursor: 'pointer' }}
+              className='toggle'
+              type='checkbox'
+              checked={completed}
+              onChange={event => {
+                // Update the completed status of the todo in the TodosContext when the checkbox is toggled
+                updateCompletedStatus({ _id, completed: event.target.checked })
+              }}
+            />
+            <label style={{ whiteSpace: 'pre-wrap' }}>
+              <FormatTitle title={title} />
+            </label>
+            <button
+              className='destroy'
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                // Remove the todo when the "destroy" button is clicked
+                removeTodo({ _id })
+              }}
+            />
+          </>
+        )}
       </div>
 
       <input
