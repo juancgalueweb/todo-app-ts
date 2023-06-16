@@ -39,9 +39,6 @@ const Todo: React.FC<ExtendedProps> = ({
         updateTodoTitle({ _id, title: editedTitle })
       }
 
-      // Remove the todo if the new title is an empty string
-      if (editedTitle === '') removeTodo({ _id })
-
       // Stop editing the todo title
       setIsEditing('')
     }

@@ -77,66 +77,6 @@ export const addTodo = async (req: Request, res: Response): Promise<void> => {
   }
 }
 
-// Update a todo
-export const updateTodo = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const {
-      params: { id },
-      userId
-    } = req
-
-    // If title is empty, the task won't update, but will be deleted.
-    // In the front-end, when title === '', the deleteTodo function is called
-    if (req.body.title === '') {
-      return
-    }
-
-    // Check if user exists
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: MSGS_RESPONSES.UPDATE_TODO_USER_CHECK,
-        success: false
-      })
-      return
-    }
-
-    // Check if todo item exists
-    const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
-    if (todoToBeUpdated === null) {
-      res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: MSGS_RESPONSES.UPDATE_TODO_CHECK_EXISTENCE,
-        success: false
-      })
-      return
-    }
-
-    // Update the todo item and get all the todos items for the user
-    const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
-      { _id: id },
-      req.body,
-      { new: true, runValidators: true }
-    )
-    const allTodos: ITodo[] = await TodoModel.find({ userId })
-
-    // Return success response with updated todo and the rest of the todos for the user
-    res.status(HttpStatusCode.OK).json({
-      msg: MSGS_RESPONSES.UPDATE_TODO_OK,
-      todo: updatedTodo,
-      todos: allTodos,
-      success: true
-    })
-  } catch (error) {
-    // Return error response if an error occurs
-    res
-      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: MSGS_RESPONSES.UPDATE_TODO_ERROR, success: false })
-  }
-}
-
 // Delete a todo
 export const deleteTodo = async (
   req: Request,
@@ -184,6 +124,7 @@ export const deleteTodo = async (
   }
 }
 
+// Delete all completed todos
 export const deleteCompletedTodos = async (
   req: Request,
   res: Response
@@ -229,5 +170,65 @@ export const deleteCompletedTodos = async (
       msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_ERROR,
       success: false
     })
+  }
+}
+
+// Update a todo
+export const updateTodo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const {
+      params: { id },
+      userId
+    } = req
+
+    // If title is empty, the task won't update, but will be deleted.
+    if (req.body.title === '') {
+      await deleteTodo(req, res)
+      return
+    }
+
+    // Check if user exists
+    const user = await UserModel.findById(userId)
+    if (user === null) {
+      res.status(HttpStatusCode.NOT_FOUND).json({
+        msg: MSGS_RESPONSES.UPDATE_TODO_USER_CHECK,
+        success: false
+      })
+      return
+    }
+
+    // Check if todo item exists
+    const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
+    if (todoToBeUpdated === null) {
+      res.status(HttpStatusCode.NOT_FOUND).json({
+        msg: MSGS_RESPONSES.UPDATE_TODO_CHECK_EXISTENCE,
+        success: false
+      })
+      return
+    }
+
+    // Update the todo item and get all the todos items for the user
+    const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
+      { _id: id },
+      req.body,
+      { new: true, runValidators: true }
+    )
+    const allTodos: ITodo[] = await TodoModel.find({ userId })
+
+    // Return success response with updated todo and the rest of the todos for the user
+    res.status(HttpStatusCode.OK).json({
+      msg: MSGS_RESPONSES.UPDATE_TODO_OK,
+      todo: updatedTodo,
+      todos: allTodos,
+      success: true
+    })
+  } catch (error) {
+    // Return error response if an error occurs
+    res
+      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
+      .json({ msg: MSGS_RESPONSES.UPDATE_TODO_ERROR, success: false })
   }
 }
