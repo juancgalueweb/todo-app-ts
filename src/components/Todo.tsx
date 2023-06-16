@@ -26,6 +26,8 @@ const Todo: React.FC<ExtendedProps> = ({
   // Get the necessary todo-related methods from the TodosContext
   const { removeTodo, updateCompletedStatus, updateTodoTitle, loading } =
     useContext(TodosContext) as TodoContextType
+  // Reference to the div element of the Todo
+  const todoViewRef = useRef<HTMLInputElement>(null)
 
   // Event handler for keyboard events when editing the todo title
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
@@ -63,9 +65,12 @@ const Todo: React.FC<ExtendedProps> = ({
 
   return (
     <>
-      <div className='view'>
+      <div className='view' ref={todoViewRef} style={{ minHeight: '3.6rem' }}>
         {loading ? (
-          <div className={styles.loader}>
+          <div
+            className={styles.loader}
+            style={{ height: todoViewRef.current?.clientHeight }}
+          >
             <Loader />
           </div>
         ) : (
