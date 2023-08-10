@@ -28,3 +28,6 @@ server/dist
 server/node_modules
 server/.env
 server/.DS_Store
+
+pnpm-lock.yaml
+server/pnpm-lock.yaml

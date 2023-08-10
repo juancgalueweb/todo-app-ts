@@ -312,7 +312,7 @@ const generateSendOTPTemplate = (code: string): string => {
                     <tr>
                       <td>
                         <h1>Confirma tu correo electrónico</h1>
-                        <h2>Solo te falta un paso más para usar la aplicación. Ingrese el siguiente código de verificación, tendrá solo 10 minutos para hacerlo, de lo contrario, tendrá que solicitar otro.</h2>
+                        <h2>Solo te falta un paso más para usar la aplicación. Ingrese el siguiente código de verificación, tendrá 1 hora para hacerlo, de lo contrario, tendrá que solicitar otro.</h2>
                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
                             <tr>
