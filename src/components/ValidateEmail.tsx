@@ -32,7 +32,7 @@ const ValidateEmail: React.FC = () => {
           poder usar la app 😎.
         </p>
         <p>
-          Recuerde que el código expira a los 10 minutos luego de ser recibido,
+          Recuerde que el código expira a los 60 minutos luego de ser recibido,
           si ya pasó ese tiempo, puede solicitar otro sin problema en el{' '}
           <Link className='back-to-login' to='/login'>
             login
