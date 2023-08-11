@@ -1,4 +1,3 @@
-// import React from 'react'
 import ReactDOM from 'react-dom/client'
 import 'todomvc-app-css/index.css'
 import FiltersProviders from './contexts/FilterContext'

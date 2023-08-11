@@ -106,7 +106,7 @@ export function useTodos(): Props {
   }: TodoIdAndCompleted): void => {
     setLoading(true)
     if (_id != null) {
-      const todoToBeUpdated = todos.find(todo => todo._id === _id)
+      const todoToBeUpdated = todos.find((todo) => todo._id === _id)
       if (typeof todoToBeUpdated?.title === 'string') {
         const dataToAxios = {
           data: {
@@ -137,7 +137,7 @@ export function useTodos(): Props {
   const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
     setLoading(true)
     if (_id != null) {
-      const todoToBeUpdated = todos.find(todo => todo._id === _id)
+      const todoToBeUpdated = todos.find((todo) => todo._id === _id)
       if (typeof todoToBeUpdated?.completed === 'boolean') {
         const dataToAxios = {
           data: {
@@ -165,8 +165,8 @@ export function useTodos(): Props {
   const removeAllCompleted = (): void => {
     setLoading(true)
     const idsToDelete: string[] = todos
-      .filter(todo => todo.completed)
-      .map(todo => todo._id)
+      .filter((todo) => todo.completed)
+      .map((todo) => todo._id)
       .filter((id): id is string => typeof id === 'string')
     axiosWithTokenDeleteCompleted('DELETE', 'todos/completed', idsToDelete)
       .then((response: AxiosResponse) => {

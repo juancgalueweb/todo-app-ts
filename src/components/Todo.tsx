@@ -80,7 +80,7 @@ const Todo: React.FC<ExtendedProps> = ({
               className='toggle'
               type='checkbox'
               checked={completed}
-              onChange={event => {
+              onChange={(event) => {
                 // Update the completed status of the todo in the TodosContext when the checkbox is toggled
                 updateCompletedStatus({ _id, completed: event.target.checked })
               }}
@@ -103,7 +103,7 @@ const Todo: React.FC<ExtendedProps> = ({
       <input
         className='edit'
         value={editedTitle}
-        onChange={event => {
+        onChange={(event) => {
           // Update the editedTitle state whenever the input value changes
           setEditedTitle(event.target.value)
         }}

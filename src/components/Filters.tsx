@@ -29,7 +29,7 @@ const Filters: React.FC = () => {
           <a
             href={href}
             className={className}
-            onClick={event => {
+            onClick={(event) => {
               event.preventDefault()
               filterChange(key as FilterValue)
             }}

@@ -21,7 +21,7 @@ const Todos: React.FC = () => {
           ¿Seguro que no tienes más nada pendiente? 🧐
         </p>
       ) : (
-        filteredTodos.map(todo => (
+        filteredTodos.map((todo) => (
           <li
             key={todo._id}
             onDoubleClick={() => {

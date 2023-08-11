@@ -48,7 +48,7 @@ const ValidateEmail: React.FC = () => {
             onComplete={() => {
               setCompleted(true)
             }}
-            onChange={val => {
+            onChange={(val) => {
               setCode(val)
               setCompleted(false)
             }}

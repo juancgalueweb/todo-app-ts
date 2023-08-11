@@ -16,6 +16,14 @@ const todoSchema: Schema = new Schema(
     completed: {
       type: Boolean,
       required: [true, MSGS_RESPONSES.TODO_MODEL_COMPLETED]
+    },
+    priority: {
+      type: String,
+      enum: ['low', 'normal', 'high'],
+      default: 'low'
+    },
+    deadline: {
+      type: Date
     }
   },
   { timestamps: true }

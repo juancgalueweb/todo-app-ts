@@ -6,7 +6,7 @@ const LOCAL_DB = process.env.LOCAL_DB_URL
 const DEPLOYMENT_DB = process.env.MONGO_URI
 const dbUrl = process.env.NODE_ENV === 'production' ? DEPLOYMENT_DB : LOCAL_DB
 
-dbConnect().catch(err => {
+dbConnect().catch((err) => {
   console.log(err)
 })
 
