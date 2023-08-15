@@ -19,8 +19,8 @@ const todoSchema: Schema = new Schema(
     },
     priority: {
       type: String,
-      enum: ['low', 'normal', 'high'],
-      default: 'low'
+      enum: ['Baja', 'Normal', 'Alta'],
+      default: 'Baja'
     },
     deadline: {
       type: Date

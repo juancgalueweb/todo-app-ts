@@ -3,14 +3,16 @@ import { type TODO_FILTERS } from '../constants/const'
 export interface ITodo {
   _id?: string
   title: string
+  priority: string | number
   completed: boolean
+  deadline: Date | string
   createdAt?: string
   updatedAt?: string
   __v?: number
 }
 
 export type TodoId = Pick<ITodo, '_id'>
-export type TodoTitle = Pick<ITodo, 'title'>
+export type TodoSave = Pick<ITodo, 'title' | 'priority' | 'deadline'>
 export type TodoIdAndCompleted = Pick<ITodo, '_id' | 'completed'>
 export type TodoIdAndTitle = Pick<ITodo, '_id' | 'title'>
 
@@ -21,7 +23,7 @@ export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
  */
 export interface TodoContextType {
   todos: ITodo[]
-  saveTodo: ({ title }: TodoTitle) => void
+  saveTodo: ({ title, priority, deadline }: TodoSave) => void
   removeTodo: ({ _id }: TodoId) => void
   updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
   updateTodoTitle: ({ _id, title }: TodoIdAndTitle) => void

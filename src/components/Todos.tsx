@@ -38,6 +38,8 @@ const Todos: React.FC = () => {
               completed={todo.completed}
               isEditing={isEditing}
               setIsEditing={setIsEditing}
+              priority={todo.priority}
+              deadline={todo.deadline}
             />
           </li>
         ))

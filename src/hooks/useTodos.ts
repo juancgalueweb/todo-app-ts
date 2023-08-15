@@ -12,7 +12,7 @@ import {
   type TodoId,
   type TodoIdAndCompleted,
   type TodoIdAndTitle,
-  type TodoTitle
+  type TodoSave
 } from '../interfaces/todo.interface'
 
 type Props = TodoContextType
@@ -49,7 +49,7 @@ export function useTodos(): Props {
    *
    * @param title - The title of the new to-do item.
    */
-  const saveTodo = ({ title }: TodoTitle): void => {
+  const saveTodo = ({ title, priority, deadline }: TodoSave): void => {
     if (title.length === 0) return
     if (isNumberString(title)) return
 
@@ -58,7 +58,9 @@ export function useTodos(): Props {
     const dataToAxios = {
       data: {
         title,
-        completed: false
+        completed: false,
+        priority,
+        deadline
       }
     }
     axiosWithTokenAndData('POST', 'todos', dataToAxios)
