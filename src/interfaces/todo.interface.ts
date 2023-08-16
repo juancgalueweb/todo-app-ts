@@ -5,7 +5,7 @@ export interface ITodo {
   title: string
   priority: string | number
   completed: boolean
-  deadline: Date | string
+  deadline: Date
   createdAt?: string
   updatedAt?: string
   __v?: number

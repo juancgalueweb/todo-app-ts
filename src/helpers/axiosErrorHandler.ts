@@ -1,6 +1,5 @@
 import { type AxiosError } from 'axios'
 import { toast } from 'react-toastify'
-import { APP_KEY } from '../constants/const'
 
 export const handleError = (error: AxiosError): void => {
   const errorData = error.response?.data
@@ -11,10 +10,6 @@ export const handleError = (error: AxiosError): void => {
   ) {
     const errorMessageFromAxios = errorData.msg as string
     toast.error(errorMessageFromAxios, {
-      onClose: () => {
-        localStorage.removeItem(APP_KEY)
-        window.location.replace('/')
-      },
       position: 'top-center',
       autoClose: 4000,
       closeOnClick: true,

@@ -19,11 +19,12 @@ const todoSchema: Schema = new Schema(
     },
     priority: {
       type: String,
-      enum: ['Baja', 'Normal', 'Alta'],
-      default: 'Baja'
+      enum: ['baja', 'normal', 'alta'],
+      default: 'baja'
     },
     deadline: {
-      type: Date
+      type: Date,
+      required: [true, MSGS_RESPONSES.TODO_MODEL_DEADLINE]
     }
   },
   { timestamps: true }

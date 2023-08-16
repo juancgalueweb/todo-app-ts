@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import { useEffect } from 'react'
 import PinField from 'react-pin-field'
 import { Link } from 'react-router-dom'
@@ -56,16 +57,16 @@ const ValidateEmail: React.FC = () => {
             validate='0123456789'
           />
         </div>
-        <button
+        <Button
           style={{ margin: '0 auto', marginTop: '1.5rem' }}
-          className='button-app'
+          type='primary'
           onClick={() => {
             validateOPT()
           }}
           disabled={!completed}
         >
           Validar e-mail
-        </button>
+        </Button>
       </div>
       <ToastContainer />
     </>
