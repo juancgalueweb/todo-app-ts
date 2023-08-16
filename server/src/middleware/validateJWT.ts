@@ -39,6 +39,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
     if (error instanceof jwt.JsonWebTokenError) {
       res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
+        expiredToken: true,
         msg: MSGS_RESPONSES.MIDDLEWARE_EXPIRED_TOKEN
       })
     } else {
