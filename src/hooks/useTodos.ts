@@ -80,10 +80,11 @@ export function useTodos(): Props {
    *
    * @param id - The ID of the to-do item to remove.
    */
-  const removeTodo = ({ _id }: TodoId): void => {
+  const removeTodo = (_id: TodoId): void => {
     setLoading(true)
     if (_id != null) {
-      axiosWithToken('DELETE', `todo/${_id}`)
+      const idAsString = String(_id)
+      axiosWithToken('DELETE', `todo/${idAsString}`)
         .then((response: AxiosResponse) => {
           const { todos } = response.data
           setTodos(todos)

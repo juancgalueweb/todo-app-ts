@@ -1,9 +1,12 @@
+import type { FormInstance } from 'antd/es/form'
 import { type Dispatch, type SetStateAction } from 'react'
 import { type TODO_FILTERS } from '../constants/const'
+
 export interface ITodo {
+  // key?: React.Key
   _id?: string
   title: string
-  priority: string | number
+  priority: string
   completed: boolean
   deadline: Date
   createdAt?: string
@@ -48,4 +51,35 @@ export interface ApiDataTodosByUser {
   msg: string
   todos: ITodo[]
   success: boolean
+}
+
+export enum SpaPriority {
+  alta = 'Alta',
+  media = 'Media',
+  baja = 'Baja'
+}
+
+export enum EngPriority {
+  high = 'high',
+  medium = 'medium',
+  low = 'low'
+}
+
+export interface TodoModalProps {
+  open: boolean
+  onCancel: () => void
+  onOk: () => void
+  initialValues: {
+    title: string
+    priority: string
+    deadline: Date | null
+  }
+  onFinish: (values: TodoSave) => void
+  formRef: React.MutableRefObject<FormInstance<any> | null>
+  form: FormInstance
+}
+
+export enum TaskStatus {
+  completed = 'Completado',
+  pending = 'Pendiente'
 }

@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { MSGS_RESPONSES } from '../constants/msgs'
+import { MSGS_RESPONSES, Priorities } from '../constants/msgs'
 import { type ITodo } from '../types/todo'
 
 const todoSchema: Schema = new Schema(
@@ -19,8 +19,8 @@ const todoSchema: Schema = new Schema(
     },
     priority: {
       type: String,
-      enum: ['baja', 'normal', 'alta'],
-      default: 'baja'
+      enum: [Priorities.high, Priorities.medium, Priorities.low],
+      default: Priorities.low
     },
     deadline: {
       type: Date,

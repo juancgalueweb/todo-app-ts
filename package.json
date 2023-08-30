@@ -18,6 +18,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.5",
     "@formkit/auto-animate": "1.0.0-beta.6",
     "@typescript-eslint/parser": "^5.56.0",
     "antd": "^5.8.2",

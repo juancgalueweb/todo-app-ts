@@ -43,3 +43,9 @@ export enum MSGS_RESPONSES {
   USER_MODEL_USEREMAIL = 'Se requiere el correo del usuario',
   TODO_MODEL_DEADLINE = 'Se requiere la fecha tope de la tarea'
 }
+
+export enum Priorities {
+  high = 'high',
+  medium = 'medium',
+  low = 'low'
+}

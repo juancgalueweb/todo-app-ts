@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { createUser, verifyEmail } from '../controllers/user'
+import { createUser, verifyEmail } from '../controllers/user.controller'
 
 const router: Router = Router()
 
