@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_KEY } from '../constants/const'
 
@@ -22,23 +23,25 @@ const Home: React.FC = () => {
       </figure>
       <footer>
         {dataFromLocalStorage === null ? (
-          <button
-            className='button-app'
+          <Button
+            type='primary'
+            size='large'
             onClick={() => {
               navigate('/login')
             }}
           >
             Login
-          </button>
+          </Button>
         ) : (
-          <button
-            className='button-app'
+          <Button
+            type='primary'
+            size='large'
             onClick={() => {
               navigate('/todos')
             }}
           >
             Ver mis tareas
-          </button>
+          </Button>
         )}
       </footer>
     </div>

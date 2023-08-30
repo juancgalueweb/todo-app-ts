@@ -1,8 +1,8 @@
 import { type Request, type Response } from 'express'
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
-import TodoModel from '../models/todo'
-import UserModel from '../models/user'
+import TodoModel from '../models/todo.model'
+import UserModel from '../models/user.model'
 import { type AddTodoBody, type DeleteResult, type ITodo } from '../types/todo'
 
 // Get all the tasks

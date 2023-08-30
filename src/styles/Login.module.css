@@ -1,6 +1,7 @@
 .container {
   max-width: 56rem;
-  height: 100vh;
+  margin: 0 auto;
+  max-height: 100vh;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
   font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',

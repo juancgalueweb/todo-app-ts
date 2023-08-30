@@ -6,7 +6,7 @@ import {
   deleteTodo,
   getTodosByUser,
   updateTodo
-} from '../controllers/todos'
+} from '../controllers/todos.controller'
 import { validateJWT } from '../middleware/validateJWT'
 
 const router: Router = Router()

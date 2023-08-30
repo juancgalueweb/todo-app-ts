@@ -32,13 +32,13 @@ export function useFilters(): Props {
   }
 
   // Calculate the number of active todos.
-  const activeCount = todos.filter(todo => !todo.completed).length
+  const activeCount = todos.filter((todo) => !todo.completed).length
 
   // Calculate the number of completed todos.
   const completedCount = todos.length - activeCount
 
   // Filter the todos based on the selected filter.
-  const filteredTodos = todos.filter(todo => {
+  const filteredTodos = todos.filter((todo) => {
     if (filterSelected === TODO_FILTERS.PENDING) return !todo.completed
     if (filterSelected === TODO_FILTERS.COMPLETED) return todo.completed
     return todo

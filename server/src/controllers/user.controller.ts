@@ -12,7 +12,7 @@ import {
   generateSendOTPTemplate,
   mailTransport
 } from '../helpers/mailVerify'
-import UserModel from '../models/user'
+import UserModel from '../models/user.model'
 import { type IUser, type JwtOtpVerificationResponse } from '../types/user'
 
 const createUser = async (req: Request, res: Response): Promise<void> => {

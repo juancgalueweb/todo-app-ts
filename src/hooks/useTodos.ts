@@ -12,7 +12,7 @@ import {
   type TodoId,
   type TodoIdAndCompleted,
   type TodoIdAndTitle,
-  type TodoTitle
+  type TodoSave
 } from '../interfaces/todo.interface'
 
 type Props = TodoContextType
@@ -49,7 +49,7 @@ export function useTodos(): Props {
    *
    * @param title - The title of the new to-do item.
    */
-  const saveTodo = ({ title }: TodoTitle): void => {
+  const saveTodo = ({ title, priority, deadline }: TodoSave): void => {
     if (title.length === 0) return
     if (isNumberString(title)) return
 
@@ -58,7 +58,9 @@ export function useTodos(): Props {
     const dataToAxios = {
       data: {
         title,
-        completed: false
+        completed: false,
+        priority,
+        deadline
       }
     }
     axiosWithTokenAndData('POST', 'todos', dataToAxios)
@@ -78,10 +80,11 @@ export function useTodos(): Props {
    *
    * @param id - The ID of the to-do item to remove.
    */
-  const removeTodo = ({ _id }: TodoId): void => {
+  const removeTodo = (_id: TodoId): void => {
     setLoading(true)
     if (_id != null) {
-      axiosWithToken('DELETE', `todo/${_id}`)
+      const idAsString = String(_id)
+      axiosWithToken('DELETE', `todo/${idAsString}`)
         .then((response: AxiosResponse) => {
           const { todos } = response.data
           setTodos(todos)
@@ -106,7 +109,7 @@ export function useTodos(): Props {
   }: TodoIdAndCompleted): void => {
     setLoading(true)
     if (_id != null) {
-      const todoToBeUpdated = todos.find(todo => todo._id === _id)
+      const todoToBeUpdated = todos.find((todo) => todo._id === _id)
       if (typeof todoToBeUpdated?.title === 'string') {
         const dataToAxios = {
           data: {
@@ -137,7 +140,7 @@ export function useTodos(): Props {
   const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
     setLoading(true)
     if (_id != null) {
-      const todoToBeUpdated = todos.find(todo => todo._id === _id)
+      const todoToBeUpdated = todos.find((todo) => todo._id === _id)
       if (typeof todoToBeUpdated?.completed === 'boolean') {
         const dataToAxios = {
           data: {
@@ -165,8 +168,8 @@ export function useTodos(): Props {
   const removeAllCompleted = (): void => {
     setLoading(true)
     const idsToDelete: string[] = todos
-      .filter(todo => todo.completed)
-      .map(todo => todo._id)
+      .filter((todo) => todo.completed)
+      .map((todo) => todo._id)
       .filter((id): id is string => typeof id === 'string')
     axiosWithTokenDeleteCompleted('DELETE', 'todos/completed', idsToDelete)
       .then((response: AxiosResponse) => {

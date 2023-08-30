@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import useLogin from '../hooks/useLogin'
@@ -32,9 +33,9 @@ const Login: React.FC = () => {
             <span>¡Error!</span> {errorMessage}
           </div>
         )}
-        <button className='button-app' type='submit'>
+        <Button htmlType='submit' type='primary' size='large'>
           Obtener código
-        </button>
+        </Button>
       </form>
       <ToastContainer />
     </div>

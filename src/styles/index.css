@@ -1,3 +1,22 @@
+:root {
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Ubuntu, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+}
+
+.header-h1 {
+  font-size: 5rem;
+  font-weight: 200;
+  color: #b83f45;
+}
+
 .header-picture {
   width: 80px;
   height: auto;
@@ -13,15 +32,13 @@
 /* Home Container */
 .home-container {
   max-width: 56rem;
-  height: 100vh;
+  max-height: 100vh;
   display: flex;
+  margin: 0 auto;
   flex-direction: column;
   align-items: center;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
-  background: #f5f5f5;
-  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Ubuntu, sans-serif;
 }
 
 .home-container h1 {
@@ -60,58 +77,12 @@
   font-weight: 500;
 }
 
-/* Buttons */
-.button-app {
-  appearance: button;
-  backface-visibility: hidden;
-  background-color: #405cf5;
-  border-radius: 6px;
-  border-width: 0;
-  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
-    rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 1.5rem;
-  height: 44px;
-  line-height: 1.15;
-  margin: 12px 0 0;
-  outline: none;
-  overflow: hidden;
-  padding: 0 25px;
-  position: relative;
-  text-align: center;
-  text-transform: none;
-  transform: translateZ(0);
-  transition: all 0.2s, box-shadow 0.08s ease-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: fit-content;
-}
-
-.button-app:focus {
-  box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
-    rgba(50, 50, 93, 0.2) 0 6px 15px 0, rgba(0, 0, 0, 0.1) 0 2px 2px 0,
-    rgba(50, 151, 211, 0.3) 0 0 0 4px;
-}
-
-button[disabled] {
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
-}
-
 /* Wrapper container */
 .wrapper-container {
   max-width: 48rem;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-  background: #f5f5f5;
+  padding: 0.2rem 0;
   font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
     Ubuntu, sans-serif;
 }
@@ -130,69 +101,6 @@ button[disabled] {
   display: block;
   text-align: center;
   margin: 1.25rem 0;
-}
-
-.alert-container {
-  display: flex;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: #1e40af;
-  border: 1px solid #90cdf4;
-  border-radius: 0.375rem;
-  background-color: #eff6ff;
-  transition: opacity 0.3s ease-out;
-  opacity: 1;
-}
-
-.alert-container.hidden {
-  opacity: 0;
-}
-
-.alert-message {
-  font-weight: 500;
-}
-
-.svg-alert {
-  flex-shrink: 0;
-  display: inline;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 0.75rem;
-}
-
-.alert-close-button {
-  margin-left: auto;
-  margin-right: -0.375rem;
-  margin-top: -0.375rem;
-  margin-bottom: -0.375rem;
-  background-color: #eff6ff;
-  color: #1e40af;
-  border-radius: 0.375rem;
-  padding: 0.375rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 2rem;
-  width: 2rem;
-  transition-property: background-color, border-color, color, fill, stroke,
-    opacity, box-shadow, transform;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  outline: none;
-}
-
-.alert-close-button:hover,
-.alert-close-button:focus {
-  background-color: #bfdbfe;
-  box-shadow: 0 0 0 2px #90cdf4;
-  border-radius: 0.375rem;
-}
-
-.svg-close-button {
-  width: 1.25rem;
-  height: 1.25rem;
 }
 
 .back-to-login {
@@ -224,4 +132,27 @@ button[disabled] {
 
 #custom-footer {
   font-size: 0.875rem;
+}
+
+.create-task-button {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome p {
+  font-size: 1.3rem;
+}
+
+.completed-table-cell {
+  color: #949494;
+  text-decoration: line-through;
+  background-color: #e5e5e5;
 }

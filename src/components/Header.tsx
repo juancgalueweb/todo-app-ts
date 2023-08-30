@@ -1,9 +1,7 @@
-import CreateTodo from './CreateTodo'
-
 const Header: React.FC = () => {
   return (
-    <header className='header'>
-      <h1>
+    <div className='header'>
+      <h1 className='header-h1'>
         Todos{' '}
         <img
           src='ts-logo.png'
@@ -11,8 +9,7 @@ const Header: React.FC = () => {
           className='header-picture'
         />
       </h1>
-      <CreateTodo />
-    </header>
+    </div>
   )
 }
 
