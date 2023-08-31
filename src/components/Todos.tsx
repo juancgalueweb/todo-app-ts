@@ -11,10 +11,10 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Col, Popconfirm, Row, Table, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { useContext, useState } from 'react'
 import { FiltersContext } from '../contexts/FilterContext'
 import { TodosContext } from '../contexts/TodoContext'
-import { differenceInDaysFunc } from '../helpers/daysDifference'
 import { translateEngToSpaPriority } from '../helpers/translatePriorities'
 import {
   EngPriority,
@@ -24,7 +24,8 @@ import {
   type ITodo,
   type TodoContextType
 } from '../interfaces/todo.interface'
-import('dayjs/locale/es')
+dayjs.locale('es')
+dayjs.extend(relativeTime)
 
 const Todos: React.FC = () => {
   const [page, setPage] = useState(1)
@@ -86,13 +87,15 @@ const Todos: React.FC = () => {
       },
       width: '10%'
     },
+
     {
       title: 'Fecha tope',
       dataIndex: 'deadline',
       sorter: (a, b) => dayjs(a.deadline).unix() - dayjs(b.deadline).unix(),
       render: (record, row) => {
-        const formattedDate = dayjs(record).format('DD-MM-YYYY')
-        const daysDifference = differenceInDaysFunc(record, new Date())
+        const deadline = dayjs(record)
+        const now = dayjs(new Date())
+        const daysDifference = deadline.diff(now, 'd', true)
 
         let tagColor = ''
         let tagIcon = null
@@ -114,11 +117,26 @@ const Todos: React.FC = () => {
 
         return (
           <Tag icon={tagIcon} color={tagColor}>
-            {formattedDate}
+            {deadline.format('DD-MM-YYYY')}
           </Tag>
         )
       },
       width: '10%'
+    },
+    {
+      title: 'Vencimiento',
+      render: (_, row) => {
+        return (
+          <>
+            {row.completed ? (
+              <span>N/A</span>
+            ) : (
+              dayjs(new Date()).to(row.deadline)
+            )}
+          </>
+        )
+      },
+      width: '8%'
     },
     {
       title: 'Acciones',
@@ -169,7 +187,7 @@ const Todos: React.FC = () => {
   ]
 
   return (
-    <Row justify='center'>
+    <Row justify='center' style={{ marginTop: '3.5rem' }}>
       <Col span={20}>
         <Table
           ref={animationParent}
