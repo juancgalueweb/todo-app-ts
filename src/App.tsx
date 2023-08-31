@@ -20,8 +20,8 @@ const App: React.FC = () => {
       <WelcomeAndLogout />
       <Header />
       <CreateTodo />
-      <Todos />
       <Footer />
+      <Todos />
       <ToastContainer />
     </>
   )

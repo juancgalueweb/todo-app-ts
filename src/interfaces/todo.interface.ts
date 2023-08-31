@@ -9,8 +9,8 @@ export interface ITodo {
   priority: string
   completed: boolean
   deadline: Date
-  createdAt?: string
-  updatedAt?: string
+  createdAt?: Date
+  updatedAt?: Date
   __v?: number
 }
 

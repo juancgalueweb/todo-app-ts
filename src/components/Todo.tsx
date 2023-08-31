@@ -2,7 +2,6 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { TodosContext } from '../contexts/TodoContext'
 import { type ITodo, type TodoContextType } from '../interfaces/todo.interface'
 import styles from '../styles/Loader.module.css'
-import { FormatTitle } from './FormatTitle'
 import Loader from './Loader'
 
 // Define the props for a single todo item, including additional props for editing
@@ -85,9 +84,7 @@ const Todo: React.FC<ExtendedProps> = ({
                 updateCompletedStatus({ _id, completed: event.target.checked })
               }}
             />
-            <label style={{ whiteSpace: 'pre-wrap' }}>
-              <FormatTitle title={title} />
-            </label>
+            <label style={{ whiteSpace: 'pre-wrap' }}>{title}</label>
             <button
               className='destroy'
               style={{ cursor: 'pointer' }}

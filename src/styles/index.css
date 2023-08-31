@@ -141,13 +141,13 @@
   padding: 10px 0;
 }
 
-.welcome {
+.flex-and-center {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.welcome p {
+.flex-and-center p {
   font-size: 1.3rem;
 }
 
@@ -155,4 +155,8 @@
   color: #949494;
   text-decoration: line-through;
   background-color: #e5e5e5;
+}
+
+.overdue-table-cell {
+  background-color: #fee2e2;
 }

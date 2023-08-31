@@ -17,16 +17,13 @@ export const TODO_FILTERS = {
  */
 export const FILTERS_BUTTONS = {
   [TODO_FILTERS.ALL]: {
-    literal: 'Todos',
-    href: `/?filter=${TODO_FILTERS.ALL}`
+    literal: 'Ver todas las tareas'
   },
   [TODO_FILTERS.PENDING]: {
-    literal: 'Pendientes',
-    href: `/?filter=${TODO_FILTERS.PENDING}`
+    literal: 'Pendientes'
   },
   [TODO_FILTERS.COMPLETED]: {
-    literal: 'Completados',
-    href: `/?filter=${TODO_FILTERS.COMPLETED}`
+    literal: 'Completadas'
   }
 } as const
 

@@ -1,16 +1,20 @@
 import {
+  CheckCircleOutlined,
   CheckOutlined,
+  ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
-  ExclamationOutlined
+  ExclamationCircleOutlined,
+  MinusCircleOutlined
 } from '@ant-design/icons'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { Col, Popconfirm, Row, Table } from 'antd'
+import { Col, Popconfirm, Row, Table, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import { useContext, useState } from 'react'
 import { FiltersContext } from '../contexts/FilterContext'
 import { TodosContext } from '../contexts/TodoContext'
+import { differenceInDaysFunc } from '../helpers/daysDifference'
 import { translateEngToSpaPriority } from '../helpers/translatePriorities'
 import {
   EngPriority,
@@ -35,8 +39,7 @@ const Todos: React.FC = () => {
   const columns: ColumnsType<ITodo> = [
     {
       title: 'Descripción de la tarea',
-      dataIndex: 'title',
-      width: '50%'
+      dataIndex: 'title'
     },
     {
       title: 'Prioridad',
@@ -52,33 +55,16 @@ const Todos: React.FC = () => {
         return (
           <>
             {translateEngToSpaPriority(record) === SpaPriority.alta ? (
-              <>
-                <ExclamationOutlined
-                  rev={''}
-                  style={{ color: '#ec0d0d', marginRight: 3, fontSize: 16 }}
-                />
-                <span>{translateEngToSpaPriority(record)}</span>
-              </>
+              <>{translateEngToSpaPriority(record)}</>
             ) : translateEngToSpaPriority(record) === SpaPriority.media ? (
-              <>
-                <ExclamationOutlined
-                  rev={''}
-                  style={{ color: '#f07f20', marginRight: 3, fontSize: 16 }}
-                />
-                <span>{translateEngToSpaPriority(record)}</span>
-              </>
+              <>{translateEngToSpaPriority(record)}</>
             ) : (
-              <>
-                <ExclamationOutlined
-                  rev={''}
-                  style={{ color: '#22C55E', marginRight: 3, fontSize: 16 }}
-                />
-                <span>{translateEngToSpaPriority(record)}</span>
-              </>
+              <>{translateEngToSpaPriority(record)}</>
             )}
           </>
         )
-      }
+      },
+      width: '5%'
     },
     {
       title: 'Estado',
@@ -87,16 +73,52 @@ const Todos: React.FC = () => {
         return (
           <>{record === true ? TaskStatus.completed : TaskStatus.pending}</>
         )
-      }
+      },
+      width: '5%'
+    },
+    {
+      title: 'Fecha de creación',
+      dataIndex: 'createdAt',
+      sorter: (a, b) => dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix(),
+      render: (record) => {
+        const formattedDate = dayjs(record).format('DD-MM-YYYY')
+        return <>{formattedDate}</>
+      },
+      width: '10%'
     },
     {
       title: 'Fecha tope',
       dataIndex: 'deadline',
       sorter: (a, b) => dayjs(a.deadline).unix() - dayjs(b.deadline).unix(),
-      render: (record) => {
+      render: (record, row) => {
         const formattedDate = dayjs(record).format('DD-MM-YYYY')
-        return <>{formattedDate}</>
-      }
+        const daysDifference = differenceInDaysFunc(record, new Date())
+
+        let tagColor = ''
+        let tagIcon = null
+        if (daysDifference < 2) {
+          tagColor = 'error'
+          tagIcon = <ClockCircleOutlined rev={''} />
+        } else if (daysDifference < 5) {
+          tagColor = 'warning'
+          tagIcon = <ExclamationCircleOutlined rev={''} />
+        } else {
+          tagColor = 'success'
+          tagIcon = <CheckCircleOutlined rev={''} />
+        }
+
+        if (row.completed) {
+          tagColor = '#D4D4D4'
+          tagIcon = <MinusCircleOutlined rev={''} />
+        }
+
+        return (
+          <Tag icon={tagIcon} color={tagColor}>
+            {formattedDate}
+          </Tag>
+        )
+      },
+      width: '10%'
     },
     {
       title: 'Acciones',
@@ -117,11 +139,8 @@ const Todos: React.FC = () => {
             {record.completed !== undefined && record.completed === false ? (
               <EditOutlined
                 rev={''}
-                disabled={
-                  record.completed !== undefined && record.completed === true
-                }
                 style={{
-                  color: '#F18F01',
+                  color: '#1D4ED8',
                   marginLeft: 5,
                   marginRight: 5,
                   fontSize: 18
@@ -134,7 +153,7 @@ const Todos: React.FC = () => {
             <Popconfirm
               title='¿Desea eliminar la tarea?'
               onConfirm={() => {
-                removeTodo(record._id)
+                removeTodo({ _id: record._id })
               }}
             >
               <DeleteOutlined
@@ -144,21 +163,25 @@ const Todos: React.FC = () => {
             </Popconfirm>
           </>
         )
-      }
+      },
+      width: '8%'
     }
   ]
 
   return (
-    <Row justify='center' style={{ marginTop: '1.5rem' }}>
+    <Row justify='center'>
       <Col span={20}>
         <Table
           ref={animationParent}
           columns={columns}
           dataSource={filteredTodos}
           rowKey={(record) => record._id ?? ''}
-          rowClassName={(record) =>
-            record.completed ? 'completed-table-cell' : ''
-          }
+          rowClassName={(record) => {
+            if (record.completed) {
+              return 'completed-table-cell'
+            }
+            return ''
+          }}
           pagination={{
             showSizeChanger: true,
             current: page,

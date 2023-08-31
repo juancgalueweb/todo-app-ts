@@ -16,7 +16,7 @@ const WelcomeAndLogout: React.FC = () => {
   return (
     <Row>
       <Col span={20} offset={2}>
-        <div className='welcome'>
+        <div className='flex-and-center'>
           <p>Bienvenid@, {dataFromLocalStorage?.userEmail}</p>
           <Button
             size='large'
