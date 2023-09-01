@@ -23,12 +23,6 @@
   display: inline-block;
 }
 
-.nothing-pending {
-  text-align: center;
-  font-weight: bold;
-  font-size: 20px;
-}
-
 /* Home Container */
 .home-container {
   max-width: 56rem;
@@ -77,26 +71,6 @@
   font-weight: 500;
 }
 
-/* Wrapper container */
-.wrapper-container {
-  max-width: 48rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0.2rem 0;
-  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Ubuntu, sans-serif;
-}
-
-.inner-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.inner-container p {
-  font-size: 1.25rem;
-}
-
 .pin-field-wrapper {
   display: block;
   text-align: center;
@@ -128,10 +102,6 @@
 .back-to-login:active {
   background: #6900ff;
   color: #cdfeaa;
-}
-
-#custom-footer {
-  font-size: 0.875rem;
 }
 
 .create-task-button {

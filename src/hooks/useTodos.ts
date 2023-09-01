@@ -11,8 +11,8 @@ import {
   type TodoContextType,
   type TodoId,
   type TodoIdAndCompleted,
-  type TodoIdAndTitle,
-  type TodoSave
+  type TodoSave,
+  type TodoUpdateType
 } from '../interfaces/todo.interface'
 
 type Props = TodoContextType
@@ -136,14 +136,22 @@ export function useTodos(): Props {
    * @param id - The ID of the to-do item to update.
    * @param title - The new title of the to-do item.
    */
-  const updateTodoTitle = ({ _id, title }: TodoIdAndTitle): void => {
+  const updateTodo = ({
+    _id,
+    title,
+    priority,
+    deadline
+  }: TodoUpdateType): void => {
     setLoading(true)
     if (_id != null) {
       const todoToBeUpdated = todos.find((todo) => todo._id === _id)
+      // console.log('todoToBeUpdated', todoToBeUpdated)
       if (typeof todoToBeUpdated?.completed === 'boolean') {
         const dataToAxios = {
           data: {
             title,
+            priority,
+            deadline,
             completed: todoToBeUpdated?.completed
           }
         }
@@ -189,7 +197,7 @@ export function useTodos(): Props {
     saveTodo,
     setTodos,
     removeTodo,
-    updateTodoTitle,
+    updateTodo,
     removeAllCompleted,
     updateCompletedStatus
   }

@@ -16,7 +16,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
     saveTodo,
     setTodos,
     removeTodo,
-    updateTodoTitle,
+    updateTodo,
     removeAllCompleted,
     updateCompletedStatus
   } = useTodos()
@@ -30,7 +30,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
         saveTodo,
         setTodos,
         removeTodo,
-        updateTodoTitle,
+        updateTodo,
         removeAllCompleted,
         updateCompletedStatus
       }}

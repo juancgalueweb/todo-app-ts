@@ -66,6 +66,8 @@ const CreateTodo: React.FC = () => {
         }}
         onFinish={handleSubmit}
         form={form}
+        name='saveTodo'
+        modalTitle='Crear tarea'
       />
     </>
   )

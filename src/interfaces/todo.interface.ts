@@ -1,14 +1,14 @@
 import type { FormInstance } from 'antd/es/form'
+import { type Dayjs } from 'dayjs'
 import { type Dispatch, type SetStateAction } from 'react'
 import { type TODO_FILTERS } from '../constants/const'
 
 export interface ITodo {
-  // key?: React.Key
   _id?: string
   title: string
   priority: string
   completed: boolean
-  deadline: Date
+  deadline: Date | Dayjs
   createdAt?: Date
   updatedAt?: Date
   __v?: number
@@ -17,7 +17,10 @@ export interface ITodo {
 export type TodoId = Pick<ITodo, '_id'>
 export type TodoSave = Pick<ITodo, 'title' | 'priority' | 'deadline'>
 export type TodoIdAndCompleted = Pick<ITodo, '_id' | 'completed'>
-export type TodoIdAndTitle = Pick<ITodo, '_id' | 'title'>
+export type TodoUpdateType = Pick<
+  ITodo,
+  '_id' | 'title' | 'priority' | 'deadline'
+>
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
 
@@ -29,7 +32,7 @@ export interface TodoContextType {
   saveTodo: ({ title, priority, deadline }: TodoSave) => void
   removeTodo: ({ _id }: TodoId) => void
   updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
-  updateTodoTitle: ({ _id, title }: TodoIdAndTitle) => void
+  updateTodo: ({ _id, title, priority, deadline }: TodoUpdateType) => void
   removeAllCompleted: () => void
   getTodos: () => void
   setTodos: Dispatch<SetStateAction<ITodo[]>>
@@ -77,6 +80,8 @@ export interface TodoModalProps {
   onFinish: (values: TodoSave) => void
   formRef: React.MutableRefObject<FormInstance<any> | null>
   form: FormInstance
+  name: string
+  modalTitle: string
 }
 
 export enum TaskStatus {

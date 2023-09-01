@@ -1,4 +1,5 @@
 import { type AxiosRequestConfig } from 'axios'
+import { type Dayjs } from 'dayjs'
 
 export interface AxiosWithoutTokenOptions extends AxiosRequestConfig {
   data?: { userEmail: string }
@@ -12,9 +13,11 @@ export interface AxiosWithTokenValidateEmailOptions extends AxiosRequestConfig {
   }
 }
 
-export interface axiosWithTokenAndDataOptions extends AxiosRequestConfig {
+export interface axiosWithTokenUpdateTodoOptions extends AxiosRequestConfig {
   data?: {
-    title: string
-    completed: boolean
+    title?: string
+    deadline?: Date | Dayjs
+    priority?: string
+    completed?: boolean
   }
 }

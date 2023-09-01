@@ -16,9 +16,11 @@ import Filters from './Filters'
 
 const Footer: React.FC = () => {
   const { removeAllCompleted } = useContext(TodosContext) as TodoContextType
-  const { activeCount = 0, completedCount = 0 } = useContext(
-    FiltersContext
-  ) as FiltersContextType
+  const {
+    activeCount = 0,
+    completedCount = 0,
+    filteredTodos
+  } = useContext(FiltersContext) as FiltersContextType
 
   return (
     <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
@@ -35,7 +37,8 @@ const Footer: React.FC = () => {
               Tareas pendientes <Badge count={activeCount} />
             </p>
           )}
-          <Filters />
+          {filteredTodos.length > 0 && <Filters />}
+
           {completedCount > 0 && (
             <Popconfirm
               title='¿Seguro que quiere eliminar todas las tareas completadas?'

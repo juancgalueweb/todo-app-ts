@@ -3,7 +3,7 @@ import { APP_KEY, OTP_KEY } from '../constants/const'
 import {
   type AxiosWithTokenValidateEmailOptions,
   type AxiosWithoutTokenOptions,
-  type axiosWithTokenAndDataOptions
+  type axiosWithTokenUpdateTodoOptions
 } from '../interfaces/axios.interface'
 import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
 
@@ -53,7 +53,7 @@ export const axiosWithToken = async (
 export const axiosWithTokenAndData = async (
   method: string,
   endpoint: string,
-  options: axiosWithTokenAndDataOptions = {}
+  options: axiosWithTokenUpdateTodoOptions = {}
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
   const url = `${baseUrl}/${endpoint}`
   const tokenData = localStorage.getItem(APP_KEY)

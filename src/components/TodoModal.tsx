@@ -12,7 +12,9 @@ const TodoModal: React.FC<TodoModalProps> = ({
   formRef,
   initialValues,
   onFinish,
-  form
+  form,
+  name,
+  modalTitle
 }) => {
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today
@@ -20,9 +22,15 @@ const TodoModal: React.FC<TodoModalProps> = ({
   }
 
   return (
-    <Modal open={open} title='Crear tarea' onCancel={onCancel} onOk={onOk}>
+    <Modal
+      open={open}
+      title={modalTitle}
+      onCancel={onCancel}
+      onOk={onOk}
+      okText='Guardar'
+    >
       <Form
-        name='saveTodo'
+        name={name}
         form={form}
         ref={formRef}
         layout='vertical'
@@ -42,7 +50,13 @@ const TodoModal: React.FC<TodoModalProps> = ({
         >
           <TextArea autoSize allowClear placeholder='¿Qué necesitas hacer?' />
         </Form.Item>
-        <Form.Item label='Seleccione la prioridad' name='priority' required>
+        <Form.Item
+          label='Seleccione la prioridad'
+          name='priority'
+          rules={[
+            { required: true, message: 'Debe seleccionar una prioridad' }
+          ]}
+        >
           <Segmented
             options={[SpaPriority.baja, SpaPriority.media, SpaPriority.alta]}
           />
