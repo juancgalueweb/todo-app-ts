@@ -8,19 +8,7 @@ import {
   MinusCircleOutlined
 } from '@ant-design/icons'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import {
-  Col,
-  DatePicker,
-  Form,
-  Modal,
-  Popconfirm,
-  Row,
-  Segmented,
-  Table,
-  Tag
-} from 'antd'
-import type { RangePickerProps } from 'antd/es/date-picker'
-import TextArea from 'antd/es/input/TextArea'
+import { Col, Form, Popconfirm, Row, Table, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -40,27 +28,24 @@ import {
   type TodoContextType,
   type TodoUpdateType
 } from '../interfaces/todo.interface'
+import TodoModal from './TodoModal'
 import('dayjs/locale/es')
 dayjs.locale('es')
 dayjs.extend(relativeTime)
 
 const Todos: React.FC = () => {
+  const [confirmLoading, setConfirmLoading] = useState(false)
   const [form] = Form.useForm()
   const [modaldata, setModaldata] = useState<TodoUpdateType | null>(null)
   const [open, setOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(6)
   const [animationParent] = useAutoAnimate()
-  const { removeTodo, updateCompletedStatus, updateTodo } = useContext(
+  const { removeTodo, updateCompletedStatus, updateTodo, loading } = useContext(
     TodosContext
   ) as TodoContextType
   // Get the filtered todos from the FiltersContext
   const { filteredTodos } = useContext(FiltersContext) as FiltersContextType
-
-  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-    // Can not select days before today
-    return current < dayjs().startOf('day')
-  }
 
   const handleSubmit = (): void => {
     form
@@ -68,6 +53,7 @@ const Todos: React.FC = () => {
       .then((values: TodoUpdateType) => {
         const dateToDb = dayjs(values?.deadline).toDate()
         const translatedPriority = translateSpaToEngPriority(values?.priority)
+        setConfirmLoading(true)
         const dataToDB = {
           _id: modaldata?._id,
           title: values?.title,
@@ -75,7 +61,6 @@ const Todos: React.FC = () => {
           priority: translatedPriority
         }
         updateTodo(dataToDB)
-        setOpen(false)
         form.resetFields()
         setModaldata(null)
       })
@@ -111,6 +96,14 @@ const Todos: React.FC = () => {
       })
     }
   }, [modaldata])
+
+  useEffect(() => {
+    // Cuando loading cambia a false, establece confirmLoading en false.
+    if (!loading) {
+      setOpen(false)
+      setConfirmLoading(false)
+    }
+  }, [loading]) // Esto se ejecutará cada vez que loading cambie.
 
   const columns: ColumnsType<ITodo> = [
     {
@@ -233,7 +226,7 @@ const Todos: React.FC = () => {
               <EditOutlined
                 rev={''}
                 style={{
-                  color: '#1D4ED8',
+                  color: '#0EA5E9',
                   marginLeft: 5,
                   marginRight: 5,
                   fontSize: 16
@@ -288,68 +281,22 @@ const Todos: React.FC = () => {
           />
         </Col>
       </Row>
-      <Modal
+      <TodoModal
         open={open}
-        title='Editar tarea'
         onCancel={handleCancel}
         onOk={form.submit}
-        okText='Guardar'
-      >
-        <Form
-          name='editTodo'
-          form={form}
-          layout='vertical'
-          initialValues={{
-            _id: modaldata?._id,
-            title: modaldata?.title,
-            priority: modaldata?.priority,
-            deadline: dayjs(modaldata?.deadline)
-          }}
-          onFinish={handleSubmit}
-        >
-          <Form.Item
-            label='Describe la tarea pendiente'
-            name='title'
-            rules={[
-              {
-                required: true,
-                message: 'La tarea no puede ser un texto vacío'
-              },
-              { min: 3, message: '3 caracteres como mínimo' }
-            ]}
-          >
-            <TextArea autoSize allowClear placeholder='¿Qué necesitas hacer?' />
-          </Form.Item>
-          <Form.Item
-            label='Seleccione la prioridad'
-            name='priority'
-            rules={[
-              { required: true, message: 'Debe seleccionar una prioridad' }
-            ]}
-          >
-            <Segmented
-              options={[SpaPriority.baja, SpaPriority.media, SpaPriority.alta]}
-            />
-          </Form.Item>
-          <Form.Item
-            label='Seleccione la fecha tope'
-            name='deadline'
-            rules={[
-              {
-                type: 'date',
-                required: true,
-                message: 'Debe seleccionar una fecha'
-              }
-            ]}
-          >
-            <DatePicker
-              format='DD-MM-YYYY'
-              disabledDate={disabledDate}
-              placeholder='Fecha tope'
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
+        initialValues={{
+          _id: modaldata?._id,
+          title: modaldata?.title,
+          priority: modaldata?.priority,
+          deadline: dayjs(modaldata?.deadline)
+        }}
+        onFinish={handleSubmit}
+        name='editTodo'
+        modalTitle='Editar tarea'
+        form={form}
+        confirmLoading={confirmLoading}
+      />
     </>
   )
 }

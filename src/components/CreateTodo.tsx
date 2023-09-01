@@ -3,10 +3,9 @@
  * with an input field for creating new todo items.
  */
 import { Button, Col, Form, Row } from 'antd'
-import type { FormInstance } from 'antd/es/form'
 import dayjs from 'dayjs'
 import 'dayjs/locale/es'
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { TodosContext } from '../contexts/TodoContext'
 import { translateSpaToEngPriority } from '../helpers/translatePriorities'
 import {
@@ -18,20 +17,20 @@ import TodoModal from './TodoModal'
 
 const CreateTodo: React.FC = () => {
   const [form] = Form.useForm()
-  const formRef = useRef<FormInstance | null>(null)
-  const { saveTodo } = useContext(TodosContext) as TodoContextType
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const { saveTodo, loading } = useContext(TodosContext) as TodoContextType
   const [open, setOpen] = useState(false)
 
   const handleSubmit = (values: TodoSave): void => {
     const dateToDb = dayjs(values.deadline).toDate()
     const translatedPriority = translateSpaToEngPriority(values.priority)
+    setConfirmLoading(true)
     saveTodo({
       title: values.title,
       deadline: dateToDb,
       priority: translatedPriority
     })
-    setOpen(false)
-    formRef.current?.resetFields()
+    form.resetFields()
   }
 
   const showModal = (): void => {
@@ -40,8 +39,16 @@ const CreateTodo: React.FC = () => {
 
   const handleCancel = (): void => {
     setOpen(false)
-    formRef.current?.resetFields()
+    form.resetFields()
   }
+
+  useEffect(() => {
+    // Cuando loading cambia a false, establece confirmLoading en false.
+    if (!loading) {
+      setOpen(false)
+      setConfirmLoading(false)
+    }
+  }, [loading]) // Esto se ejecutará cada vez que loading cambie.
 
   return (
     <>
@@ -58,7 +65,6 @@ const CreateTodo: React.FC = () => {
         onCancel={handleCancel}
         open={open}
         onOk={form.submit}
-        formRef={formRef}
         initialValues={{
           title: '',
           priority: SpaPriority.baja,
@@ -68,6 +74,7 @@ const CreateTodo: React.FC = () => {
         form={form}
         name='saveTodo'
         modalTitle='Crear tarea'
+        confirmLoading={confirmLoading}
       />
     </>
   )

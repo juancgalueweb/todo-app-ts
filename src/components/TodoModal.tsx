@@ -9,12 +9,12 @@ const TodoModal: React.FC<TodoModalProps> = ({
   open,
   onCancel,
   onOk,
-  formRef,
   initialValues,
   onFinish,
   form,
   name,
-  modalTitle
+  modalTitle,
+  confirmLoading
 }) => {
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today
@@ -28,11 +28,11 @@ const TodoModal: React.FC<TodoModalProps> = ({
       onCancel={onCancel}
       onOk={onOk}
       okText='Guardar'
+      confirmLoading={confirmLoading}
     >
       <Form
         name={name}
         form={form}
-        ref={formRef}
         layout='vertical'
         initialValues={initialValues}
         onFinish={onFinish}

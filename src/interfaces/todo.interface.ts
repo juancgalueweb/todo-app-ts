@@ -73,15 +73,16 @@ export interface TodoModalProps {
   onCancel: () => void
   onOk: () => void
   initialValues: {
-    title: string
-    priority: string
-    deadline: Date | null
+    _id?: string
+    title: string | undefined
+    priority: string | undefined
+    deadline: Dayjs | null
   }
   onFinish: (values: TodoSave) => void
-  formRef: React.MutableRefObject<FormInstance<any> | null>
   form: FormInstance
   name: string
   modalTitle: string
+  confirmLoading: boolean | undefined
 }
 
 export enum TaskStatus {
