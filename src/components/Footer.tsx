@@ -5,7 +5,7 @@
 
 import { DeleteOutlined } from '@ant-design/icons'
 import { Badge, Button, Col, Popconfirm, Row } from 'antd'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { FiltersContext } from '../contexts/FilterContext'
 import { TodosContext } from '../contexts/TodoContext'
 import {
@@ -15,12 +15,32 @@ import {
 import Filters from './Filters'
 
 const Footer: React.FC = () => {
-  const { removeAllCompleted } = useContext(TodosContext) as TodoContextType
+  const [open, setOpen] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const { removeAllCompleted, loading } = useContext(
+    TodosContext
+  ) as TodoContextType
   const {
     activeCount = 0,
     completedCount = 0,
     filteredTodos
   } = useContext(FiltersContext) as FiltersContextType
+
+  const showPopconfirm = (): void => {
+    setOpen(true)
+  }
+
+  const handleCancel = (): void => {
+    setOpen(false)
+  }
+
+  useEffect(() => {
+    // Cuando loading cambia a false, establece confirmLoading en false.
+    if (!loading) {
+      setOpen(false)
+      setConfirmLoading(false)
+    }
+  }, [loading]) //
 
   return (
     <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
@@ -41,10 +61,14 @@ const Footer: React.FC = () => {
 
           {completedCount > 0 && (
             <Popconfirm
+              open={open}
               title='¿Seguro que quiere eliminar todas las tareas completadas?'
               onConfirm={() => {
+                setConfirmLoading(true)
                 removeAllCompleted()
               }}
+              onCancel={handleCancel}
+              okButtonProps={{ loading: confirmLoading }}
             >
               <Button
                 icon={
@@ -55,6 +79,7 @@ const Footer: React.FC = () => {
                 }
                 type='default'
                 color='error'
+                onClick={showPopconfirm}
               >
                 Borrar tareas completadas
               </Button>
