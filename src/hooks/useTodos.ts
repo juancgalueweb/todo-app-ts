@@ -15,8 +15,6 @@ import {
   type TodoUpdateType
 } from '../interfaces/todo.interface'
 
-type Props = TodoContextType
-
 const isNumberString = (str: string): boolean => /^[0-9]+$/.test(str)
 
 /**
@@ -24,7 +22,7 @@ const isNumberString = (str: string): boolean => /^[0-9]+$/.test(str)
  *
  * @returns An object containing functions for adding, removing, and updating to-dos, as well as the current list of to-dos.
  */
-export function useTodos(): Props {
+export function useTodos(): TodoContextType {
   /**
    * An array of to-do items that the hook manages.
    */
@@ -48,6 +46,8 @@ export function useTodos(): Props {
    * Adds a new to-do item to the list.
    *
    * @param title - The title of the new to-do item.
+   * @param priority - The priority of the new to-do item.
+   * @param deadline - The deadline of the new to-do item.
    */
   const saveTodo = ({ title, priority, deadline }: TodoSave): void => {
     if (title.length === 0) return
@@ -67,10 +67,11 @@ export function useTodos(): Props {
       .then((response: AxiosResponse) => {
         const { todos } = response?.data
         setTodos(todos)
-        setLoading(false)
       })
       .catch((error: AxiosError) => {
         handleError(error)
+      })
+      .finally(() => {
         setLoading(false)
       })
   }
@@ -85,12 +86,16 @@ export function useTodos(): Props {
     if (_id != null) {
       axiosWithToken('DELETE', `todo/${_id}`)
         .then((response: AxiosResponse) => {
-          const { todos } = response.data
-          setTodos(todos)
-          setLoading(false)
+          const { success } = response.data
+          if (success) {
+            const todosAfterDeleteOne = todos.filter((todo) => todo._id !== _id)
+            setTodos(todosAfterDeleteOne)
+          }
         })
         .catch((error: AxiosError) => {
           handleError(error)
+        })
+        .finally(() => {
           setLoading(false)
         })
     }
@@ -108,25 +113,31 @@ export function useTodos(): Props {
   }: TodoIdAndCompleted): void => {
     setLoading(true)
     if (_id != null) {
-      const todoToBeUpdated = todos.find((todo) => todo._id === _id)
-      if (typeof todoToBeUpdated?.title === 'string') {
-        const dataToAxios = {
-          data: {
-            title: todoToBeUpdated?.title,
-            completed
-          }
+      const dataToAxios = {
+        data: {
+          completed
         }
-        axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
-          .then((response: AxiosResponse) => {
-            const { todos } = response?.data
-            setTodos(todos)
-            setLoading(false)
-          })
-          .catch((error: AxiosError) => {
-            handleError(error)
-            setLoading(false)
-          })
       }
+      axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
+        .then((response: AxiosResponse) => {
+          const { success } = response?.data
+          if (success) {
+            const updatedTodos = todos.map((todo) => {
+              if (todo._id === _id) {
+                return { ...todo, completed }
+              } else {
+                return todo
+              }
+            })
+            setTodos(updatedTodos)
+          }
+        })
+        .catch((error: AxiosError) => {
+          handleError(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }
 
@@ -144,28 +155,33 @@ export function useTodos(): Props {
   }: TodoUpdateType): void => {
     setLoading(true)
     if (_id != null) {
-      const todoToBeUpdated = todos.find((todo) => todo._id === _id)
-      // console.log('todoToBeUpdated', todoToBeUpdated)
-      if (typeof todoToBeUpdated?.completed === 'boolean') {
-        const dataToAxios = {
-          data: {
-            title,
-            priority,
-            deadline,
-            completed: todoToBeUpdated?.completed
-          }
+      const dataToAxios = {
+        data: {
+          title,
+          priority,
+          deadline
         }
-        axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
-          .then((response: AxiosResponse) => {
-            const { todos } = response?.data
-            setTodos(todos)
-            setLoading(false)
-          })
-          .catch((error: AxiosError) => {
-            handleError(error)
-            setLoading(false)
-          })
       }
+      axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
+        .then((response: AxiosResponse) => {
+          const { success } = response?.data
+          if (success) {
+            const updatedTodos = todos.map((todo) => {
+              if (todo._id === _id) {
+                return { ...todo, title, priority, deadline }
+              } else {
+                return todo
+              }
+            })
+            setTodos(updatedTodos)
+          }
+        })
+        .catch((error: AxiosError) => {
+          handleError(error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }
 
@@ -180,12 +196,16 @@ export function useTodos(): Props {
       .filter((id): id is string => typeof id === 'string')
     axiosWithTokenDeleteCompleted('DELETE', 'todos/completed', idsToDelete)
       .then((response: AxiosResponse) => {
-        const { todos } = response?.data
-        setTodos(todos)
-        setLoading(false)
+        const { success } = response?.data
+        if (success) {
+          const remainingTodos = todos.filter((todo) => !todo.completed)
+          setTodos(remainingTodos)
+        }
       })
       .catch((error: AxiosError) => {
         handleError(error)
+      })
+      .finally(() => {
         setLoading(false)
       })
   }

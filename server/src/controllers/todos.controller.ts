@@ -110,11 +110,10 @@ export const deleteTodo = async (
 
     // Delete item and return the rest of the todos for the user
     const deletedTodo: ITodo | null = await TodoModel.findByIdAndRemove(id)
-    const allTodos: ITodo[] = await TodoModel.find({ userId })
+
     res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.DELETE_TODO_OK,
       todo: deletedTodo,
-      todos: allTodos,
       success: true
     })
   } catch (error) {
@@ -153,16 +152,14 @@ export const deleteCompletedTodos = async (
       return
     }
 
-    // Delete items and return the rest of the todos for the user
+    // Delete items
     const deletedTodos: DeleteResult = await TodoModel.deleteMany({
       _id: { $in: ids },
       userId
     })
-    const allTodos: ITodo[] = await TodoModel.find({ userId })
     res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_OK,
       deletedTodos,
-      todos: allTodos,
       success: true
     })
   } catch (error) {
@@ -184,12 +181,6 @@ export const updateTodo = async (
       userId
     } = req
 
-    // If title is empty, the task won't update, but will be deleted.
-    if (req.body.title === '') {
-      await deleteTodo(req, res)
-      return
-    }
-
     // Check if user exists
     const user = await UserModel.findById(userId)
     if (user === null) {
@@ -210,19 +201,17 @@ export const updateTodo = async (
       return
     }
 
-    // Update the todo item and get all the todos items for the user
+    // Update the todo item
     const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
       { _id: id },
       req.body,
       { new: true, runValidators: true }
     )
-    const allTodos: ITodo[] = await TodoModel.find({ userId })
 
-    // Return success response with updated todo and the rest of the todos for the user
+    // Return success response with updated todo
     res.status(HttpStatusCode.OK).json({
       msg: MSGS_RESPONSES.UPDATE_TODO_OK,
       todo: updatedTodo,
-      todos: allTodos,
       success: true
     })
   } catch (error) {

@@ -8,7 +8,7 @@ import {
   MinusCircleOutlined
 } from '@ant-design/icons'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { Col, Form, Popconfirm, Row, Table, Tag } from 'antd'
+import { Col, Form, Popconfirm, Row, Table, Tag, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -34,6 +34,7 @@ dayjs.locale('es')
 dayjs.extend(relativeTime)
 
 const Todos: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage()
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [form] = Form.useForm()
   const [modaldata, setModaldata] = useState<TodoUpdateType | null>(null)
@@ -46,6 +47,22 @@ const Todos: React.FC = () => {
   ) as TodoContextType
   // Get the filtered todos from the FiltersContext
   const { filteredTodos } = useContext(FiltersContext) as FiltersContextType
+
+  const deleteMsg = (): void => {
+    void messageApi.open({
+      type: 'loading',
+      content: 'Borrando tarea',
+      duration: 0
+    })
+  }
+
+  const completeTodoMsg = (): void => {
+    void messageApi.open({
+      type: 'success',
+      content: 'Tarea completada',
+      duration: 0
+    })
+  }
 
   const handleSubmit = (): void => {
     form
@@ -102,6 +119,7 @@ const Todos: React.FC = () => {
     if (!loading) {
       setOpen(false)
       setConfirmLoading(false)
+      messageApi.destroy()
     }
   }, [loading]) // Esto se ejecutará cada vez que loading cambie.
 
@@ -220,6 +238,7 @@ const Todos: React.FC = () => {
                   _id: record._id,
                   completed: toggleStatus
                 })
+                completeTodoMsg()
               }}
             />
             {record.completed !== undefined && record.completed === false ? (
@@ -240,6 +259,7 @@ const Todos: React.FC = () => {
               title='¿Desea eliminar la tarea?'
               onConfirm={() => {
                 removeTodo({ _id: record._id })
+                deleteMsg()
               }}
             >
               <DeleteOutlined
@@ -256,6 +276,7 @@ const Todos: React.FC = () => {
 
   return (
     <>
+      {contextHolder}
       <Row justify='center' style={{ marginTop: '3.5rem' }}>
         <Col span={20}>
           <Table

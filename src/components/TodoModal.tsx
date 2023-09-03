@@ -45,7 +45,8 @@ const TodoModal: React.FC<TodoModalProps> = ({
               required: true,
               message: 'La tarea no puede ser un texto vacío'
             },
-            { min: 3, message: '3 caracteres como mínimo' }
+            { min: 3, message: '3 caracteres como mínimo' },
+            { pattern: /^(?![0-9]+$).*/, message: 'Formato incorrecto' }
           ]}
         >
           <TextArea autoSize allowClear placeholder='¿Qué necesitas hacer?' />
