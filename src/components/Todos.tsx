@@ -250,7 +250,7 @@ const Todos: React.FC = () => {
           </>
         )
       },
-      width: '8%'
+      width: '10%'
     }
   ]
 
