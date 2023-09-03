@@ -1,11 +1,12 @@
 import {
   CheckCircleOutlined,
-  CheckOutlined,
   ClockCircleOutlined,
-  DeleteOutlined,
-  EditOutlined,
+  DeleteFilled,
+  EditFilled,
   ExclamationCircleOutlined,
-  MinusCircleOutlined
+  LockFilled,
+  MinusCircleOutlined,
+  UnlockFilled
 } from '@ant-design/icons'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Col, Form, Popconfirm, Row, Table, Tag, message } from 'antd'
@@ -56,12 +57,19 @@ const Todos: React.FC = () => {
     })
   }
 
-  const completeTodoMsg = (): void => {
-    void messageApi.open({
-      type: 'success',
-      content: 'Tarea completada',
-      duration: 0
-    })
+  const completeTodoMsg = (completed: boolean): void => {
+    if (completed) {
+      void messageApi.open({
+        type: 'success',
+        content: 'Tarea completada',
+        duration: 0
+      })
+    } else {
+      void messageApi.info({
+        content: 'Tarea abierta nuevamente',
+        duration: 0
+      })
+    }
   }
 
   const handleSubmit = (): void => {
@@ -226,23 +234,36 @@ const Todos: React.FC = () => {
     },
     {
       title: 'Acciones',
-      render: (record) => {
+      render: (record, row) => {
         return (
           <>
-            <CheckOutlined
-              rev={''}
-              style={{ color: '#22C55E', marginRight: 5, fontSize: 16 }}
-              onClick={() => {
-                const toggleStatus = !record.completed
-                updateCompletedStatus({
-                  _id: record._id,
-                  completed: toggleStatus
-                })
-                completeTodoMsg()
-              }}
-            />
+            {row.completed ? (
+              <LockFilled
+                style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
+                onClick={() => {
+                  const toggleStatus = !record.completed
+                  updateCompletedStatus({
+                    _id: record._id,
+                    completed: toggleStatus
+                  })
+                  completeTodoMsg(toggleStatus)
+                }}
+              />
+            ) : (
+              <UnlockFilled
+                style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
+                onClick={() => {
+                  const toggleStatus = !record.completed
+                  updateCompletedStatus({
+                    _id: record._id,
+                    completed: toggleStatus
+                  })
+                  completeTodoMsg(toggleStatus)
+                }}
+              />
+            )}
             {record.completed !== undefined && record.completed === false ? (
-              <EditOutlined
+              <EditFilled
                 rev={''}
                 style={{
                   color: '#0EA5E9',
@@ -262,7 +283,7 @@ const Todos: React.FC = () => {
                 deleteMsg()
               }}
             >
-              <DeleteOutlined
+              <DeleteFilled
                 rev={''}
                 style={{ color: '#E63F32', marginLeft: 5, fontSize: 16 }}
               />
