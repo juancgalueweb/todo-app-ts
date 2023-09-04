@@ -3,7 +3,7 @@
  * and a button to remove all completed tasks.
  */
 
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteFilled } from '@ant-design/icons'
 import { Badge, Button, Col, Popconfirm, Row } from 'antd'
 import { useContext, useEffect, useState } from 'react'
 import { FiltersContext } from '../contexts/FilterContext'
@@ -20,11 +20,9 @@ const Footer: React.FC = () => {
   const { removeAllCompleted, loading } = useContext(
     TodosContext
   ) as TodoContextType
-  const {
-    activeCount = 0,
-    completedCount = 0,
-    filteredTodos
-  } = useContext(FiltersContext) as FiltersContextType
+  const { activeCount = 0, completedCount = 0 } = useContext(
+    FiltersContext
+  ) as FiltersContextType
 
   const showPopconfirm = (): void => {
     setOpen(true)
@@ -53,11 +51,13 @@ const Footer: React.FC = () => {
           }}
         >
           {activeCount > 0 && (
-            <p>
-              Tareas pendientes <Badge count={activeCount} />
-            </p>
+            <>
+              <p>
+                Tareas pendientes <Badge count={activeCount} />
+              </p>
+              <Filters />
+            </>
           )}
-          {filteredTodos.length > 0 && <Filters />}
 
           {completedCount > 0 && (
             <Popconfirm
@@ -72,9 +72,9 @@ const Footer: React.FC = () => {
             >
               <Button
                 icon={
-                  <DeleteOutlined
+                  <DeleteFilled
                     rev={''}
-                    style={{ marginRight: 2, fontSize: 14 }}
+                    style={{ color: '#E63F32', marginRight: 2, fontSize: 14 }}
                   />
                 }
                 type='default'
