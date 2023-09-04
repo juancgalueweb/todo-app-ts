@@ -2,7 +2,7 @@ import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   DeleteFilled,
-  EditFilled,
+  EditTwoTone,
   ExclamationCircleOutlined,
   LockFilled,
   MinusCircleOutlined,
@@ -263,7 +263,7 @@ const Todos: React.FC = () => {
               />
             )}
             {record.completed !== undefined && record.completed === false ? (
-              <EditFilled
+              <EditTwoTone
                 rev={''}
                 style={{
                   color: '#0EA5E9',
