@@ -9,7 +9,7 @@ import {
   UnlockFilled
 } from '@ant-design/icons'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { Col, Form, Popconfirm, Row, Table, Tag, message } from 'antd'
+import { Col, Form, Popconfirm, Row, Table, Tag, Tooltip, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -238,43 +238,49 @@ const Todos: React.FC = () => {
         return (
           <>
             {row.completed ? (
-              <LockFilled
-                style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
-                onClick={() => {
-                  const toggleStatus = !record.completed
-                  updateCompletedStatus({
-                    _id: record._id,
-                    completed: toggleStatus
-                  })
-                  completeTodoMsg(toggleStatus)
-                }}
-              />
+              <Tooltip title='Cambiar a pendiente'>
+                <LockFilled
+                  style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
+                  onClick={() => {
+                    const toggleStatus = !record.completed
+                    updateCompletedStatus({
+                      _id: record._id,
+                      completed: toggleStatus
+                    })
+                    completeTodoMsg(toggleStatus)
+                  }}
+                />
+              </Tooltip>
             ) : (
-              <UnlockFilled
-                style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
-                onClick={() => {
-                  const toggleStatus = !record.completed
-                  updateCompletedStatus({
-                    _id: record._id,
-                    completed: toggleStatus
-                  })
-                  completeTodoMsg(toggleStatus)
-                }}
-              />
+              <Tooltip title='Cambiar a completado'>
+                <UnlockFilled
+                  style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
+                  onClick={() => {
+                    const toggleStatus = !record.completed
+                    updateCompletedStatus({
+                      _id: record._id,
+                      completed: toggleStatus
+                    })
+                    completeTodoMsg(toggleStatus)
+                  }}
+                />
+              </Tooltip>
             )}
             {record.completed !== undefined && record.completed === false ? (
-              <EditTwoTone
-                rev={''}
-                style={{
-                  color: '#0EA5E9',
-                  marginLeft: 5,
-                  marginRight: 5,
-                  fontSize: 16
-                }}
-                onClick={() => {
-                  showModal(record)
-                }}
-              />
+              <Tooltip title='Editar tarea'>
+                <EditTwoTone
+                  rev={''}
+                  style={{
+                    color: '#0EA5E9',
+                    marginLeft: 5,
+                    marginRight: 5,
+                    fontSize: 16
+                  }}
+                  onClick={() => {
+                    showModal(record)
+                  }}
+                />
+              </Tooltip>
             ) : null}
             <Popconfirm
               title='¿Desea eliminar la tarea?'
@@ -283,10 +289,12 @@ const Todos: React.FC = () => {
                 deleteMsg()
               }}
             >
-              <DeleteFilled
-                rev={''}
-                style={{ color: '#E63F32', marginLeft: 5, fontSize: 16 }}
-              />
+              <Tooltip title='Borrar tarea'>
+                <DeleteFilled
+                  rev={''}
+                  style={{ color: '#E63F32', marginLeft: 5, fontSize: 16 }}
+                />
+              </Tooltip>
             </Popconfirm>
           </>
         )
