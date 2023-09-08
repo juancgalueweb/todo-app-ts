@@ -1,15 +1,11 @@
 import { type Request, type Response } from 'express'
-import { HttpStatusCode } from '../constants/http'
-import { MSGS_RESPONSES } from '../constants/msgs'
-import TodoModel from '../models/todo.model'
-import UserModel from '../models/user.model'
 import {
   addTodoService,
   deleteCompletedTodosService,
   deleteTodoService,
-  getTodosService
+  getTodosService,
+  updateTodoService
 } from '../services/todos.services'
-import { type ITodo } from '../types/todo'
 
 // Get all the tasks
 export const getTodosByUser = async (
@@ -85,49 +81,20 @@ export const updateTodo = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  try {
-    const {
-      params: { id },
-      userId
-    } = req
+  const {
+    params: { id },
+    userId
+  } = req
 
-    // Check if user exists
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: MSGS_RESPONSES.UPDATE_TODO_USER_CHECK,
-        success: false
-      })
-      return
-    }
+  const { statusCode, msg, success, todo } = await updateTodoService(
+    userId,
+    id,
+    req.body
+  )
 
-    // Check if todo item exists
-    const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
-    if (todoToBeUpdated === null) {
-      res.status(HttpStatusCode.NOT_FOUND).json({
-        msg: MSGS_RESPONSES.UPDATE_TODO_CHECK_EXISTENCE,
-        success: false
-      })
-      return
-    }
-
-    // Update the todo item
-    const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
-      { _id: id },
-      req.body,
-      { new: true, runValidators: true }
-    )
-
-    // Return success response with updated todo
-    res.status(HttpStatusCode.OK).json({
-      msg: MSGS_RESPONSES.UPDATE_TODO_OK,
-      todo: updatedTodo,
-      success: true
-    })
-  } catch (error) {
-    // Return error response if an error occurs
-    res
-      .status(HttpStatusCode.INTERNAL_SERVER_ERROR)
-      .json({ msg: MSGS_RESPONSES.UPDATE_TODO_ERROR, success: false })
-  }
+  res.status(statusCode).json({
+    success,
+    msg,
+    todo
+  })
 }

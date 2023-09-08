@@ -6,7 +6,7 @@ import type {
   AddTodoBody,
   DeleteResult,
   IAddTodo,
-  IDeleteTodo,
+  IDeleteOrUpdateTodo,
   IDeleteTodos,
   IGetTodos,
   ITodo
@@ -86,7 +86,7 @@ export const addTodoService = async (
 export const deleteTodoService = async (
   id: string,
   userId: string | undefined
-): Promise<IDeleteTodo> => {
+): Promise<IDeleteOrUpdateTodo> => {
   try {
     // Check if user exists in the databse
     const user = await UserModel.findById(userId)
@@ -171,6 +171,54 @@ export const deleteCompletedTodosService = async (
       success: false,
       statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
       msg: MSGS_RESPONSES.DELETE_COMPLETED_TODOS_ERROR
+    }
+  }
+}
+
+export const updateTodoService = async (
+  userId: string | undefined,
+  id: string,
+  body: ITodo
+): Promise<IDeleteOrUpdateTodo> => {
+  try {
+    // Check if user exists in the databse
+    const user = await UserModel.findById(userId)
+    if (user === null) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.NOT_FOUND,
+        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK
+      }
+    }
+
+    // Check if todo item exists
+    const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
+    if (todoToBeUpdated === null) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.NOT_FOUND,
+        msg: MSGS_RESPONSES.UPDATE_TODO_CHECK_EXISTENCE
+      }
+    }
+
+    // Update the todo item
+    const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
+      { _id: id },
+      body,
+      { new: true, runValidators: true }
+    )
+
+    return {
+      success: true,
+      msg: MSGS_RESPONSES.UPDATE_TODO_OK,
+      statusCode: HttpStatusCode.OK,
+      todo: updatedTodo
+    }
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+      msg: MSGS_RESPONSES.UPDATE_TODO_ERROR
     }
   }
 }

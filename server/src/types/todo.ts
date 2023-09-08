@@ -31,7 +31,7 @@ export interface IAddTodo extends IGetTodos {
   todo?: ITodo
 }
 
-export interface IDeleteTodo {
+export interface IDeleteOrUpdateTodo {
   success: boolean
   statusCode: HttpStatusCode
   msg: string
