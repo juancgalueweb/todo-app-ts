@@ -19,7 +19,7 @@ const Home: React.FC = () => {
         <figcaption>
           Esto es una imagen de prueba de cómo se vería la aplicación
         </figcaption>
-        <img src='app-preview1.png' alt='Foto de muestra de la app' />
+        <img src='todos_main.webp' alt='Foto de muestra de la app' />
       </figure>
       <footer>
         {dataFromLocalStorage === null ? (

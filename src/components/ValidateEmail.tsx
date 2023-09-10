@@ -60,6 +60,7 @@ const ValidateEmail: React.FC = () => {
         <Button
           style={{ margin: '0 auto', marginTop: '1.5rem' }}
           type='primary'
+          size='large'
           onClick={() => {
             validateOPT()
           }}

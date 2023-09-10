@@ -8,7 +8,6 @@ import {
   MinusCircleOutlined,
   UnlockFilled
 } from '@ant-design/icons'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Col, Form, Popconfirm, Row, Table, Tag, Tooltip, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
@@ -42,7 +41,6 @@ const Todos: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(6)
-  const [animationParent] = useAutoAnimate()
   const { removeTodo, updateCompletedStatus, updateTodo, loading } = useContext(
     TodosContext
   ) as TodoContextType
@@ -309,7 +307,6 @@ const Todos: React.FC = () => {
       <Row justify='center' style={{ marginTop: '3.5rem' }}>
         <Col span={20}>
           <Table
-            ref={animationParent}
             columns={columns}
             dataSource={filteredTodos}
             rowKey={(record) => record._id ?? ''}
