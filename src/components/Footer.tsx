@@ -5,24 +5,17 @@
 
 import { DeleteFilled } from '@ant-design/icons'
 import { Badge, Button, Col, Popconfirm, Row } from 'antd'
-import { useContext, useEffect, useState } from 'react'
-import { FiltersContext } from '../contexts/FilterContext'
-import { TodosContext } from '../contexts/TodoContext'
-import {
-  type FiltersContextType,
-  type TodoContextType
-} from '../interfaces/todo.interface'
+import { useEffect, useState } from 'react'
+import { useFilterTodos } from '../stores/filterTodosStore'
+import { useTodosStore } from '../stores/todosStore'
 import Filters from './Filters'
 
 const Footer: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const { removeAllCompleted, loading } = useContext(
-    TodosContext
-  ) as TodoContextType
-  const { activeCount = 0, completedCount = 0 } = useContext(
-    FiltersContext
-  ) as FiltersContextType
+  const { loading, removeAllCompleted } = useTodosStore()
+  const { activeCount, completedCount, setActiveCount, setCompletedCount } =
+    useFilterTodos()
 
   const showPopconfirm = (): void => {
     setOpen(true)
@@ -33,12 +26,14 @@ const Footer: React.FC = () => {
   }
 
   useEffect(() => {
+    setActiveCount()
+    setCompletedCount()
     // Cuando loading cambia a false, establece confirmLoading en false.
     if (!loading) {
       setOpen(false)
       setConfirmLoading(false)
     }
-  }, [loading]) //
+  }, [loading])
 
   return (
     <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>

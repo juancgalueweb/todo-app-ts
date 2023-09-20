@@ -1,6 +1,5 @@
 import type { FormInstance } from 'antd/es/form'
 import { type Dayjs } from 'dayjs'
-import { type Dispatch, type SetStateAction } from 'react'
 import { type TODO_FILTERS } from '../constants/const'
 
 export interface ITodo {
@@ -23,32 +22,6 @@ export type TodoUpdateType = Pick<
 >
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
-
-/**
- * Represents the shape of the TodoContext.
- */
-export interface TodoContextType {
-  todos: ITodo[]
-  saveTodo: ({ title, priority, deadline }: TodoSave) => void
-  removeTodo: ({ _id }: TodoId) => void
-  updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
-  updateTodo: ({ _id, title, priority, deadline }: TodoUpdateType) => void
-  removeAllCompleted: () => void
-  getTodos: () => void
-  setTodos: Dispatch<SetStateAction<ITodo[]>>
-  loading: boolean
-}
-
-/**
- * Represents the shape of the FiltersContext.
- */
-export interface FiltersContextType {
-  filterChange: (filter: FilterValue) => void
-  activeCount: number
-  completedCount: number
-  filteredTodos: ITodo[]
-  filterSelected: FilterValue
-}
 
 export interface ApiDataTodosByUser {
   msg: string
@@ -88,4 +61,28 @@ export interface TodoModalProps {
 export enum TaskStatus {
   completed = 'Completado',
   pending = 'Pendiente'
+}
+
+export interface ITodosStore {
+  todos: ITodo[]
+  loading: boolean
+  getTodos: () => void
+  saveTodo: ({ title, priority, deadline }: TodoSave) => void
+  removeTodo: ({ _id }: TodoId) => void
+  updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
+  updateTodo: ({ _id, title, priority, deadline }: TodoUpdateType) => void
+  removeAllCompleted: () => void
+}
+
+export interface IFilterStore {
+  filterSelected: string
+  filterChange: (filter: FilterValue) => void
+  activeCount: number
+  completedCount: number
+  filteredTodos: ITodo[]
+  pageSize: number
+  setPageSize: (pageSize: number) => void
+  setFilteredTodos: () => void
+  setActiveCount: () => void
+  setCompletedCount: () => void
 }
