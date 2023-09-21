@@ -5,21 +5,18 @@
 import { Button, Col, Form, Row } from 'antd'
 import dayjs from 'dayjs'
 import 'dayjs/locale/es'
-import { useContext, useEffect, useState } from 'react'
-import { TodosContext } from '../contexts/TodoContext'
+import { useEffect, useState } from 'react'
 import { translateSpaToEngPriority } from '../helpers/translatePriorities'
-import {
-  SpaPriority,
-  type TodoContextType,
-  type TodoSave
-} from '../interfaces/todo.interface'
+import { SpaPriority, type TodoSave } from '../interfaces/todo.interface'
+import { useTodosStore } from '../stores/todosStore'
 import TodoModal from './TodoModal'
 
 const CreateTodo: React.FC = () => {
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const { saveTodo, loading } = useContext(TodosContext) as TodoContextType
   const [open, setOpen] = useState(false)
+  const loading = useTodosStore((state) => state.loading)
+  const saveTodo = useTodosStore((state) => state.saveTodo)
 
   const handleSubmit = (values: TodoSave): void => {
     const dateToDb = dayjs(values.deadline).toDate()

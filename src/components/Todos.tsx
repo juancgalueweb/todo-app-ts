@@ -12,9 +12,7 @@ import { Col, Form, Popconfirm, Row, Table, Tag, Tooltip, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useContext, useEffect, useState } from 'react'
-import { FiltersContext } from '../contexts/FilterContext'
-import { TodosContext } from '../contexts/TodoContext'
+import { useEffect, useState } from 'react'
 import {
   translateEngToSpaPriority,
   translateSpaToEngPriority
@@ -23,11 +21,11 @@ import {
   EngPriority,
   SpaPriority,
   TaskStatus,
-  type FiltersContextType,
   type ITodo,
-  type TodoContextType,
   type TodoUpdateType
 } from '../interfaces/todo.interface'
+import { useFilterTodos } from '../stores/filterTodosStore'
+import { useTodosStore } from '../stores/todosStore'
 import TodoModal from './TodoModal'
 import('dayjs/locale/es')
 dayjs.locale('es')
@@ -40,12 +38,10 @@ const Todos: React.FC = () => {
   const [modaldata, setModaldata] = useState<TodoUpdateType | null>(null)
   const [open, setOpen] = useState(false)
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(6)
-  const { removeTodo, updateCompletedStatus, updateTodo, loading } = useContext(
-    TodosContext
-  ) as TodoContextType
-  // Get the filtered todos from the FiltersContext
-  const { filteredTodos } = useContext(FiltersContext) as FiltersContextType
+  const { loading, removeTodo, updateCompletedStatus, updateTodo } =
+    useTodosStore()
+  const { pageSize, setPageSize, filteredTodos, setFilteredTodos } =
+    useFilterTodos()
 
   const deleteMsg = (): void => {
     void messageApi.open({
@@ -121,13 +117,14 @@ const Todos: React.FC = () => {
   }, [modaldata])
 
   useEffect(() => {
+    setFilteredTodos()
     // Cuando loading cambia a false, establece confirmLoading en false.
     if (!loading) {
       setOpen(false)
       setConfirmLoading(false)
       messageApi.destroy()
     }
-  }, [loading]) // Esto se ejecutará cada vez que loading cambie.
+  }, [loading])
 
   const columns: ColumnsType<ITodo> = [
     {

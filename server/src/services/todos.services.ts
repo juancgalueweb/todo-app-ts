@@ -63,16 +63,14 @@ export const addTodoService = async (
       }
     }
 
-    // Create the new todo and retrieve all todos for the user
+    // Create the new todo
     const newTodo: ITodo = await TodoModel.create({ ...body, userId })
-    const allTodos: ITodo[] = await TodoModel.find({ userId })
 
     return {
       success: true,
       msg: MSGS_RESPONSES.ADD_TODO_OK,
       statusCode: HttpStatusCode.CREATED,
-      todo: newTodo,
-      todos: allTodos
+      todo: newTodo
     }
   } catch (error) {
     return {

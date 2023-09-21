@@ -3,18 +3,12 @@
  */
 
 import { Button } from 'antd'
-import { useContext } from 'react'
 import { FILTERS_BUTTONS } from '../constants/const'
-import { FiltersContext } from '../contexts/FilterContext'
-import {
-  type FiltersContextType,
-  type FilterValue
-} from '../interfaces/todo.interface'
+import { type FilterValue } from '../interfaces/todo.interface'
+import { useFilterTodos } from '../stores/filterTodosStore'
 
 const Filters: React.FC = () => {
-  const { filterSelected, filterChange } = useContext(
-    FiltersContext
-  ) as FiltersContextType
+  const { filterSelected, filterChange, setFilteredTodos } = useFilterTodos()
 
   /**
    * Renders the filter buttons based on the FILTERS_BUTTONS constant
@@ -30,6 +24,7 @@ const Filters: React.FC = () => {
           type={isSelected ? 'primary' : 'default'}
           onClick={() => {
             filterChange(key as FilterValue)
+            setFilteredTodos()
           }}
           style={{ margin: '0 0.2rem' }}
         >
