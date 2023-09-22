@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose'
 import { MSGS_RESPONSES } from '../constants/msgs'
-import { type IUser } from '../types/user'
+import { type IUser } from '../types/user.types'
 
 const userSchema: Schema = new Schema(
   {

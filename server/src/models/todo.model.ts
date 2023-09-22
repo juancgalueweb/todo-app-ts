@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose'
 import { MSGS_RESPONSES, Priorities } from '../constants/msgs'
-import { type ITodo } from '../types/todo'
+import { type ITodo } from '../types/todo.types'
 
 const todoSchema: Schema = new Schema(
   {

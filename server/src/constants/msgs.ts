@@ -42,8 +42,14 @@ export enum MSGS_RESPONSES {
   TODO_MODEL_COMPLETED = 'Se requiere el estado de la tarea',
   USER_MODEL_USEREMAIL = 'Se requiere el correo del usuario',
   TODO_MODEL_DEADLINE = 'Se requiere la fecha tope de la tarea',
-  TAGS_MODEL_NAME_REQUIRED = 'Se requiere el nombre de la etiqueta',
-  TAGS_MODEL_COLOR_REQUIRED = 'Se requiere el color de la etiqueta'
+  TAG_MODEL_NAME_REQUIRED = 'Se requiere el nombre de la etiqueta',
+  TAG_MODEL_COLOR_REQUIRED = 'Se requiere el color de la etiqueta',
+  TAG_CREATED = 'Etiqueta creada con éxito',
+  TAG_SAVE_ERROR = 'Error al crear la etiqueta',
+  TAG_MODEL_COLOR_INVALID = 'El color de la etiqueta no es válido',
+  TAG_DUPLICATED = 'Ya existe una etiqueta con ese nombre o color',
+  TAG_MODEL_NAME_TOO_SHORT = 'El nombre de la etiqueta es demasiado corto',
+  TAG_MODEL_NAME_TOO_LARGE = 'El nombre de la etiqueta es demasiado largo'
 }
 
 export enum Priorities {

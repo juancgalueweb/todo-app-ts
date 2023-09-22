@@ -9,7 +9,7 @@ import type {
   IVerifyEmail,
   JwtOtpVerificationResponse,
   VerifyEmailProps
-} from '../types/user'
+} from '../types/user.types'
 
 export const verifyEmailService = async (
   userData: VerifyEmailProps
