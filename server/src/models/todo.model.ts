@@ -1,13 +1,13 @@
 import { model, Schema } from 'mongoose'
 import { MSGS_RESPONSES, Priorities } from '../constants/msgs'
-import { type ITodo } from '../types/todo'
+import { type ITodo } from '../types/todo.types'
 
 const todoSchema: Schema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'UserModel',
-      required: [true, MSGS_RESPONSES.TODO_MODEL_USER_ID]
+      required: [true, MSGS_RESPONSES.TODO_USER_ID_REQUIRED]
     },
     title: {
       type: String,
@@ -25,7 +25,13 @@ const todoSchema: Schema = new Schema(
     deadline: {
       type: Date,
       required: [true, MSGS_RESPONSES.TODO_MODEL_DEADLINE]
-    }
+    },
+    tags: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'TagsModel'
+      }
+    ]
   },
   { timestamps: true }
 )

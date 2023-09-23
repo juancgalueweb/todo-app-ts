@@ -2,7 +2,7 @@ import { type NextFunction, type Request, type Response } from 'express'
 import jwt from 'jsonwebtoken'
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
-import { type JwtTokenAppVerificationResponse } from '../types/user'
+import { type JwtTokenAppVerificationResponse } from '../types/user.types'
 
 /**
  * Middleware function that validates a JSON Web Token (JWT) included in the

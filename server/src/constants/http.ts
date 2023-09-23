@@ -34,5 +34,12 @@ export enum HttpStatusCode {
   /**
    * The request was well-formed but was unable to be followed due to semantic errors.
    */
-  UNPROCESSABLE_ENTITY = 422
+  UNPROCESSABLE_ENTITY = 422,
+
+  /**
+   * The server cannot or will not process the request due to an apparent client error
+   * (e.g., malformed request syntax, too large size, invalid request message framing,
+   * or deceptive request routing).
+   */
+  BAD_REQUEST = 400
 }

@@ -10,7 +10,7 @@ import type {
   IDeleteTodos,
   IGetTodos,
   ITodo
-} from '../types/todo'
+} from '../types/todo.types'
 
 export const getTodosService = async (
   userId: string | undefined

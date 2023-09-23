@@ -9,7 +9,7 @@ import {
   mailTransport
 } from '../helpers/mailVerify'
 import UserModel from '../models/user.model'
-import type { ICreateUserService, IUser } from '../types/user'
+import type { ICreateUserService, IUser } from '../types/user.types'
 
 export const createUserService = async (
   userData: IUser
