@@ -49,7 +49,10 @@ export enum MSGS_RESPONSES {
   TAG_MODEL_COLOR_INVALID = 'El color de la etiqueta no es válido',
   TAG_DUPLICATED = 'Ya existe una etiqueta con ese nombre o color',
   TAG_MODEL_NAME_TOO_SHORT = 'El nombre de la etiqueta es demasiado corto',
-  TAG_MODEL_NAME_TOO_LARGE = 'El nombre de la etiqueta es demasiado largo'
+  TAG_MODEL_NAME_TOO_LARGE = 'El nombre de la etiqueta es demasiado largo',
+  TAGS_FETCHED = 'Etiquetas obtenidas con éxito',
+  TAGS_EMPTY = 'No hay etiquetas para este usuario',
+  TAGS_FETCH_ERROR = 'Error al obtener las etiquetas'
 }
 
 export enum Priorities {

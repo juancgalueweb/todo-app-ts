@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
-import { saveTagService } from '../services/tags.services'
+import { getTagsService, saveTagService } from '../services/tags.services'
 
 // save a tag controller
 export const saveTag = async (req: Request, res: Response): Promise<void> => {
@@ -10,5 +10,17 @@ export const saveTag = async (req: Request, res: Response): Promise<void> => {
     success,
     msg,
     tag
+  })
+}
+
+// get tags controller
+export const getTags = async (req: Request, res: Response): Promise<void> => {
+  const { userId } = req
+  const { success, statusCode, msg, tags } = await getTagsService(userId)
+
+  res.status(statusCode).json({
+    success,
+    msg,
+    tags
   })
 }

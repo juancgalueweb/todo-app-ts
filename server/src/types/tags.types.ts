@@ -13,3 +13,10 @@ export interface ISaveTag {
   msg: string
   tag?: ITag
 }
+
+export interface IGetTags {
+  success: boolean
+  statusCode: HttpStatusCode
+  msg: string
+  tags?: ITag[]
+}
