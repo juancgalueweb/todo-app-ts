@@ -52,7 +52,8 @@ export enum MSGS_RESPONSES {
   TAG_MODEL_NAME_TOO_LARGE = 'El nombre de la etiqueta es demasiado largo',
   TAGS_FETCHED = 'Etiquetas obtenidas con éxito',
   TAGS_EMPTY = 'No hay etiquetas para este usuario',
-  TAGS_FETCH_ERROR = 'Error al obtener las etiquetas'
+  TAGS_FETCH_ERROR = 'Error al obtener las etiquetas',
+  USER_NOT_FOUND = 'Usuario no encontrado'
 }
 
 export enum Priorities {

@@ -1,7 +1,6 @@
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
 import TodoModel from '../models/todo.model'
-import UserModel from '../models/user.model'
 import type {
   AddTodoBody,
   DeleteResult,
@@ -16,16 +15,6 @@ export const getTodosService = async (
   userId: string | undefined
 ): Promise<IGetTodos> => {
   try {
-    // Check if user exists in the databse
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.NOT_FOUND,
-        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK
-      }
-    }
-
     // Fetch all the todos for the given user
     const allTodos: ITodo[] = await TodoModel.find({
       userId
@@ -53,16 +42,6 @@ export const addTodoService = async (
   body: AddTodoBody
 ): Promise<IAddTodo> => {
   try {
-    // Check if user exists in the databse
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.NOT_FOUND,
-        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK
-      }
-    }
-
     // Create the new todo
     const newTodo: ITodo = await TodoModel.create({ ...body, userId })
 
@@ -82,20 +61,9 @@ export const addTodoService = async (
 }
 
 export const deleteTodoService = async (
-  id: string,
-  userId: string | undefined
+  id: string
 ): Promise<IDeleteOrUpdateTodo> => {
   try {
-    // Check if user exists in the databse
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.NOT_FOUND,
-        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK
-      }
-    }
-
     // Check if todo item exists
     const todoToBeDeleted: ITodo | null = await TodoModel.findById({ _id: id })
     if (todoToBeDeleted === null) {
@@ -129,16 +97,6 @@ export const deleteCompletedTodosService = async (
   idsToDelete: string[]
 ): Promise<IDeleteTodos> => {
   try {
-    // Check if user exists in the databse
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.NOT_FOUND,
-        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK
-      }
-    }
-
     // Check if todo items exist
     const todosToBeDeleted: ITodo[] = await TodoModel.find({
       _id: { $in: idsToDelete },
@@ -174,21 +132,10 @@ export const deleteCompletedTodosService = async (
 }
 
 export const updateTodoService = async (
-  userId: string | undefined,
   id: string,
   body: ITodo
 ): Promise<IDeleteOrUpdateTodo> => {
   try {
-    // Check if user exists in the databse
-    const user = await UserModel.findById(userId)
-    if (user === null) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.NOT_FOUND,
-        msg: MSGS_RESPONSES.GET_TODOS_USER_CHECK
-      }
-    }
-
     // Check if todo item exists
     const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
     if (todoToBeUpdated === null) {

@@ -46,11 +46,10 @@ export const deleteTodo = async (
   res: Response
 ): Promise<void> => {
   const {
-    params: { id },
-    userId
+    params: { id }
   } = req
 
-  const { statusCode, success, msg, todo } = await deleteTodoService(id, userId)
+  const { statusCode, success, msg, todo } = await deleteTodoService(id)
 
   res.status(statusCode).json({
     success,
@@ -82,12 +81,10 @@ export const updateTodo = async (
   res: Response
 ): Promise<void> => {
   const {
-    params: { id },
-    userId
+    params: { id }
   } = req
 
   const { statusCode, msg, success, todo } = await updateTodoService(
-    userId,
     id,
     req.body
   )
