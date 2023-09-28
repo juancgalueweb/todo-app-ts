@@ -1,7 +1,8 @@
 import { type Request, type Response } from 'express'
 import {
   deleteTagService,
-  getTagsService,
+  getTagsByTodoService,
+  getTagsByUserService,
   saveTagService,
   updateTagService
 } from '../services/tags.services'
@@ -19,9 +20,12 @@ export const saveTag = async (req: Request, res: Response): Promise<void> => {
 }
 
 // get tags controller
-export const getTags = async (req: Request, res: Response): Promise<void> => {
+export const getTagsByUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { userId } = req
-  const { success, statusCode, msg, tags } = await getTagsService(userId)
+  const { success, statusCode, msg, tags } = await getTagsByUserService(userId)
 
   res.status(statusCode).json({
     success,
@@ -51,5 +55,20 @@ export const updateTag = async (req: Request, res: Response): Promise<void> => {
     success,
     msg,
     tag
+  })
+}
+
+// get tags by todo controller
+export const getTagsByTodo = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { tagsIds } = req.body
+  const { success, statusCode, msg, tags } = await getTagsByTodoService(tagsIds)
+
+  res.status(statusCode).json({
+    success,
+    msg,
+    tags
   })
 }
