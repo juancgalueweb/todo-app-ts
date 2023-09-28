@@ -53,7 +53,10 @@ export enum MSGS_RESPONSES {
   TAGS_FETCHED = 'Etiquetas obtenidas con éxito',
   TAGS_EMPTY = 'No hay etiquetas para este usuario',
   TAGS_FETCH_ERROR = 'Error al obtener las etiquetas',
-  USER_NOT_FOUND = 'Usuario no encontrado'
+  USER_NOT_FOUND = 'Usuario no encontrado',
+  TAG_DELETED = 'Etiqueta eliminada con éxito',
+  TAG_DELETE_ERROR = 'Error al eliminar la etiqueta',
+  TAG_NOT_FOUND = 'Etiqueta no encontrada'
 }
 
 export enum Priorities {

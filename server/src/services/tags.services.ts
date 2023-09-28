@@ -67,3 +67,29 @@ export const getTagsService = async (
     }
   }
 }
+
+export const deleteTagService = async (tagId: string): Promise<ISaveTag> => {
+  try {
+    // check if tag exists
+    const tagToDelete: ITag | null = await TagModel.findById({ _id: tagId })
+    if (tagToDelete === null) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.NOT_FOUND,
+        msg: MSGS_RESPONSES.TAG_NOT_FOUND
+      }
+    }
+    await TagModel.findByIdAndDelete(tagId)
+    return {
+      success: true,
+      statusCode: HttpStatusCode.OK,
+      msg: MSGS_RESPONSES.TAG_DELETED
+    }
+  } catch (error) {
+    return {
+      success: false,
+      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+      msg: MSGS_RESPONSES.TAG_DELETE_ERROR
+    }
+  }
+}
