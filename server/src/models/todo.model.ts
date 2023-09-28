@@ -11,7 +11,8 @@ const todoSchema: Schema = new Schema(
     },
     title: {
       type: String,
-      required: [true, MSGS_RESPONSES.TODO_MODEL_TITLE]
+      required: [true, MSGS_RESPONSES.TODO_MODEL_TITLE],
+      trim: true
     },
     completed: {
       type: Boolean,

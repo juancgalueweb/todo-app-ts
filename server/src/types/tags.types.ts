@@ -11,7 +11,7 @@ export interface ISaveTag {
   success: boolean
   statusCode: HttpStatusCode
   msg: string
-  tag?: ITag
+  tag?: ITag | null
 }
 
 export interface IGetTags {

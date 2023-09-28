@@ -2,7 +2,8 @@ import { type Request, type Response } from 'express'
 import {
   deleteTagService,
   getTagsService,
-  saveTagService
+  saveTagService,
+  updateTagService
 } from '../services/tags.services'
 
 // save a tag controller
@@ -37,5 +38,18 @@ export const deleteTag = async (req: Request, res: Response): Promise<void> => {
   res.status(statusCode).json({
     success,
     msg
+  })
+}
+
+// update controller
+export const updateTag = async (req: Request, res: Response): Promise<void> => {
+  const { tagId } = req.params
+  const { body } = req
+  const { success, statusCode, msg, tag } = await updateTagService(tagId, body)
+
+  res.status(statusCode).json({
+    success,
+    msg,
+    tag
   })
 }

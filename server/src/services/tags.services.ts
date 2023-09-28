@@ -12,8 +12,13 @@ export const saveTagService = async (
   body: ITag
 ): Promise<ISaveTag> => {
   try {
+    const modifiedTagName = body.tagName.toLowerCase().split(' ').join('-')
     // Create a new tag
-    const newTag: ITag = await TagModel.create({ ...body, userId })
+    const newTag: ITag = await TagModel.create({
+      ...body,
+      tagName: modifiedTagName,
+      userId
+    })
 
     return {
       success: true,
@@ -90,6 +95,51 @@ export const deleteTagService = async (tagId: string): Promise<ISaveTag> => {
       success: false,
       statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
       msg: MSGS_RESPONSES.TAG_DELETE_ERROR
+    }
+  }
+}
+
+export const updateTagService = async (
+  tagId: string,
+  body: ITag
+): Promise<ISaveTag> => {
+  try {
+    // Check if tag exists in the database
+    const tagToUpdate: ITag | null = await TagModel.findById({ _id: tagId })
+    if (tagToUpdate === null) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.NOT_FOUND,
+        msg: MSGS_RESPONSES.TAG_NOT_FOUND
+      }
+    }
+
+    const modifiedTagName = body.tagName.toLowerCase().split(' ').join('-')
+
+    const updatedTag: ITag | null = await TagModel.findByIdAndUpdate(
+      { _id: tagId },
+      { ...body, tagName: modifiedTagName },
+      { new: true, runValidators: true }
+    )
+
+    return {
+      success: true,
+      statusCode: HttpStatusCode.OK,
+      msg: MSGS_RESPONSES.TAG_UPDATED,
+      tag: updatedTag
+    }
+  } catch (error: any) {
+    if (error.name === 'ValidationError') {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        msg: mongooseValidationErrorHandler(error)
+      }
+    }
+    return {
+      success: false,
+      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+      msg: MSGS_RESPONSES.TAG_UPDATE_ERROR
     }
   }
 }

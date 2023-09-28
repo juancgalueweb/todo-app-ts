@@ -14,7 +14,8 @@ const tagSchema: Schema = new Schema(
       required: [true, MSGS_RESPONSES.TAG_MODEL_NAME_REQUIRED],
       unique: true,
       minlength: [3, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_SHORT],
-      maxlength: [20, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_LARGE]
+      maxlength: [20, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_LARGE],
+      trim: true
     },
     tagColor: {
       type: String,
@@ -24,7 +25,8 @@ const tagSchema: Schema = new Schema(
         validator: (val: string) =>
           /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(val),
         message: MSGS_RESPONSES.TAG_MODEL_COLOR_INVALID
-      }
+      },
+      trim: true
     }
   },
   { timestamps: true }
