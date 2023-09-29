@@ -33,8 +33,8 @@ import {
   translateEngToSpaPriority,
   translateSpaToEngPriority
 } from '../helpers/translatePriorities'
+import { uniqueArrayDate } from '../helpers/uniqueArrayData'
 import {
-  EngPriority,
   SpaPriority,
   TaskStatus,
   type ITodo,
@@ -272,11 +272,12 @@ const Todos: React.FC = () => {
     {
       title: 'Prioridad',
       dataIndex: 'priority',
-      filters: [
-        { text: SpaPriority.alta, value: EngPriority.high },
-        { text: SpaPriority.media, value: EngPriority.medium },
-        { text: SpaPriority.baja, value: EngPriority.low }
-      ],
+      filters: uniqueArrayDate(filteredTodos, 'priority').map((priority) => {
+        return {
+          text: translateEngToSpaPriority(priority as string),
+          value: priority as string
+        }
+      }),
       onFilter: (value: string | number | boolean, record) =>
         record.priority.indexOf(value.toString()) === 0,
       render: (record) => {
