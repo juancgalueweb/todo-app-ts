@@ -5,6 +5,7 @@ import {
   mongooseValidationErrorHandler
 } from '../helpers/mongooseErrorsHandler'
 import TagModel from '../models/tags.model'
+import TodoModel from '../models/todo.model'
 import { type IGetTags, type ISaveTag, type ITag } from '../types/tags.types'
 
 export const saveTagService = async (
@@ -84,7 +85,16 @@ export const deleteTagService = async (tagId: string): Promise<ISaveTag> => {
         msg: MSGS_RESPONSES.TAG_NOT_FOUND
       }
     }
+
+    // Update the todos to remove the tag
+    await TodoModel.updateMany(
+      { tags: { $in: [tagId] } },
+      { $pull: { tags: tagId } }
+    )
+
+    // Delete the tag from the database
     await TagModel.findByIdAndDelete(tagId)
+
     return {
       success: true,
       statusCode: HttpStatusCode.OK,
