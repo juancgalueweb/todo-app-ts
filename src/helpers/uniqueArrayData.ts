@@ -1,9 +1,4 @@
-import type { ITodo } from '../interfaces/todo.interface'
-
-export const uniqueArrayDate = (
-  array: ITodo[],
-  fieldToFilter: keyof ITodo
-): unknown[] => {
+export const uniqueArrayDate = <T>(array: T[], fieldToFilter: keyof T): T[] => {
   const setValues = new Set(array.map((item) => item[fieldToFilter]))
-  return Array.from(setValues)
+  return Array.from(setValues) as T[]
 }

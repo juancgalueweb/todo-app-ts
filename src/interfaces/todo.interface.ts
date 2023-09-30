@@ -7,6 +7,7 @@ export interface ITodo {
   title: string
   priority: string
   completed: boolean
+  tags: string[]
   deadline: Date | Dayjs
   createdAt?: Date
   updatedAt?: Date

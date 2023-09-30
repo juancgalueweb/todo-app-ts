@@ -153,28 +153,3 @@ export const updateTagService = async (
     }
   }
 }
-
-export const getTagsByTodoService = async (
-  tagsIds: string[]
-): Promise<IGetTags> => {
-  try {
-    // Get specific tags by a todo
-    const tags = await TagModel.find({ _id: { $in: tagsIds } })
-    return {
-      success: true,
-      statusCode: HttpStatusCode.OK,
-      msg: `${
-        tags.length === 0
-          ? MSGS_RESPONSES.TAGS_EMPTY
-          : MSGS_RESPONSES.TAGS_FETCHED
-      }`,
-      tags
-    }
-  } catch (error) {
-    return {
-      success: false,
-      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
-      msg: MSGS_RESPONSES.TAGS_FETCH_ERROR
-    }
-  }
-}

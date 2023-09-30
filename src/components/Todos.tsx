@@ -34,6 +34,7 @@ import {
   translateSpaToEngPriority
 } from '../helpers/translatePriorities'
 import { uniqueArrayDate } from '../helpers/uniqueArrayData'
+import type { ITag } from '../interfaces/tags.interface'
 import {
   SpaPriority,
   TaskStatus,
@@ -41,8 +42,10 @@ import {
   type TodoUpdateType
 } from '../interfaces/todo.interface'
 import { useFilterTodos } from '../stores/filterTodosStore'
+import { useTagsStore } from '../stores/tagsStore'
 import { useTodosStore } from '../stores/todosStore'
 import TodoModal from './TodoModal'
+import NoTag from './icons/NoTag'
 import('dayjs/locale/es')
 dayjs.locale('es')
 dayjs.extend(relativeTime)
@@ -63,6 +66,7 @@ const Todos: React.FC = () => {
     useTodosStore()
   const { pageSize, setPageSize, filteredTodos, setFilteredTodos } =
     useFilterTodos()
+  const { tags } = useTagsStore()
 
   const deleteMsg = (): void => {
     void messageApi.open({
@@ -270,12 +274,52 @@ const Todos: React.FC = () => {
       ...getColumnSearchProps('title')
     },
     {
+      title: 'Etiquetas',
+      dataIndex: 'tags',
+      width: '10%',
+      render: (record) => {
+        const tagToDisplay: ITag[] = []
+        tags.map((tag: ITag) => {
+          record.forEach((userTag: string) => {
+            if (tag._id === userTag) {
+              tagToDisplay.push({
+                _id: tag._id,
+                tagName: tag.tagName,
+                tagColor: tag.tagColor
+              })
+            }
+          })
+          return tagToDisplay
+        })
+
+        return (
+          <>
+            {tagToDisplay.length === 0 ? (
+              <NoTag />
+            ) : (
+              <>
+                {tagToDisplay.map((tag, index) => (
+                  <Tag
+                    key={index}
+                    color={tag.tagColor}
+                    style={{ marginTop: '4px' }}
+                  >
+                    {tag.tagName}
+                  </Tag>
+                ))}
+              </>
+            )}
+          </>
+        )
+      }
+    },
+    {
       title: 'Prioridad',
       dataIndex: 'priority',
       filters: uniqueArrayDate(filteredTodos, 'priority').map((priority) => {
         return {
-          text: translateEngToSpaPriority(priority as string),
-          value: priority as string
+          text: translateEngToSpaPriority(priority as unknown as string),
+          value: priority as unknown as string
         }
       }),
       onFilter: (value: string | number | boolean, record) =>
@@ -305,17 +349,6 @@ const Todos: React.FC = () => {
       },
       width: '5%'
     },
-    {
-      title: 'Fecha de creación',
-      dataIndex: 'createdAt',
-      sorter: (a, b) => dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix(),
-      render: (record) => {
-        const formattedDate = dayjs(record).format('DD-MM-YYYY')
-        return <>{formattedDate}</>
-      },
-      width: '10%'
-    },
-
     {
       title: 'Fecha tope',
       dataIndex: 'deadline',
