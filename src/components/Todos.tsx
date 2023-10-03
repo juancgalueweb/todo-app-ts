@@ -53,7 +53,14 @@ dayjs.extend(relativeTime)
 type DataIndex = keyof ITodo
 
 const Todos: React.FC = () => {
+  const { loading, removeTodo, updateCompletedStatus, updateTodo } =
+    useTodosStore()
+  const { pageSize, setPageSize, filteredTodos, setFilteredTodos } =
+    useFilterTodos()
+  const { tags } = useTagsStore()
   const [messageApi, contextHolder] = message.useMessage()
+  const [filteredData, setFilteredData] = useState(filteredTodos)
+  const [selectedTags] = useState<string[]>([])
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
@@ -62,11 +69,6 @@ const Todos: React.FC = () => {
   const [modaldata, setModaldata] = useState<TodoUpdateType | null>(null)
   const [open, setOpen] = useState(false)
   const [page, setPage] = useState(1)
-  const { loading, removeTodo, updateCompletedStatus, updateTodo } =
-    useTodosStore()
-  const { pageSize, setPageSize, filteredTodos, setFilteredTodos } =
-    useFilterTodos()
-  const { tags } = useTagsStore()
 
   const deleteMsg = (): void => {
     void messageApi.open({
@@ -267,6 +269,19 @@ const Todos: React.FC = () => {
     }
   }, [loading])
 
+  useEffect(() => {
+    // Filtra los datos en función de los nombres de etiquetas seleccionados
+    const filteredResult = filteredTodos.filter((todo) =>
+      selectedTags.every((selectedTag) =>
+        todo.tags.some(
+          (tagId) =>
+            tags.find((tag) => tag._id === tagId)?.tagName === selectedTag
+        )
+      )
+    )
+    setFilteredData(filteredResult)
+  }, [selectedTags, filteredTodos, tags])
+
   const columns: ColumnsType<ITodo> = [
     {
       title: 'Descripción de la tarea',
@@ -277,20 +292,19 @@ const Todos: React.FC = () => {
       title: 'Etiquetas',
       dataIndex: 'tags',
       width: '10%',
+      filters: tags.map((tag) => ({ text: tag.tagName, value: tag.tagName })),
+      onFilter: (value, record) => {
+        return record.tags.some(
+          (tagId) => tags.find((tag) => tag._id === tagId)?.tagName === value
+        )
+      },
       render: (record) => {
-        const tagToDisplay: ITag[] = []
-        tags.map((tag: ITag) => {
-          record.forEach((userTag: string) => {
-            if (tag._id === userTag) {
-              tagToDisplay.push({
-                _id: tag._id,
-                tagName: tag.tagName,
-                tagColor: tag.tagColor
-              })
-            }
+        const tagToDisplay: ITag[] = record
+          .map((tagId: string) => {
+            const tagInfo = tags.find((tag) => tag._id === tagId)
+            return tagInfo ?? null
           })
-          return tagToDisplay
-        })
+          .filter(Boolean)
 
         return (
           <>
@@ -477,7 +491,7 @@ const Todos: React.FC = () => {
         <Col span={20}>
           <Table
             columns={columns}
-            dataSource={filteredTodos}
+            dataSource={filteredData}
             rowKey={(record) => record._id ?? ''}
             rowClassName={(record) => {
               if (record.completed) {
