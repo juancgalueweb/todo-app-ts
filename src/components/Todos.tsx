@@ -59,8 +59,6 @@ const Todos: React.FC = () => {
     useFilterTodos()
   const { tags } = useTagsStore()
   const [messageApi, contextHolder] = message.useMessage()
-  const [filteredData, setFilteredData] = useState(filteredTodos)
-  const [selectedTags] = useState<string[]>([])
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
@@ -269,19 +267,6 @@ const Todos: React.FC = () => {
     }
   }, [loading])
 
-  useEffect(() => {
-    // Filtra los datos en función de los nombres de etiquetas seleccionados
-    const filteredResult = filteredTodos.filter((todo) =>
-      selectedTags.every((selectedTag) =>
-        todo.tags.some(
-          (tagId) =>
-            tags.find((tag) => tag._id === tagId)?.tagName === selectedTag
-        )
-      )
-    )
-    setFilteredData(filteredResult)
-  }, [selectedTags, filteredTodos, tags])
-
   const columns: ColumnsType<ITodo> = [
     {
       title: 'Descripción de la tarea',
@@ -332,8 +317,8 @@ const Todos: React.FC = () => {
       dataIndex: 'priority',
       filters: uniqueArrayDate(filteredTodos, 'priority').map((priority) => {
         return {
-          text: translateEngToSpaPriority(priority as unknown as string),
-          value: priority as unknown as string
+          text: translateEngToSpaPriority(priority as string),
+          value: priority as string
         }
       }),
       onFilter: (value: string | number | boolean, record) =>
@@ -491,7 +476,7 @@ const Todos: React.FC = () => {
         <Col span={20}>
           <Table
             columns={columns}
-            dataSource={filteredData}
+            dataSource={filteredTodos}
             rowKey={(record) => record._id ?? ''}
             rowClassName={(record) => {
               if (record.completed) {
