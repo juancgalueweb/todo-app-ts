@@ -7,3 +7,11 @@ export interface ITag {
   updatedAt?: Date
   __v?: number
 }
+
+export interface TagModalProps {
+  openTagModal: boolean
+  onCancelTag: () => void
+  modalTitleTag: string
+}
+
+export type TagId = Pick<ITag, '_id'>

@@ -2,17 +2,20 @@
  * The CreateTodo component is a React functional component that renders a form
  * with an input field for creating new todo items.
  */
-import { Button, Col, Form, Row } from 'antd'
+import { TagsOutlined } from '@ant-design/icons'
+import { Button, Col, Form, Row, Space } from 'antd'
 import dayjs from 'dayjs'
 import 'dayjs/locale/es'
 import { useEffect, useState } from 'react'
 import { translateSpaToEngPriority } from '../helpers/translatePriorities'
 import { SpaPriority, type TodoSave } from '../interfaces/todo.interface'
 import { useTodosStore } from '../stores/todosStore'
+import TagModal from './TagModal'
 import TodoModal from './TodoModal'
 
 const CreateTodo: React.FC = () => {
   const [form] = Form.useForm()
+  const [openTag, setOpenTag] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const loading = useTodosStore((state) => state.loading)
@@ -39,6 +42,14 @@ const CreateTodo: React.FC = () => {
     form.resetFields()
   }
 
+  const showTagModal = (): void => {
+    setOpenTag(true)
+  }
+
+  const handleCancelTag = (): void => {
+    setOpenTag(false)
+  }
+
   useEffect(() => {
     // Cuando loading cambia a false, establece confirmLoading en false.
     if (!loading) {
@@ -52,9 +63,18 @@ const CreateTodo: React.FC = () => {
       <Row>
         <Col span={20} offset={2}>
           <div className='create-task-button'>
-            <Button type='primary' onClick={showModal} danger>
-              Crear tarea
-            </Button>
+            <Space wrap>
+              <Button type='primary' onClick={showModal} danger>
+                Crear tarea
+              </Button>
+              <Button
+                type='default'
+                icon={<TagsOutlined />}
+                onClick={showTagModal}
+              >
+                Gestionar etiquetas
+              </Button>
+            </Space>
           </div>
         </Col>
       </Row>
@@ -72,6 +92,11 @@ const CreateTodo: React.FC = () => {
         name='saveTodo'
         modalTitle='Crear tarea'
         confirmLoading={confirmLoading}
+      />
+      <TagModal
+        onCancelTag={handleCancelTag}
+        openTagModal={openTag}
+        modalTitleTag='Gestionar etiquetas'
       />
     </>
   )

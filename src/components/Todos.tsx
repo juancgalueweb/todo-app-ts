@@ -296,17 +296,13 @@ const Todos: React.FC = () => {
             {tagToDisplay.length === 0 ? (
               <NoTag />
             ) : (
-              <>
+              <Space size={4} wrap>
                 {tagToDisplay.map((tag, index) => (
-                  <Tag
-                    key={index}
-                    color={tag.tagColor}
-                    style={{ marginTop: '4px' }}
-                  >
+                  <Tag key={index} color={tag.tagColor}>
                     {tag.tagName}
                   </Tag>
                 ))}
-              </>
+              </Space>
             )}
           </>
         )
@@ -402,11 +398,11 @@ const Todos: React.FC = () => {
       title: 'Acciones',
       render: (record, row) => {
         return (
-          <>
+          <Space size='small'>
             {row.completed ? (
               <Tooltip title='Cambiar a pendiente'>
                 <LockFilled
-                  style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
+                  style={{ color: '#4B5563', fontSize: 16 }}
                   onClick={() => {
                     const toggleStatus = !record.completed
                     updateCompletedStatus({
@@ -420,7 +416,7 @@ const Todos: React.FC = () => {
             ) : (
               <Tooltip title='Cambiar a completado'>
                 <UnlockFilled
-                  style={{ color: '#4B5563', marginRight: 5, fontSize: 16 }}
+                  style={{ color: '#4B5563', fontSize: 16 }}
                   onClick={() => {
                     const toggleStatus = !record.completed
                     updateCompletedStatus({
@@ -436,12 +432,7 @@ const Todos: React.FC = () => {
               <Tooltip title='Editar tarea'>
                 <EditTwoTone
                   rev={''}
-                  style={{
-                    color: '#0EA5E9',
-                    marginLeft: 5,
-                    marginRight: 5,
-                    fontSize: 16
-                  }}
+                  style={{ color: '#0EA5E9', fontSize: 16 }}
                   onClick={() => {
                     showModal(record)
                   }}
@@ -458,11 +449,11 @@ const Todos: React.FC = () => {
               <Tooltip title='Borrar tarea'>
                 <DeleteFilled
                   rev={''}
-                  style={{ color: '#E63F32', marginLeft: 5, fontSize: 16 }}
+                  style={{ color: '#E63F32', fontSize: 16 }}
                 />
               </Tooltip>
             </Popconfirm>
-          </>
+          </Space>
         )
       },
       width: '10%'
