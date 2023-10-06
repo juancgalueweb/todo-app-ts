@@ -221,7 +221,6 @@ const Todos: React.FC = () => {
           priority: translatedPriority
         }
         updateTodo(dataToDB)
-        form.resetFields()
         setModaldata(null)
       })
       .catch((error) => {

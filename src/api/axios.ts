@@ -1,11 +1,13 @@
 import axios, { type AxiosResponse } from 'axios'
 import { APP_KEY, OTP_KEY } from '../constants/const'
-import {
-  type AxiosWithTokenValidateEmailOptions,
-  type AxiosWithoutTokenOptions,
-  type axiosWithTokenUpdateTodoOptions
+import type {
+  AxiosWithTokenTagOptions,
+  AxiosWithTokenValidateEmailOptions,
+  AxiosWithoutTokenOptions,
+  axiosWithTokenUpdateTodoOptions
 } from '../interfaces/axios.interface'
-import { type ApiDataTodosByUser } from '../interfaces/todo.interface'
+import type { ApiDataTags } from '../interfaces/tags.interface'
+import type { ApiDataTodosByUser } from '../interfaces/todo.interface'
 
 const baseUrl: string = import.meta.env.VITE_BASE_URL
 export const axiosWithoutToken = async (
@@ -55,6 +57,23 @@ export const axiosWithTokenAndData = async (
   endpoint: string,
   options: axiosWithTokenUpdateTodoOptions = {}
 ): Promise<AxiosResponse<ApiDataTodosByUser>> => {
+  const url = `${baseUrl}/${endpoint}`
+  const tokenData = localStorage.getItem(APP_KEY)
+  const token = tokenData != null ? JSON.parse(tokenData).token : ''
+  const response = await axios({
+    method,
+    url,
+    ...options,
+    headers: { 'Content-Type': 'application/json', 'x-token': token }
+  })
+  return response
+}
+
+export const axiosWithTokenAndTagData = async (
+  method: string,
+  endpoint: string,
+  options: AxiosWithTokenTagOptions = {}
+): Promise<AxiosResponse<ApiDataTags>> => {
   const url = `${baseUrl}/${endpoint}`
   const tokenData = localStorage.getItem(APP_KEY)
   const token = tokenData != null ? JSON.parse(tokenData).token : ''

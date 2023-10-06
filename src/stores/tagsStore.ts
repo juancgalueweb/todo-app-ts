@@ -1,16 +1,9 @@
 import type { AxiosError, AxiosResponse } from 'axios'
 import { create } from 'zustand'
-import { axiosWithToken } from '../api/axios'
+import { axiosWithToken, axiosWithTokenAndTagData } from '../api/axios'
 import { handleError } from '../helpers/axiosErrorHandler'
-import type { ITag, TagId } from '../interfaces/tags.interface'
+import type { ITagsStore } from '../interfaces/tags.interface'
 import { useTodosStore } from './todosStore'
-
-interface ITagsStore {
-  tags: ITag[]
-  getTags: () => void
-  removeTag: ({ _id }: TagId) => void
-  loadingTag: boolean
-}
 
 export const useTagsStore = create<ITagsStore>((set, get) => ({
   tags: [],
@@ -51,5 +44,62 @@ export const useTagsStore = create<ITagsStore>((set, get) => ({
       .finally(() => {
         set({ loadingTag: false })
       })
+  },
+  saveTag: ({ tagName, tagColor }) => {
+    set({ loadingTag: true })
+    if (tagName.length === 0) return
+    const dataToAxios = {
+      data: {
+        tagName,
+        tagColor
+      }
+    }
+    axiosWithTokenAndTagData('POST', 'tag', dataToAxios)
+      .then((response: AxiosResponse) => {
+        const { success } = response.data
+        if (success) {
+          const currentTags = get().tags
+          const { tag } = response?.data
+          set({ tags: [...currentTags, tag] })
+        }
+      })
+      .catch((error: AxiosError) => {
+        handleError(error)
+      })
+      .finally(() => {
+        set({ loadingTag: false })
+      })
+  },
+  editTag: ({ _id, tagName, tagColor }) => {
+    set({ loadingTag: true })
+    if (tagName.length === 0) return
+    if (_id !== null) {
+      const dataToAxios = {
+        data: {
+          tagName,
+          tagColor
+        }
+      }
+      axiosWithTokenAndTagData('PUT', `tag/${_id}`, dataToAxios)
+        .then((response: AxiosResponse) => {
+          const { success, tag } = response.data
+          if (success) {
+            const currentTags = get().tags
+            const tagsAfterUpdate = currentTags.map((currentTag) => {
+              if (currentTag._id === _id) {
+                return { ...tag }
+              }
+              return currentTag
+            })
+            set({ tags: tagsAfterUpdate })
+          }
+        })
+        .catch((error: AxiosError) => {
+          handleError(error)
+        })
+        .finally(() => {
+          set({ loadingTag: false })
+        })
+    }
   }
 }))

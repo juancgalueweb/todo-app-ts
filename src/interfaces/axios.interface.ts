@@ -21,3 +21,10 @@ export interface axiosWithTokenUpdateTodoOptions extends AxiosRequestConfig {
     completed?: boolean
   }
 }
+
+export interface AxiosWithTokenTagOptions extends AxiosRequestConfig {
+  data?: {
+    tagName?: string
+    tagColor?: `#${string}`
+  }
+}

@@ -9,6 +9,7 @@ import 'dayjs/locale/es'
 import { useEffect, useState } from 'react'
 import { translateSpaToEngPriority } from '../helpers/translatePriorities'
 import { SpaPriority, type TodoSave } from '../interfaces/todo.interface'
+import { useTagsStore } from '../stores/tagsStore'
 import { useTodosStore } from '../stores/todosStore'
 import TagModal from './TagModal'
 import TodoModal from './TodoModal'
@@ -20,6 +21,7 @@ const CreateTodo: React.FC = () => {
   const [open, setOpen] = useState(false)
   const loading = useTodosStore((state) => state.loading)
   const saveTodo = useTodosStore((state) => state.saveTodo)
+  const { getTags } = useTagsStore()
 
   const handleSubmit = (values: TodoSave): void => {
     const dateToDb = dayjs(values.deadline).toDate()
@@ -70,7 +72,10 @@ const CreateTodo: React.FC = () => {
               <Button
                 type='default'
                 icon={<TagsOutlined />}
-                onClick={showTagModal}
+                onClick={() => {
+                  getTags()
+                  showTagModal()
+                }}
               >
                 Gestionar etiquetas
               </Button>

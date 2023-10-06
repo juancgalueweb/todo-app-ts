@@ -13,7 +13,11 @@ export const saveTagService = async (
   body: ITag
 ): Promise<ISaveTag> => {
   try {
-    const modifiedTagName = body.tagName.toLowerCase().split(' ').join('-')
+    const tagNameWithoutSpaces = body.tagName.trim()
+    const modifiedTagName = tagNameWithoutSpaces
+      .toLowerCase()
+      .split(' ')
+      .join('-')
     // Create a new tag
     const newTag: ITag = await TagModel.create({
       ...body,
@@ -124,7 +128,11 @@ export const updateTagService = async (
       }
     }
 
-    const modifiedTagName = body.tagName.toLowerCase().split(' ').join('-')
+    const tagNameWithoutSpaces = body.tagName.trim()
+    const modifiedTagName = tagNameWithoutSpaces
+      .toLowerCase()
+      .split(' ')
+      .join('-')
 
     const updatedTag: ITag | null = await TagModel.findByIdAndUpdate(
       { _id: tagId },
