@@ -1,9 +1,21 @@
-import { DatePicker, Form, Modal, Segmented } from 'antd'
+import {
+  Checkbox,
+  DatePicker,
+  Form,
+  Modal,
+  Row,
+  Segmented,
+  Space,
+  Tag,
+  Typography
+} from 'antd'
+import type { CheckboxValueType } from 'antd/es/checkbox/Group'
 import type { RangePickerProps } from 'antd/es/date-picker'
 import TextArea from 'antd/es/input/TextArea'
 import dayjs from 'dayjs'
 import 'dayjs/locale/es'
 import { SpaPriority, type TodoModalProps } from '../interfaces/todo.interface'
+import { useTagsStore } from '../stores/tagsStore'
 
 const TodoModal: React.FC<TodoModalProps> = ({
   open,
@@ -16,9 +28,21 @@ const TodoModal: React.FC<TodoModalProps> = ({
   modalTitle,
   confirmLoading
 }) => {
+  const { tags, setTagsToTodos } = useTagsStore()
+  const { Text } = Typography
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today
     return current < dayjs().startOf('day')
+  }
+
+  const tagsOptions = tags.map((tag) => ({
+    label: tag.tagName,
+    value: tag._id as string,
+    color: tag.tagColor
+  }))
+
+  const onChange = (checkedValues: CheckboxValueType[]): void => {
+    setTagsToTodos(checkedValues as string[])
   }
 
   return (
@@ -50,6 +74,25 @@ const TodoModal: React.FC<TodoModalProps> = ({
           ]}
         >
           <TextArea autoSize allowClear placeholder='¿Qué necesitas hacer?' />
+        </Form.Item>
+        <Form.Item label='Seleccione una etiqueta' name='tags'>
+          {tags.length === 0 ? (
+            <Text type='secondary'>No hay etiquetas disponibles</Text>
+          ) : (
+            <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+              <Row gutter={[8, 8]}>
+                {tagsOptions.map((tag) => {
+                  return (
+                    <Space key={tag.value}>
+                      <Checkbox value={tag.value}>
+                        {<Tag color={tag.color}>{tag.label}</Tag>}
+                      </Checkbox>
+                    </Space>
+                  )
+                })}
+              </Row>
+            </Checkbox.Group>
+          )}
         </Form.Item>
         <Form.Item
           label='Seleccione la prioridad'

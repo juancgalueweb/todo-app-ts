@@ -171,6 +171,7 @@ const TagModal: React.FC<TagModalProps> = ({
         title={modalTitleTag}
         onCancel={onCancelTag}
         footer={null}
+        bodyStyle={{ maxHeight: '60vh', overflowY: 'auto' }}
       >
         {tags.length === 0 && <p>Aún no ha creado ninguna etiqueta 😓</p>}
         <Space direction='vertical' size='large' style={{ display: 'flex' }}>
@@ -186,6 +187,7 @@ const TagModal: React.FC<TagModalProps> = ({
             dataSource={tags}
             pagination={false}
             bordered={false}
+            rowKey={(record) => record._id ?? ''}
           />
         </Space>
       </Modal>

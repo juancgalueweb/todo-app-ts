@@ -8,6 +8,7 @@ import { useTodosStore } from './todosStore'
 export const useTagsStore = create<ITagsStore>((set, get) => ({
   tags: [],
   loadingTag: false,
+  tagsToTodos: [],
   getTags: () => {
     set({ loadingTag: true })
     axiosWithToken('GET', 'tags/user')
@@ -101,5 +102,8 @@ export const useTagsStore = create<ITagsStore>((set, get) => ({
           set({ loadingTag: false })
         })
     }
+  },
+  setTagsToTodos: (tagsToTodos) => {
+    set({ tagsToTodos })
   }
 }))

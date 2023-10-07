@@ -218,7 +218,8 @@ const Todos: React.FC = () => {
           _id: modaldata?._id,
           title: values?.title,
           deadline: dateToDb,
-          priority: translatedPriority
+          priority: translatedPriority,
+          tags: values?.tags
         }
         updateTodo(dataToDB)
         setModaldata(null)
@@ -228,14 +229,15 @@ const Todos: React.FC = () => {
       })
   }
 
-  const showModal = (record: any): void => {
+  const showModal = (record: ITodo): void => {
     const translatedPriority = translateEngToSpaPriority(record?.priority)
     const formattedDeadline = dayjs(record?.deadline)
     setModaldata({
       _id: record?._id,
       title: record?.title,
       priority: translatedPriority,
-      deadline: formattedDeadline
+      deadline: formattedDeadline,
+      tags: record?.tags
     })
     setOpen(true)
   }
@@ -251,7 +253,8 @@ const Todos: React.FC = () => {
       form.setFieldsValue({
         title: modaldata.title,
         priority: modaldata.priority,
-        deadline: modaldata.deadline
+        deadline: modaldata.deadline,
+        tags: modaldata.tags
       })
     }
   }, [modaldata])
@@ -494,7 +497,8 @@ const Todos: React.FC = () => {
           _id: modaldata?._id,
           title: modaldata?.title,
           priority: modaldata?.priority,
-          deadline: dayjs(modaldata?.deadline)
+          deadline: dayjs(modaldata?.deadline),
+          tags: modaldata?.tags
         }}
         onFinish={handleSubmit}
         name='editTodo'

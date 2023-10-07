@@ -14,7 +14,7 @@ const tagSchema: Schema = new Schema(
       required: [true, MSGS_RESPONSES.TAG_MODEL_NAME_REQUIRED],
       unique: true,
       minlength: [3, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_SHORT],
-      maxlength: [20, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_LARGE],
+      maxlength: [15, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_LARGE],
       trim: true
     },
     tagColor: {

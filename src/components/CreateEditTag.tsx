@@ -37,7 +37,8 @@ const CreateEditTagModal: React.FC<CreateEditTagModalProps> = ({
               required: true,
               message: 'La etiqueta debe tener un nombre'
             },
-            { min: 3, message: '3 caracteres como mínimo' }
+            { min: 3, message: '3 caracteres como mínimo' },
+            { max: 15, message: '15 caracteres como máximo' }
           ]}
         >
           <Input placeholder='gym' allowClear />

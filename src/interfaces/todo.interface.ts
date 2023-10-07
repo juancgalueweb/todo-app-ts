@@ -15,11 +15,11 @@ export interface ITodo {
 }
 
 export type TodoId = Pick<ITodo, '_id'>
-export type TodoSave = Pick<ITodo, 'title' | 'priority' | 'deadline'>
+export type TodoSave = Pick<ITodo, 'title' | 'priority' | 'deadline' | 'tags'>
 export type TodoIdAndCompleted = Pick<ITodo, '_id' | 'completed'>
 export type TodoUpdateType = Pick<
   ITodo,
-  '_id' | 'title' | 'priority' | 'deadline'
+  '_id' | 'title' | 'priority' | 'deadline' | 'tags'
 >
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
@@ -51,6 +51,7 @@ export interface TodoModalProps {
     title: string | undefined
     priority: string | undefined
     deadline: Dayjs | null
+    tags: string[] | undefined
   }
   onFinish: (values: TodoSave) => void
   form: FormInstance

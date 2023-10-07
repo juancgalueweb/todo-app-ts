@@ -25,7 +25,7 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
         set({ loading: false })
       })
   },
-  saveTodo: ({ title, priority, deadline }) => {
+  saveTodo: ({ title, priority, deadline, tags }) => {
     set({ loading: true })
     if (title.length === 0) return
     const isNumberString = (str: string): boolean => /^[0-9]+$/.test(str)
@@ -35,7 +35,8 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
         title,
         completed: false,
         priority,
-        deadline
+        deadline,
+        tags
       }
     }
     axiosWithTokenAndData('POST', 'todo', dataToAxios)
@@ -101,14 +102,15 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
         })
     }
   },
-  updateTodo: ({ _id, title, priority, deadline }) => {
+  updateTodo: ({ _id, title, priority, deadline, tags }) => {
     set({ loading: true })
     if (_id != null) {
       const dataToAxios = {
         data: {
           title,
           priority,
-          deadline
+          deadline,
+          tags
         }
       }
       axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
@@ -118,7 +120,7 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
             const currentTodos = get().todos
             const updatedTodos = currentTodos.map((todo) => {
               if (todo._id === _id) {
-                return { ...todo, title, priority, deadline }
+                return { ...todo, title, priority, deadline, tags }
               } else {
                 return todo
               }
