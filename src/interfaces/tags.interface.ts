@@ -27,8 +27,6 @@ export interface ITagsStore {
   loadingTag: boolean
   saveTag: ({ tagName, tagColor }: TagSave) => void
   editTag: ({ _id, tagName, tagColor }: TagEdit) => void
-  tagsToTodos: string[]
-  setTagsToTodos: (tagsToTodos: string[]) => void
 }
 
 export interface ApiDataTags {

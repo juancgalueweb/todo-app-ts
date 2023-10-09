@@ -9,7 +9,6 @@ import {
   Tag,
   Typography
 } from 'antd'
-import type { CheckboxValueType } from 'antd/es/checkbox/Group'
 import type { RangePickerProps } from 'antd/es/date-picker'
 import TextArea from 'antd/es/input/TextArea'
 import dayjs from 'dayjs'
@@ -28,7 +27,7 @@ const TodoModal: React.FC<TodoModalProps> = ({
   modalTitle,
   confirmLoading
 }) => {
-  const { tags, setTagsToTodos } = useTagsStore()
+  const { tags } = useTagsStore()
   const { Text } = Typography
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today
@@ -40,10 +39,6 @@ const TodoModal: React.FC<TodoModalProps> = ({
     value: tag._id as string,
     color: tag.tagColor
   }))
-
-  const onChange = (checkedValues: CheckboxValueType[]): void => {
-    setTagsToTodos(checkedValues as string[])
-  }
 
   return (
     <Modal
@@ -79,7 +74,7 @@ const TodoModal: React.FC<TodoModalProps> = ({
           {tags.length === 0 ? (
             <Text type='secondary'>No hay etiquetas disponibles</Text>
           ) : (
-            <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+            <Checkbox.Group style={{ width: '100%' }}>
               <Row gutter={[8, 8]}>
                 {tagsOptions.map((tag) => {
                   return (

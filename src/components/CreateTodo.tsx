@@ -21,7 +21,7 @@ const CreateTodo: React.FC = () => {
   const [open, setOpen] = useState(false)
   const loading = useTodosStore((state) => state.loading)
   const saveTodo = useTodosStore((state) => state.saveTodo)
-  const { getTags, tagsToTodos, setTagsToTodos } = useTagsStore()
+  const { getTags } = useTagsStore()
 
   const handleSubmit = (values: TodoSave): void => {
     const dateToDb = dayjs(values.deadline).toDate()
@@ -31,9 +31,8 @@ const CreateTodo: React.FC = () => {
       title: values.title,
       deadline: dateToDb,
       priority: translatedPriority,
-      tags: tagsToTodos
+      tags: values.tags
     })
-    setTagsToTodos([])
     form.resetFields()
   }
 
@@ -44,7 +43,6 @@ const CreateTodo: React.FC = () => {
   const handleCancel = (): void => {
     setOpen(false)
     form.resetFields()
-    setTagsToTodos([])
   }
 
   const showTagModal = (): void => {
