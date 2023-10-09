@@ -19,14 +19,15 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 const verifyEmail = async (req: Request, res: Response): Promise<void> => {
   const { body } = req
 
-  const { success, msg, statusCode, userEmail, token } =
+  const { success, msg, statusCode, userEmail, token, invalidOTP } =
     await verifyEmailService(body)
 
   res.status(statusCode).json({
     success,
     msg,
     userEmail,
-    token
+    token,
+    invalidOTP
   })
 }
 
