@@ -11,10 +11,12 @@ import type { ApiDataTodosByUser } from '../interfaces/todo.interface'
 
 let baseUrl: string
 
-console.log('Ambiente', import.meta.env.MODE)
-console.log('La app está en producción?', import.meta.env.PROD)
 console.log('La app está en desarrollo?', import.meta.env.DEV)
-if (import.meta.env.MODE === 'development') {
+console.log(
+  'Url del backend del deploy',
+  import.meta.env.VITE_DEPLOY_BACKEND_URL
+)
+if (import.meta.env.DEV) {
   baseUrl = import.meta.env.VITE_DEV_BACKEND_URL
 } else {
   baseUrl = import.meta.env.VITE_DEPLOY_BACKEND_URL
