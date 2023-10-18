@@ -11,17 +11,11 @@ import type { ApiDataTodosByUser } from '../interfaces/todo.interface'
 
 let baseUrl: string
 
-console.log('La app está en desarrollo?', import.meta.env.DEV)
-console.log(
-  'Url del backend del deploy',
-  import.meta.env.VITE_DEPLOY_BACKEND_URL
-)
 if (import.meta.env.DEV) {
   baseUrl = import.meta.env.VITE_DEV_BACKEND_URL
 } else {
   baseUrl = import.meta.env.VITE_DEPLOY_BACKEND_URL
 }
-console.log('baseUrl a usar desde el front', baseUrl)
 
 export const axiosWithoutToken = async (
   method: string,
