@@ -17,6 +17,7 @@ if (import.meta.env.MODE === 'development') {
   baseUrl = import.meta.env.VITE_DEPLOY_BACKEND_URL
 }
 
+console.log('baseUrl a usar desde el front', baseUrl)
 export const axiosWithoutToken = async (
   method: string,
   endpoint: string,

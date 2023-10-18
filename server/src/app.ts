@@ -17,7 +17,10 @@ const PORT = 3000
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:5173', 'http://localhost:3001']
+    origin: [
+      'http://localhost:5173',
+      'https://todo-app-ts-juancgalueweb.vercel.app'
+    ]
   })
 )
 app.use(express.json())
