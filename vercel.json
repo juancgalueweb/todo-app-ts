@@ -4,6 +4,10 @@
       "src": "/[^.]+",
       "dest": "/",
       "status": 200
+    },
+    {
+      "src": "/server/dist/js/(.*)",
+      "dest": "/server/dist/js/app.js"
     }
   ]
 }
