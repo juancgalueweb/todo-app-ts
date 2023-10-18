@@ -1,13 +1,25 @@
 {
+  "version": 2,
   "routes": [
     {
-      "src": "/[^.]+",
-      "dest": "/",
+      "src": "/todos",
+      "dest": "/client/dist/index.html",
       "status": 200
     },
     {
-      "src": "/server/dist/js/(.*)",
-      "dest": "/server/dist/js/app.js"
+      "src": "/login",
+      "dest": "/client/dist/index.html",
+      "status": 200
+    },
+    {
+      "src": "/validate-email",
+      "dest": "/client/dist/index.html",
+      "status": 200
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/index.html",
+      "status": 200
     }
   ]
 }
