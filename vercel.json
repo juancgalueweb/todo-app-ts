@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "src": "^/static/(.*)",
+      "dest": "/client/static/$1"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/dist/js/app.js"
+    },
+    {
+      "src": "/todos",
+      "dest": "/client/index.html"
+    },
+    {
+      "src": "/login",
+      "dest": "/client/index.html"
+    },
+    {
+      "src": "/validate-email",
+      "dest": "/client/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/index.html"
+    }
+  ]
+}
