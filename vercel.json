@@ -1,28 +1,24 @@
 {
   "routes": [
     {
-      "src": "^/static/(.*)",
-      "dest": "/client/static/$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/server/dist/js/app.js"
-    },
-    {
       "src": "/todos",
-      "dest": "/client/index.html"
+      "dest": "/client/dist/index.html",
+      "status": 200
     },
     {
       "src": "/login",
-      "dest": "/client/index.html"
+      "dest": "/client/dist/index.html",
+      "status": 200
     },
     {
       "src": "/validate-email",
-      "dest": "/client/index.html"
+      "dest": "/client/dist/index.html",
+      "status": 200
     },
     {
       "src": "/(.*)",
-      "dest": "/client/index.html"
+      "dest": "/client/dist/index.html",
+      "status": 200
     }
   ]
 }
