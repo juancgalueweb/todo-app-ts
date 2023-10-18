@@ -1,40 +1,8 @@
 {
-  "builds": [
-    {
-      "src": "/server/dist/js/app.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "/client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
   "routes": [
     {
-      "src": "/server/dist/js/(.*)",
-      "dest": "/server/dist/js/app.js"
-    },
-    {
-      "src": "/todos",
-      "dest": "/client/dist/index.html",
-      "status": 200
-    },
-    {
-      "src": "/login",
-      "dest": "/client/dist/index.html",
-      "status": 200
-    },
-    {
-      "src": "/validate-email",
-      "dest": "/client/dist/index.html",
-      "status": 200
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/client/dist/index.html",
+      "src": "/[^.]+",
+      "dest": "/",
       "status": 200
     }
   ]
