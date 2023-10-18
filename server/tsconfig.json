@@ -9,6 +9,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "custom.d.ts"],
+  "include": ["src/**/*", "custom.d.ts", ".eslintrc.js"],
   "exclude": ["src/types/*.ts", "node_modules"]
 }

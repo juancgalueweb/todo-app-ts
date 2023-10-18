@@ -7,7 +7,12 @@
     "build": "tsc",
     "start": "node dist/js/app.js",
     "prod": "NODE_ENV=production concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
-    "dev": "NODE_ENV=development concurrently \"tsc -w\" \"nodemon dist/js/app.js\""
+    "dev": "NODE_ENV=development concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
   },
   "keywords": [],
   "author": "Juan Carlos Galué",
@@ -29,8 +34,16 @@
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.20",
     "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
     "concurrently": "^8.2.1",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
     "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
