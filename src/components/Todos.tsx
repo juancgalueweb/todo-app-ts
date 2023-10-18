@@ -13,6 +13,7 @@ import type { InputRef } from 'antd'
 import {
   Button,
   Col,
+  Flex,
   Form,
   Input,
   Popconfirm,
@@ -24,7 +25,7 @@ import {
   message
 } from 'antd'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
-import type { FilterConfirmProps } from 'antd/es/table/interface'
+import type { FilterConfirmProps, Key } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useEffect, useRef, useState } from 'react'
@@ -45,6 +46,9 @@ import { useFilterTodos } from '../stores/filterTodosStore'
 import { useTagsStore } from '../stores/tagsStore'
 import { useTodosStore } from '../stores/todosStore'
 import TodoModal from './TodoModal'
+import ArrowDown from './icons/ArrowDown'
+import ArrowRight from './icons/ArrowRight'
+import ArrowUp from './icons/ArrowUp'
 import NoTag from './icons/NoTag'
 import('dayjs/locale/es')
 dayjs.locale('es')
@@ -319,17 +323,24 @@ const Todos: React.FC = () => {
           value: priority as string
         }
       }),
-      onFilter: (value: string | number | boolean, record) =>
+      onFilter: (value: boolean | Key, record) =>
         record.priority.indexOf(value.toString()) === 0,
       render: (record) => {
         return (
           <>
             {translateEngToSpaPriority(record) === SpaPriority.alta ? (
-              <>{translateEngToSpaPriority(record)}</>
+              <Flex justify='start' align='center'>
+                <ArrowUp /> {translateEngToSpaPriority(record)}
+              </Flex>
             ) : translateEngToSpaPriority(record) === SpaPriority.media ? (
-              <>{translateEngToSpaPriority(record)}</>
+              <Flex justify='start' align='center'>
+                <ArrowRight /> {translateEngToSpaPriority(record)}
+              </Flex>
             ) : (
-              <>{translateEngToSpaPriority(record)}</>
+              <Flex justify='start' align='center'>
+                <ArrowDown />
+                {translateEngToSpaPriority(record)}
+              </Flex>
             )}
           </>
         )
