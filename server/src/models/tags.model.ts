@@ -12,7 +12,6 @@ const tagSchema: Schema = new Schema(
     tagName: {
       type: String,
       required: [true, MSGS_RESPONSES.TAG_MODEL_NAME_REQUIRED],
-      unique: true,
       minlength: [3, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_SHORT],
       maxlength: [15, MSGS_RESPONSES.TAG_MODEL_NAME_TOO_LARGE],
       trim: true
@@ -20,7 +19,6 @@ const tagSchema: Schema = new Schema(
     tagColor: {
       type: String,
       required: [true, MSGS_RESPONSES.TAG_MODEL_COLOR_REQUIRED],
-      unique: true,
       validate: {
         validator: (val: string) =>
           /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(val),

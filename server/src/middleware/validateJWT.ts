@@ -30,7 +30,7 @@ const validateJWT = (req: Request, res: Response, next: NextFunction): void => {
         token,
         secretKey
       ) as JwtTokenAppVerificationResponse
-      // Add properties userId and userEmail to the req object
+      // Add properties userId to the req object
       req.userId = userId
       next()
     }

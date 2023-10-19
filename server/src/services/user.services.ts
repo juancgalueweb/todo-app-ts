@@ -32,8 +32,7 @@ export const createUserService = async (
       userEmail
     })
     if (userExists === null) {
-      const newUser = new UserModel({ userEmail })
-      await newUser.save()
+      await UserModel.create({ userEmail })
     }
 
     // Get the user from the database

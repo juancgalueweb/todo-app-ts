@@ -47,8 +47,12 @@ export const deleteTag = async (req: Request, res: Response): Promise<void> => {
 // update controller
 export const updateTag = async (req: Request, res: Response): Promise<void> => {
   const { tagId } = req.params
-  const { body } = req
-  const { success, statusCode, msg, tag } = await updateTagService(tagId, body)
+  const { body, userId } = req
+  const { success, statusCode, msg, tag } = await updateTagService(
+    userId,
+    tagId,
+    body
+  )
 
   res.status(statusCode).json({
     success,

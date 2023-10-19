@@ -1,9 +1,6 @@
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
-import {
-  duplicateKeyErrorHandler,
-  mongooseValidationErrorHandler
-} from '../helpers/mongooseErrorsHandler'
+import { mongooseValidationErrorHandler } from '../helpers/mongooseErrorsHandler'
 import TagModel from '../models/tags.model'
 import TodoModel from '../models/todo.model'
 import { type IGetTags, type ISaveTag, type ITag } from '../types/tags.types'
@@ -18,6 +15,35 @@ export const saveTagService = async (
       .toLowerCase()
       .split(' ')
       .join('-')
+
+    // Verify if there is already a tag with the same name and userId
+    const existingTagByName = await TagModel.findOne({
+      userId,
+      tagName: modifiedTagName
+    })
+
+    // Verify if there is already a tag with the same color and userId
+    const existingTagByColor = await TagModel.findOne({
+      userId,
+      tagColor: body.tagColor
+    })
+
+    if (existingTagByName) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        msg: MSGS_RESPONSES.TAG_NAME_ALREADY_EXISTS
+      }
+    }
+
+    if (existingTagByColor) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        msg: MSGS_RESPONSES.TAG_COLOR_ALREADY_EXISTS
+      }
+    }
+
     // Create a new tag
     const newTag: ITag = await TagModel.create({
       ...body,
@@ -37,13 +63,6 @@ export const saveTagService = async (
         success: false,
         statusCode: HttpStatusCode.BAD_REQUEST,
         msg: mongooseValidationErrorHandler(error)
-      }
-    }
-    if (error.code === 11000) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.BAD_REQUEST,
-        msg: duplicateKeyErrorHandler(error)
       }
     }
     return {
@@ -114,6 +133,7 @@ export const deleteTagService = async (tagId: string): Promise<ISaveTag> => {
 }
 
 export const updateTagService = async (
+  userId: string | undefined,
   tagId: string,
   body: ITag
 ): Promise<ISaveTag> => {
@@ -133,6 +153,35 @@ export const updateTagService = async (
       .toLowerCase()
       .split(' ')
       .join('-')
+
+    // Realizar consultas para verificar que el nombre y el color no coincidan con otras etiquetas del usuario
+    const existingTagByName = await TagModel.findOne({
+      userId,
+      tagName: modifiedTagName,
+      _id: { $ne: tagId }
+    })
+
+    const existingTagByColor = await TagModel.findOne({
+      userId,
+      tagColor: body.tagColor,
+      _id: { $ne: tagId }
+    })
+
+    if (existingTagByName) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        msg: MSGS_RESPONSES.TAG_NAME_ALREADY_EXISTS
+      }
+    }
+
+    if (existingTagByColor) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        msg: MSGS_RESPONSES.TAG_COLOR_ALREADY_EXISTS
+      }
+    }
 
     const updatedTag: ITag | null = await TagModel.findByIdAndUpdate(
       { _id: tagId },

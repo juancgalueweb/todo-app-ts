@@ -47,7 +47,6 @@ export enum MSGS_RESPONSES {
   TAG_CREATED = 'Etiqueta creada con éxito',
   TAG_SAVE_ERROR = 'Error al crear la etiqueta',
   TAG_MODEL_COLOR_INVALID = 'El color de la etiqueta no es válido',
-  TAG_DUPLICATED = 'Ya existe una etiqueta con ese nombre o color',
   TAG_MODEL_NAME_TOO_SHORT = 'El nombre de la etiqueta es demasiado corto',
   TAG_MODEL_NAME_TOO_LARGE = 'El nombre de la etiqueta es demasiado largo',
   TAGS_FETCHED = 'Etiquetas obtenidas con éxito',
@@ -58,7 +57,9 @@ export enum MSGS_RESPONSES {
   TAG_DELETE_ERROR = 'Error al eliminar la etiqueta',
   TAG_NOT_FOUND = 'Etiqueta no encontrada',
   TAG_UPDATED = 'Etiqueta actualizada con éxito',
-  TAG_UPDATE_ERROR = 'Error al actualizar la etiqueta'
+  TAG_UPDATE_ERROR = 'Error al actualizar la etiqueta',
+  TAG_NAME_ALREADY_EXISTS = 'Ya existe una etiqueta con ese nombre',
+  TAG_COLOR_ALREADY_EXISTS = 'Ya existe una etiqueta con ese color'
 }
 
 export enum Priorities {
