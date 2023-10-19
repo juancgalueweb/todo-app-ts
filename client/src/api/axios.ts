@@ -10,7 +10,6 @@ import type { ApiDataTags } from '../interfaces/tags.interface'
 import type { ApiDataTodosByUser } from '../interfaces/todo.interface'
 
 const baseUrl: string = import.meta.env.VITE_BASE_URL
-console.log('baseUrl de conexión', baseUrl)
 
 export const axiosWithoutToken = async (
   method: string,
