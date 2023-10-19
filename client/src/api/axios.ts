@@ -9,7 +9,15 @@ import type {
 import type { ApiDataTags } from '../interfaces/tags.interface'
 import type { ApiDataTodosByUser } from '../interfaces/todo.interface'
 
-const baseUrl: string = import.meta.env.VITE_BASE_URL
+let baseUrl: string
+
+if (import.meta.env.DEV) {
+  baseUrl = import.meta.env.VITE_DEV_URL
+} else {
+  baseUrl = import.meta.env.VITE_PROD_URL
+}
+
+console.log('baseUrl', baseUrl)
 
 export const axiosWithoutToken = async (
   method: string,
