@@ -497,6 +497,7 @@ const Todos: React.FC = () => {
                 setPageSize(pageSize)
               }
             }}
+            loading={loading}
           />
         </Col>
       </Row>
