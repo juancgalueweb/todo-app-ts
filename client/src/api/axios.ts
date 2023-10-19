@@ -17,8 +17,6 @@ if (import.meta.env.DEV) {
   baseUrl = import.meta.env.VITE_PROD_URL
 }
 
-console.log('baseUrl', baseUrl)
-
 export const axiosWithoutToken = async (
   method: string,
   endpoint: string,
