@@ -7,7 +7,7 @@ module.exports = {
   extends: ['standard-with-typescript', 'prettier'],
   overrides: [],
   parserOptions: {
-    project: './server/tsconfig.json',
+    project: './tsconfig.json',
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
