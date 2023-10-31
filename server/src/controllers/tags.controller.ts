@@ -1,4 +1,5 @@
 import { type Request, type Response } from 'express'
+import type { AuthRequest } from '../../custom.d'
 import {
   deleteTagService,
   getTagsByUserService,
@@ -7,7 +8,10 @@ import {
 } from '../services/tags.services'
 
 // save a tag controller
-export const saveTag = async (req: Request, res: Response): Promise<void> => {
+export const saveTag = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
   const { body, userId } = req
   const { success, statusCode, msg, tag } = await saveTagService(userId, body)
 
@@ -20,7 +24,7 @@ export const saveTag = async (req: Request, res: Response): Promise<void> => {
 
 // get tags controller
 export const getTagsByUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ): Promise<void> => {
   const { userId } = req
@@ -45,7 +49,10 @@ export const deleteTag = async (req: Request, res: Response): Promise<void> => {
 }
 
 // update controller
-export const updateTag = async (req: Request, res: Response): Promise<void> => {
+export const updateTag = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
   const { tagId } = req.params
   const { body, userId } = req
   const { success, statusCode, msg, tag } = await updateTagService(

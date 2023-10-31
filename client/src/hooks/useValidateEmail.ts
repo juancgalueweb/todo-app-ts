@@ -25,7 +25,6 @@ const useValidateEmail = (): useValidateEmailReturn => {
 
   const dataToAxios: AxiosWithTokenValidateEmailOptions = {
     data: {
-      userId: dataFromLocalStorage?.userId,
       otp: code,
       token: dataFromLocalStorage?.token
     }

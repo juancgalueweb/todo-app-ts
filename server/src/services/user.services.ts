@@ -48,13 +48,12 @@ export const createUserService = async (
 
     // Generate a hash of the OTP and create a JWT containing the hash
     const hashOTP = generateHashOTP(OTP)
-    const tokenOTP = await jwtOTPHash(hashOTP)
+    const tokenOTP = await jwtOTPHash(hashOTP, userFromDB?._id.toString())
 
     return {
       success: true,
       statusCode: HttpStatusCode.CREATED,
       msg: MSGS_RESPONSES.USER_OTP_DELIVERED,
-      userId: userFromDB?._id,
       token: tokenOTP
     }
   } catch (error) {

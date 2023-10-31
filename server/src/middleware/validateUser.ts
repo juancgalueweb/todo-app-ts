@@ -1,10 +1,11 @@
-import { type NextFunction, type Request, type Response } from 'express'
+import type { NextFunction, Response } from 'express'
+import type { AuthRequest } from '../../custom.d'
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
 import UserModel from '../models/user.model'
 
 export const validateUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

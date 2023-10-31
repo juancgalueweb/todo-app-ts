@@ -39,7 +39,10 @@ export const axiosWithTokenValidateEmail = async (
     method,
     url,
     ...options,
-    headers: { 'Content-Type': 'application/json', 'x-token': token }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
   })
   return response
 }

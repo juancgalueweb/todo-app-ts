@@ -1,4 +1,5 @@
 import { type Request, type Response } from 'express'
+import type { AuthRequest } from '../../custom.d'
 import {
   addTodoService,
   deleteCompletedTodosService,
@@ -9,7 +10,7 @@ import {
 
 // Get all the tasks
 export const getTodosByUser = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ): Promise<void> => {
   const { userId } = req
@@ -23,7 +24,10 @@ export const getTodosByUser = async (
 }
 
 // Add a new todo
-export const addTodo = async (req: Request, res: Response): Promise<void> => {
+export const addTodo = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
   // Extract todo information and user ID from request body
   const { userId, body } = req
 
@@ -60,7 +64,7 @@ export const deleteTodo = async (
 
 // Delete all completed todos
 export const deleteCompletedTodos = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ): Promise<void> => {
   const { userId, body: idsToDelete } = req

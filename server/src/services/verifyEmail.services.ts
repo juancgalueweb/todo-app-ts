@@ -1,22 +1,18 @@
-import jwt, { type JwtPayload } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { isValidObjectId } from 'mongoose'
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
 import { compareOTPWithItsHash } from '../helpers/hashOTP'
 import { jwtForApp } from '../helpers/jwtForApp'
 import UserModel from '../models/user.model'
-import type {
-  IVerifyEmail,
-  JwtOtpVerificationResponse,
-  VerifyEmailProps
-} from '../types/user.types'
+import type { IVerifyEmail } from '../types/user.types'
 
 export const verifyEmailService = async (
-  userData: VerifyEmailProps
+  otp: string,
+  userId: string,
+  otpHash: string
 ): Promise<IVerifyEmail> => {
   try {
-    const { userId, token, otp } = userData
-
     // Validate user ID and OTP
     if (userId === '' || otp.trim().length === 0) {
       return {
@@ -45,21 +41,14 @@ export const verifyEmailService = async (
       }
     }
 
-    const secretKey = process?.env?.SECRET_KEY_OTP_JWT
     // Validate the OTP using the token containing its hash
-    if (typeof secretKey === 'string') {
-      const { otpHash } = jwt.verify(
-        token,
-        secretKey
-      ) as JwtOtpVerificationResponse & JwtPayload
-      const isMatched = compareOTPWithItsHash(otp, otpHash)
-      if (!isMatched) {
-        return {
-          success: false,
-          statusCode: HttpStatusCode.UNAUTHORIZED,
-          msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_OTP,
-          invalidOTP: true
-        }
+    const isMatched = compareOTPWithItsHash(otp, otpHash)
+    if (!isMatched) {
+      return {
+        success: false,
+        statusCode: HttpStatusCode.UNAUTHORIZED,
+        msg: MSGS_RESPONSES.VERIFY_EMAIL_INVALID_OTP,
+        invalidOTP: true
       }
     }
 
@@ -69,7 +58,7 @@ export const verifyEmailService = async (
       success: true,
       statusCode: HttpStatusCode.CREATED,
       userEmail: user.userEmail,
-      token: appToken,
+      tokenApp: appToken,
       msg: MSGS_RESPONSES.VERIFY_EMAIL_OK
     }
   } catch (error) {

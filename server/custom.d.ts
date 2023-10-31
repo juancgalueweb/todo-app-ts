@@ -1,6 +1,8 @@
-declare namespace Express {
-  export interface Request {
-    userId?: string
-    userEmail?: string
-  }
+import type { Request } from 'express'
+
+export interface AuthRequest extends Request {
+  otpHash?: string
+  userId?: string
+  userEmail?: string
+  token?: string
 }
