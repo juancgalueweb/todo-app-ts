@@ -1,8 +1,9 @@
 import cors from 'cors'
 import express, { type Express } from 'express'
+import { registerUserRouter } from './routes/register.routes'
 import { tagRouter } from './routes/tags.routes'
 import { todoRouter } from './routes/todos.routes'
-import { userRouter } from './routes/user.routes'
+import { verifyEmailRouter } from './routes/verifyEmail.routes'
 
 // Using dotenv
 import 'dotenv/config'
@@ -22,9 +23,11 @@ app.use(
 )
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
 app.use('/api', todoRouter)
-app.use('/api', userRouter)
+app.use('/api/auth', verifyEmailRouter)
 app.use('/api', tagRouter)
+app.use('/api/auth', registerUserRouter)
 
 app.listen(PORT, () => {
   console.log(`CORS-enabled web server listening on port ${PORT}`)

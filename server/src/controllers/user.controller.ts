@@ -1,12 +1,14 @@
-import { type Request, type Response } from 'express'
-import { type AuthRequest } from '../../custom.d'
+import type { Request, Response } from 'express'
 import { createUserService } from '../services/user.services'
 import { verifyEmailService } from '../services/verifyEmail.services'
 
-const createUser = async (req: Request, res: Response): Promise<void> => {
-  const { body } = req
+export const registerUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { userEmail } = req.body
 
-  const { msg, success, statusCode, token } = await createUserService(body)
+  const { msg, success, statusCode, token } = await createUserService(userEmail)
 
   res.status(statusCode).json({
     success,
@@ -15,21 +17,22 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
   })
 }
 
-const verifyEmail = async (req: AuthRequest, res: Response): Promise<void> => {
+export const verifyEmail = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const userId = req.userId as string
   const otpHash = req.otpHash as string
   const { otp } = req.body
 
-  const { success, msg, statusCode, userEmail, tokenApp, invalidOTP } =
+  const { success, msg, statusCode, userEmail, token, invalidOTP } =
     await verifyEmailService(otp, userId, otpHash)
 
   res.status(statusCode).json({
     success,
     msg,
     userEmail,
-    tokenApp,
+    token,
     invalidOTP
   })
 }
-
-export { createUser, verifyEmail }

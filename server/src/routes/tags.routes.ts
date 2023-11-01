@@ -5,12 +5,13 @@ import {
   saveTag,
   updateTag
 } from '../controllers/tags.controller'
-import { validateJWT } from '../middleware/validateJWT'
+import { authApp } from '../middleware/authApp'
+import { extractToken } from '../middleware/extractToken'
 import { validateUser } from '../middleware/validateUser'
 
 export const tagRouter: Router = Router()
 
-tagRouter.post('/tag', validateJWT, validateUser, saveTag)
-tagRouter.get('/tags/user', validateJWT, validateUser, getTagsByUser)
-tagRouter.delete('/tag/:tagId', validateJWT, validateUser, deleteTag)
-tagRouter.put('/tag/:tagId', validateJWT, validateUser, updateTag)
+tagRouter.post('/tag', extractToken, authApp, validateUser, saveTag)
+tagRouter.get('/tags/user', extractToken, authApp, validateUser, getTagsByUser)
+tagRouter.delete('/tag/:tagId', extractToken, authApp, validateUser, deleteTag)
+tagRouter.put('/tag/:tagId', extractToken, authApp, validateUser, updateTag)

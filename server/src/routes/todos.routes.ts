@@ -6,18 +6,26 @@ import {
   getTodosByUser,
   updateTodo
 } from '../controllers/todos.controller'
-import { validateJWT } from '../middleware/validateJWT'
+import { authApp } from '../middleware/authApp'
+import { extractToken } from '../middleware/extractToken'
 import { validateUser } from '../middleware/validateUser'
 
 export const todoRouter: Router = Router()
 
-todoRouter.get('/todos/user', validateJWT, validateUser, getTodosByUser)
-todoRouter.post('/todo', validateJWT, validateUser, addTodo)
-todoRouter.put('/todo/:id', validateJWT, validateUser, updateTodo)
-todoRouter.delete('/todo/:id', validateJWT, validateUser, deleteTodo)
+todoRouter.get(
+  '/todos/user',
+  extractToken,
+  authApp,
+  validateUser,
+  getTodosByUser
+)
+todoRouter.post('/todo', extractToken, authApp, validateUser, addTodo)
+todoRouter.put('/todo/:id', extractToken, authApp, validateUser, updateTodo)
+todoRouter.delete('/todo/:id', extractToken, authApp, validateUser, deleteTodo)
 todoRouter.delete(
   '/todos/completed',
-  validateJWT,
+  extractToken,
+  authApp,
   validateUser,
   deleteCompletedTodos
 )

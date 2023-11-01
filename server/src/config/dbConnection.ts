@@ -13,9 +13,10 @@ dbConnect().catch((err) => {
 export async function dbConnect(): Promise<void> {
   try {
     if (dbUrl !== undefined) {
-      await mongoose.connect(dbUrl)
+      const db = await mongoose.connect(dbUrl)
+      console.log(MSGS_RESPONSES.DB_CONNECTED)
+      console.log('Connected to: ', db.connection.name)
     }
-    console.log(MSGS_RESPONSES.DB_CONNECTED)
   } catch (error) {
     console.log(MSGS_RESPONSES.DB_CONNECTION_PROBLEM, error)
   }

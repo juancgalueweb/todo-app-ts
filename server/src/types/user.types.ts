@@ -30,6 +30,6 @@ export interface IVerifyEmail {
   statusCode: number
   msg: string
   userEmail?: string
-  tokenApp?: string
+  token?: string
   invalidOTP?: boolean
 }

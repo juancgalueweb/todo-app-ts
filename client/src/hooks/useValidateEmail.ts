@@ -19,14 +19,9 @@ const useValidateEmail = (): useValidateEmailReturn => {
   const toastSuccessId = useId()
   const toastErrorId = useId()
 
-  const localStorageInfo = localStorage.getItem(OTP_KEY)
-  const dataFromLocalStorage =
-    typeof localStorageInfo === 'string' && JSON.parse(localStorageInfo)
-
   const dataToAxios: AxiosWithTokenValidateEmailOptions = {
     data: {
-      otp: code,
-      token: dataFromLocalStorage?.token
+      otp: code
     }
   }
 

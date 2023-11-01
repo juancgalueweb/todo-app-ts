@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import { isValidObjectId } from 'mongoose'
 import { HttpStatusCode } from '../constants/http'
 import { MSGS_RESPONSES } from '../constants/msgs'
@@ -53,29 +52,21 @@ export const verifyEmailService = async (
     }
 
     // Generate a token for app access and return it with user ID
-    const appToken = await jwtForApp(userId)
+    const token = await jwtForApp(userId)
+
     return {
       success: true,
       statusCode: HttpStatusCode.CREATED,
       userEmail: user.userEmail,
-      tokenApp: appToken,
+      token,
       msg: MSGS_RESPONSES.VERIFY_EMAIL_OK
     }
   } catch (error) {
-    // If the token is not valid or missing, send an error response to the client
-    if (error instanceof jwt.JsonWebTokenError) {
-      return {
-        success: false,
-        statusCode: HttpStatusCode.UNAUTHORIZED,
-        msg: MSGS_RESPONSES.VERIFY_EMAIL_JWT_ERROR
-      }
-    } else {
-      // Return an error response if the verification of the email fails
-      return {
-        success: false,
-        statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
-        msg: MSGS_RESPONSES.VERIFY_EMAIL_ERROR
-      }
+    // Return an error response if the verification of the email fails
+    return {
+      success: false,
+      statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+      msg: MSGS_RESPONSES.VERIFY_EMAIL_ERROR
     }
   }
 }

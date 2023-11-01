@@ -8,7 +8,6 @@ export interface AxiosWithoutTokenOptions extends AxiosRequestConfig {
 export interface AxiosWithTokenValidateEmailOptions extends AxiosRequestConfig {
   data?: {
     otp: string
-    token: string
   }
 }
 

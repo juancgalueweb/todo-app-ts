@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/js/app.js",
-    "prod": "NODE_ENV=production concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
-    "dev": "NODE_ENV=development concurrently \"tsc -w\" \"nodemon dist/js/app.js\"",
+    "prod": "NODE_ENV=production concurrently \"tsc -w\" \"node --watch dist/js/app.js\"",
+    "dev": "NODE_ENV=development concurrently \"tsc -w\" \"node --watch dist/js/app.js\"",
     "check-types": "tsc --pretty --noEmit",
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
@@ -42,7 +42,6 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
-    "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"

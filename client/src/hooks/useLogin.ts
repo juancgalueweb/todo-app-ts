@@ -50,7 +50,7 @@ const useLogin = (): UseLoginReturn => {
     const data: AxiosWithoutTokenOptions = {
       data: { userEmail: inputEmail }
     }
-    axiosWithoutToken('POST', 'auth/createUser', data)
+    axiosWithoutToken('POST', 'auth/registerUser', data)
       .then((response: AxiosResponse) => {
         const { token, msg } = response.data
         const dataToLocalStorage = {
