@@ -39,7 +39,10 @@ export const axiosWithTokenValidateEmail = async (
     method,
     url,
     ...options,
-    headers: { 'Content-Type': 'application/json', 'x-token': token }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
   })
   return response
 }
@@ -54,7 +57,10 @@ export const axiosWithToken = async (
   const response = await axios({
     method,
     url,
-    headers: { 'Content-Type': 'application/json', 'x-token': token }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
   })
   return response
 }
@@ -71,7 +77,10 @@ export const axiosWithTokenAndData = async (
     method,
     url,
     ...options,
-    headers: { 'Content-Type': 'application/json', 'x-token': token }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
   })
   return response
 }
@@ -88,7 +97,10 @@ export const axiosWithTokenAndTagData = async (
     method,
     url,
     ...options,
-    headers: { 'Content-Type': 'application/json', 'x-token': token }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
   })
   return response
 }
@@ -105,7 +117,10 @@ export const axiosWithTokenDeleteCompleted = async (
     method,
     url,
     data,
-    headers: { 'Content-Type': 'application/json', 'x-token': token }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
   })
   return response
 }

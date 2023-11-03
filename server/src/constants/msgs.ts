@@ -59,7 +59,9 @@ export enum MSGS_RESPONSES {
   TAG_UPDATED = 'Etiqueta actualizada con éxito',
   TAG_UPDATE_ERROR = 'Error al actualizar la etiqueta',
   TAG_NAME_ALREADY_EXISTS = 'Ya existe una etiqueta con ese nombre',
-  TAG_COLOR_ALREADY_EXISTS = 'Ya existe una etiqueta con ese color'
+  TAG_COLOR_ALREADY_EXISTS = 'Ya existe una etiqueta con ese color',
+  TOKEN_EXPIRED = 'El token ha expirado',
+  INTERNAL_SERVER_ERROR = 'Error en el servidor'
 }
 
 export enum Priorities {

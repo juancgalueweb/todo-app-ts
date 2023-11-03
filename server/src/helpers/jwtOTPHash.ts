@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { MSGS_RESPONSES } from '../constants/msgs'
 
-const jwtOTPHash = async (otpHash: string): Promise<string> => {
+const jwtOTPHash = async (otpHash: string, userId: string): Promise<string> => {
   return await new Promise((resolve, reject) => {
-    const payload = { otpHash }
+    const payload = { otpHash, userId }
     const secretKey = process.env.SECRET_KEY_OTP_JWT
     const expiresIn = '60m' // 60 minutos
     if (typeof secretKey === 'string') {

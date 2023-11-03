@@ -5,6 +5,7 @@ export interface IUser extends Document {
 }
 
 export interface JwtOtpVerificationResponse {
+  userId: string
   otpHash: string
   iat: number
   exp: number
@@ -21,14 +22,7 @@ export interface ICreateUserService {
   success: boolean
   statusCode: number
   msg: string
-  userId?: string
   token?: string
-}
-
-export interface VerifyEmailProps {
-  userId: string
-  otp: string
-  token: string
 }
 
 export interface IVerifyEmail {

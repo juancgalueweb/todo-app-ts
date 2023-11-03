@@ -9,15 +9,12 @@ import {
   mailTransport
 } from '../helpers/mailVerify'
 import UserModel from '../models/user.model'
-import type { ICreateUserService, IUser } from '../types/user.types'
+import type { ICreateUserService } from '../types/user.types'
 
 export const createUserService = async (
-  userData: IUser
+  userEmail: string
 ): Promise<ICreateUserService> => {
   try {
-    // Extract user data
-    const { userEmail } = userData
-
     // Check email format
     if (!Isemail.validate(userEmail)) {
       return {
@@ -48,14 +45,13 @@ export const createUserService = async (
 
     // Generate a hash of the OTP and create a JWT containing the hash
     const hashOTP = generateHashOTP(OTP)
-    const tokenOTP = await jwtOTPHash(hashOTP)
+    const token = await jwtOTPHash(hashOTP, userFromDB?._id.toString())
 
     return {
       success: true,
       statusCode: HttpStatusCode.CREATED,
       msg: MSGS_RESPONSES.USER_OTP_DELIVERED,
-      userId: userFromDB?._id,
-      token: tokenOTP
+      token
     }
   } catch (error) {
     return {

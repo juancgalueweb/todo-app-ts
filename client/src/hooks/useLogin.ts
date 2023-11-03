@@ -50,11 +50,10 @@ const useLogin = (): UseLoginReturn => {
     const data: AxiosWithoutTokenOptions = {
       data: { userEmail: inputEmail }
     }
-    axiosWithoutToken('POST', 'auth/createUser', data)
+    axiosWithoutToken('POST', 'auth/registerUser', data)
       .then((response: AxiosResponse) => {
-        const { userId, token, msg } = response.data
+        const { token, msg } = response.data
         const dataToLocalStorage = {
-          userId,
           token
         }
         localStorage.setItem(OTP_KEY, JSON.stringify(dataToLocalStorage))
