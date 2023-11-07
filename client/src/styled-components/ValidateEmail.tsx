@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import PinField from 'react-pin-field'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
@@ -71,4 +72,9 @@ export const SPinField = styled(PinField)<{ $completed?: boolean }>`
     cursor: not-allowed;
     opacity: 0.5;
   }
+`
+
+export const SButton = styled(Button)`
+  margin: 0 auto;
+  margin-top: 1.5rem;
 `

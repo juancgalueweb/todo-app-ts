@@ -1,8 +1,7 @@
-import { Button } from 'antd'
 import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import useValidateEmail from '../hooks/useValidateEmail'
-import { SLink, SPinField } from '../styled-components/ValidateEmail'
+import { SButton, SLink, SPinField } from '../styled-components/ValidateEmail'
 import { SContainer, SPinFieldContainer } from '../styled-components/Wrappers'
 
 const ValidateEmail: React.FC = () => {
@@ -50,8 +49,7 @@ const ValidateEmail: React.FC = () => {
             validate='0123456789'
           />
         </SPinFieldContainer>
-        <Button
-          style={{ margin: '0 auto', marginTop: '1.5rem' }}
+        <SButton
           type='primary'
           size='large'
           onClick={() => {
@@ -60,7 +58,7 @@ const ValidateEmail: React.FC = () => {
           disabled={!completed}
         >
           Validar e-mail
-        </Button>
+        </SButton>
       </SContainer>
       <ToastContainer />
     </>
