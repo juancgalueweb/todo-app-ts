@@ -1,13 +1,9 @@
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
-  DeleteFilled,
-  EditTwoTone,
   ExclamationCircleOutlined,
-  LockFilled,
   MinusCircleOutlined,
-  SearchOutlined,
-  UnlockFilled
+  SearchOutlined
 } from '@ant-design/icons'
 import type { InputRef } from 'antd'
 import {
@@ -15,9 +11,7 @@ import {
   Col,
   Flex,
   Form,
-  Input,
   Popconfirm,
-  Row,
   Space,
   Table,
   Tag,
@@ -45,6 +39,18 @@ import {
 import { useFilterTodos } from '../stores/filterTodosStore'
 import { useTagsStore } from '../stores/tagsStore'
 import { useTodosStore } from '../stores/todosStore'
+import {
+  SDeleteFilledIcon,
+  SEditTwoToneIcon,
+  SLockFilledIcon,
+  SRowTodo,
+  STableClearButton,
+  STableSearchButton,
+  STableSearchDiv,
+  STableSearchInput,
+  STableSearchOutlinedIcon,
+  SUnlockFilledIcon
+} from '../styled-components/CustomAntDesignComponents'
 import TodoModal from './TodoModal'
 import ArrowDown from './icons/ArrowDown'
 import ArrowRight from './icons/ArrowRight'
@@ -118,13 +124,12 @@ const Todos: React.FC = () => {
       clearFilters,
       close
     }) => (
-      <div
-        style={{ padding: 8 }}
+      <STableSearchDiv
         onKeyDown={(e) => {
           e.stopPropagation()
         }}
       >
-        <Input
+        <STableSearchInput
           ref={searchInput}
           placeholder='Buscar tarea'
           value={selectedKeys[0]}
@@ -134,29 +139,26 @@ const Todos: React.FC = () => {
           onPressEnter={() => {
             handleSearch(selectedKeys as string[], confirm, dataIndex)
           }}
-          style={{ marginBottom: 8, display: 'block' }}
         />
         <Space>
-          <Button
+          <STableSearchButton
             type='primary'
             onClick={() => {
               handleSearch(selectedKeys as string[], confirm, dataIndex)
             }}
             icon={<SearchOutlined />}
             size='small'
-            style={{ width: 90 }}
           >
             Buscar
-          </Button>
-          <Button
+          </STableSearchButton>
+          <STableClearButton
             onClick={() => {
               clearFilters && handleReset(clearFilters)
             }}
             size='small'
-            style={{ width: 90 }}
           >
             Limpiar
-          </Button>
+          </STableClearButton>
           <Button
             type='link'
             size='small'
@@ -178,10 +180,10 @@ const Todos: React.FC = () => {
             cerrar
           </Button>
         </Space>
-      </div>
+      </STableSearchDiv>
     ),
     filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+      <STableSearchOutlinedIcon $filtered={filtered} />
     ),
     onFilter: (value, record) => {
       const dataIndexValue = record[dataIndex]
@@ -414,8 +416,7 @@ const Todos: React.FC = () => {
           <Space size='small'>
             {row.completed ? (
               <Tooltip title='Cambiar a pendiente'>
-                <LockFilled
-                  style={{ color: '#4B5563', fontSize: 16 }}
+                <SLockFilledIcon
                   onClick={() => {
                     const toggleStatus = !record.completed
                     updateCompletedStatus({
@@ -428,8 +429,7 @@ const Todos: React.FC = () => {
               </Tooltip>
             ) : (
               <Tooltip title='Cambiar a completado'>
-                <UnlockFilled
-                  style={{ color: '#4B5563', fontSize: 16 }}
+                <SUnlockFilledIcon
                   onClick={() => {
                     const toggleStatus = !record.completed
                     updateCompletedStatus({
@@ -443,9 +443,8 @@ const Todos: React.FC = () => {
             )}
             {record.completed !== undefined && record.completed === false ? (
               <Tooltip title='Editar tarea'>
-                <EditTwoTone
+                <SEditTwoToneIcon
                   rev={''}
-                  style={{ color: '#0EA5E9', fontSize: 16 }}
                   onClick={() => {
                     showModal(record)
                   }}
@@ -460,10 +459,7 @@ const Todos: React.FC = () => {
               }}
             >
               <Tooltip title='Borrar tarea'>
-                <DeleteFilled
-                  rev={''}
-                  style={{ color: '#E63F32', fontSize: 16 }}
-                />
+                <SDeleteFilledIcon rev={''} />
               </Tooltip>
             </Popconfirm>
           </Space>
@@ -476,7 +472,7 @@ const Todos: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Row justify='center' style={{ marginTop: '3.5rem' }}>
+      <SRowTodo justify='center'>
         <Col span={20}>
           <Table
             columns={columns}
@@ -500,7 +496,7 @@ const Todos: React.FC = () => {
             loading={loading}
           />
         </Col>
-      </Row>
+      </SRowTodo>
       <TodoModal
         open={open}
         onCancel={handleCancel}

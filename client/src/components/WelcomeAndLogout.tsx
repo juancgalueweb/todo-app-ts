@@ -1,6 +1,7 @@
 import { Button, Col, Flex, Row } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_KEY } from '../constants/const'
+import { SWelcomeParagraph } from '../styled-components/WelcomeAndLogout'
 
 const WelcomeAndLogout: React.FC = () => {
   const navigate = useNavigate()
@@ -17,9 +18,9 @@ const WelcomeAndLogout: React.FC = () => {
     <Row>
       <Col span={20} offset={2}>
         <Flex justify='space-between' align='center'>
-          <p style={{ fontSize: '1.3rem' }}>
+          <SWelcomeParagraph>
             Bienvenid@, {dataFromLocalStorage?.userEmail}
-          </p>
+          </SWelcomeParagraph>
           <Button
             size='large'
             type='primary'

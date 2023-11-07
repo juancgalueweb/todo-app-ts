@@ -3,11 +3,14 @@
  * and a button to remove all completed tasks.
  */
 
-import { DeleteFilled } from '@ant-design/icons'
-import { Badge, Button, Col, Flex, Popconfirm, Row } from 'antd'
+import { Badge, Button, Col, Flex, Popconfirm } from 'antd'
 import { useEffect, useState } from 'react'
 import { useFilterTodos } from '../stores/filterTodosStore'
 import { useTodosStore } from '../stores/todosStore'
+import {
+  SDeleteFilledIcon,
+  SRowFooter
+} from '../styled-components/CustomAntDesignComponents'
 import Filters from './Filters'
 
 const Footer: React.FC = () => {
@@ -36,7 +39,7 @@ const Footer: React.FC = () => {
   }, [loading])
 
   return (
-    <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+    <SRowFooter>
       <Col span={20} offset={2}>
         <Flex justify='space-between' align='center'>
           {activeCount > 0 && (
@@ -60,12 +63,7 @@ const Footer: React.FC = () => {
               okButtonProps={{ loading: confirmLoading }}
             >
               <Button
-                icon={
-                  <DeleteFilled
-                    rev={''}
-                    style={{ color: '#E63F32', marginRight: 2, fontSize: 14 }}
-                  />
-                }
+                icon={<SDeleteFilledIcon rev={''} />}
                 type='default'
                 color='error'
                 onClick={showPopconfirm}
@@ -76,7 +74,7 @@ const Footer: React.FC = () => {
           )}
         </Flex>
       </Col>
-    </Row>
+    </SRowFooter>
   )
 }
 

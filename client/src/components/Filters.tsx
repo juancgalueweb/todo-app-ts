@@ -26,7 +26,6 @@ const Filters: React.FC = () => {
             filterChange(key as FilterValue)
             setFilteredTodos()
           }}
-          style={{ margin: '0 0.2rem' }}
         >
           {literal}
         </Button>
@@ -35,7 +34,7 @@ const Filters: React.FC = () => {
   }
 
   return (
-    <Flex justify='center' align='center'>
+    <Flex justify='center' align='center' gap={6}>
       {renderFilterButtons()}
     </Flex>
   )

@@ -1,15 +1,4 @@
-import { DeleteFilled, EditTwoTone } from '@ant-design/icons'
-import {
-  Button,
-  Form,
-  Modal,
-  Popconfirm,
-  Space,
-  Table,
-  Tag,
-  Tooltip,
-  message
-} from 'antd'
+import { Form, Popconfirm, Space, Table, Tag, Tooltip, message } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useEffect, useState } from 'react'
 import type {
@@ -19,6 +8,13 @@ import type {
   TagSave
 } from '../interfaces/tags.interface'
 import { useTagsStore } from '../stores/tagsStore'
+import {
+  SButtonCreateTag,
+  SDeleteFilledIcon,
+  SEditTwoToneIcon,
+  SModalTag,
+  SSpaceFlex
+} from '../styled-components/CustomAntDesignComponents'
 import CreateEditTagModal from './CreateEditTag'
 
 const TagModal: React.FC<TagModalProps> = ({
@@ -116,9 +112,8 @@ const TagModal: React.FC<TagModalProps> = ({
         return (
           <Space size='small'>
             <Tooltip title='Editar etiqueta'>
-              <EditTwoTone
+              <SEditTwoToneIcon
                 rev={''}
-                style={{ color: '#0EA5E9', fontSize: 16 }}
                 onClick={() => {
                   showModal2(record)
                 }}
@@ -132,10 +127,7 @@ const TagModal: React.FC<TagModalProps> = ({
               }}
             >
               <Tooltip title='Borrar etiqueta'>
-                <DeleteFilled
-                  rev={''}
-                  style={{ color: '#E63F32', fontSize: 16 }}
-                />
+                <SDeleteFilledIcon rev={''} />
               </Tooltip>
             </Popconfirm>
           </Space>
@@ -166,22 +158,17 @@ const TagModal: React.FC<TagModalProps> = ({
   return (
     <>
       {contextHolder}
-      <Modal
+      <SModalTag
         open={openTagModal}
         title={modalTitleTag}
         onCancel={onCancelTag}
         footer={null}
-        styles={{ body: { maxHeight: '60vh', overflowY: 'auto' } }}
       >
         {tags.length === 0 && <p>Aún no ha creado ninguna etiqueta 😓</p>}
-        <Space direction='vertical' size='large' style={{ display: 'flex' }}>
-          <Button
-            type='primary'
-            style={{ marginTop: '10px' }}
-            onClick={showModal}
-          >
+        <SSpaceFlex direction='vertical' size='large'>
+          <SButtonCreateTag type='primary' onClick={showModal}>
             Crear etiqueta
-          </Button>
+          </SButtonCreateTag>
           <Table
             columns={columns}
             dataSource={tags}
@@ -189,8 +176,8 @@ const TagModal: React.FC<TagModalProps> = ({
             bordered={false}
             rowKey={(record) => record._id ?? ''}
           />
-        </Space>
-      </Modal>
+        </SSpaceFlex>
+      </SModalTag>
       <CreateEditTagModal
         open={open}
         onCancel={handleCancel}
