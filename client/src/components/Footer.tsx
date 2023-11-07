@@ -4,7 +4,7 @@
  */
 
 import { DeleteFilled } from '@ant-design/icons'
-import { Badge, Button, Col, Popconfirm, Row } from 'antd'
+import { Badge, Button, Col, Flex, Popconfirm, Row } from 'antd'
 import { useEffect, useState } from 'react'
 import { useFilterTodos } from '../stores/filterTodosStore'
 import { useTodosStore } from '../stores/todosStore'
@@ -38,13 +38,7 @@ const Footer: React.FC = () => {
   return (
     <Row style={{ marginTop: '1rem', marginBottom: '1rem' }}>
       <Col span={20} offset={2}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}
-        >
+        <Flex justify='space-between' align='center'>
           {activeCount > 0 && (
             <>
               <p>
@@ -80,7 +74,7 @@ const Footer: React.FC = () => {
               </Button>
             </Popconfirm>
           )}
-        </div>
+        </Flex>
       </Col>
     </Row>
   )

@@ -1,6 +1,7 @@
 import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_KEY } from '../constants/const'
+import { SContainer } from '../styled-components/Wrappers'
 
 const Home: React.FC = () => {
   const dataFromLocalStorage = JSON.parse(
@@ -8,7 +9,7 @@ const Home: React.FC = () => {
   )
   const navigate = useNavigate()
   return (
-    <div className='home-container'>
+    <SContainer>
       <h1>App para administrar tus tareas pendientes</h1>
       <p>
         Con esta aplicación podrás crear, eliminar, editar y visualizar tus
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
           </Button>
         )}
       </footer>
-    </div>
+    </SContainer>
   )
 }
 

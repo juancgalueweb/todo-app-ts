@@ -2,7 +2,7 @@
  * Filters component that displays filter options to show all, active or completed todos
  */
 
-import { Button } from 'antd'
+import { Button, Flex } from 'antd'
 import { FILTERS_BUTTONS } from '../constants/const'
 import { type FilterValue } from '../interfaces/todo.interface'
 import { useFilterTodos } from '../stores/filterTodosStore'
@@ -35,15 +35,9 @@ const Filters: React.FC = () => {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
+    <Flex justify='center' align='center'>
       {renderFilterButtons()}
-    </div>
+    </Flex>
   )
 }
 

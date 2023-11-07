@@ -2,13 +2,14 @@ import { Button } from 'antd'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import useLogin from '../hooks/useLogin'
-import styles from '../styles/Login.module.css'
+import { SError, SLoginForm } from '../styled-components/Login'
+import { SContainer } from '../styled-components/Wrappers'
 
 const Login: React.FC = () => {
   const { errorMessage, inputRef, handleOnChange, handleSubmit } = useLogin()
 
   return (
-    <div className={styles.container}>
+    <SContainer>
       <h1>Inicio de sesión</h1>
       <p>
         No necesitas registrarte. A tu correo electrónico te llegará un código
@@ -17,7 +18,7 @@ const Login: React.FC = () => {
           Si no lo recibes, no olvides revisar tu bandeja de SPAM 😎.
         </strong>
       </p>
-      <form action='' onSubmit={handleSubmit} noValidate>
+      <SLoginForm action='' onSubmit={handleSubmit} noValidate>
         <label htmlFor='email'>Ingresa un correo electrónico válido</label>
         <input
           type='email'
@@ -29,16 +30,16 @@ const Login: React.FC = () => {
           name='email'
         />
         {errorMessage !== '' && (
-          <div className={styles.error} role='alert'>
+          <SError role='alert'>
             <span>¡Error!</span> {errorMessage}
-          </div>
+          </SError>
         )}
         <Button htmlType='submit' type='primary' size='large'>
           Obtener código
         </Button>
-      </form>
+      </SLoginForm>
       <ToastContainer />
-    </div>
+    </SContainer>
   )
 }
 

@@ -3,7 +3,7 @@
  * with an input field for creating new todo items.
  */
 import { TagsOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Row, Space } from 'antd'
+import { Button, Col, Flex, Form, Row, Space } from 'antd'
 import dayjs from 'dayjs'
 import 'dayjs/locale/es'
 import { useEffect, useState } from 'react'
@@ -65,7 +65,7 @@ const CreateTodo: React.FC = () => {
     <>
       <Row>
         <Col span={20} offset={2}>
-          <div className='create-task-button'>
+          <Flex justify='start' align='center' style={{ padding: '10px 0' }}>
             <Space wrap>
               <Button type='primary' onClick={showModal} danger>
                 Crear tarea
@@ -81,7 +81,7 @@ const CreateTodo: React.FC = () => {
                 Gestionar etiquetas
               </Button>
             </Space>
-          </div>
+          </Flex>
         </Col>
       </Row>
       <TodoModal

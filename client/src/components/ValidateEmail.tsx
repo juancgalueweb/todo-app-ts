@@ -1,11 +1,9 @@
 import { Button } from 'antd'
 import { useEffect } from 'react'
-import PinField from 'react-pin-field'
-import { Link } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import useValidateEmail from '../hooks/useValidateEmail'
-import styles from '../styles/Login.module.css'
-import styles2 from '../styles/ValidateEmail.module.css'
+import { SLink, SPinField } from '../styled-components/ValidateEmail'
+import { SContainer, SPinFieldContainer } from '../styled-components/Wrappers'
 
 const ValidateEmail: React.FC = () => {
   const { validateOPT, setCode, completed, setCompleted } = useValidateEmail()
@@ -26,7 +24,7 @@ const ValidateEmail: React.FC = () => {
 
   return (
     <>
-      <div className={styles.container}>
+      <SContainer>
         <h1>Ingrese el código recibido</h1>
         <p>
           Por favor, ingrese el código que recibió en su correo electrónico para
@@ -35,16 +33,11 @@ const ValidateEmail: React.FC = () => {
         <p>
           Recuerde que el código expira a los 60 minutos luego de ser recibido,
           si ya pasó ese tiempo, puede solicitar otro sin problema en el{' '}
-          <Link className='back-to-login' to='/login'>
-            login
-          </Link>
-          .
+          <SLink to='/login'>login</SLink>.
         </p>
-        <div className='pin-field-wrapper'>
-          <PinField
-            className={`${styles2.pinField} ${
-              completed ? `${styles2.completed}` : ''
-            }`}
+        <SPinFieldContainer>
+          <SPinField
+            $completed={completed}
             length={4}
             onComplete={() => {
               setCompleted(true)
@@ -56,7 +49,7 @@ const ValidateEmail: React.FC = () => {
             autoFocus
             validate='0123456789'
           />
-        </div>
+        </SPinFieldContainer>
         <Button
           style={{ margin: '0 auto', marginTop: '1.5rem' }}
           type='primary'
@@ -68,7 +61,7 @@ const ValidateEmail: React.FC = () => {
         >
           Validar e-mail
         </Button>
-      </div>
+      </SContainer>
       <ToastContainer />
     </>
   )

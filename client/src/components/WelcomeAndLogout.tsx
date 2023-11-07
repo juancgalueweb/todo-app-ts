@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Flex, Row } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_KEY } from '../constants/const'
 
@@ -16,8 +16,10 @@ const WelcomeAndLogout: React.FC = () => {
   return (
     <Row>
       <Col span={20} offset={2}>
-        <div className='flex-and-center'>
-          <p>Bienvenid@, {dataFromLocalStorage?.userEmail}</p>
+        <Flex justify='space-between' align='center'>
+          <p style={{ fontSize: '1.3rem' }}>
+            Bienvenid@, {dataFromLocalStorage?.userEmail}
+          </p>
           <Button
             size='large'
             type='primary'
@@ -27,7 +29,7 @@ const WelcomeAndLogout: React.FC = () => {
           >
             Logout
           </Button>
-        </div>
+        </Flex>
       </Col>
     </Row>
   )
