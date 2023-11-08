@@ -28,12 +28,13 @@ import {
   translateEngToSpaPriority,
   translateSpaToEngPriority
 } from '../helpers/translatePriorities'
-import { uniqueArrayDate } from '../helpers/uniqueArrayData'
+import { getUniqueTagNames, uniqueArrayData } from '../helpers/uniqueArrayData'
 import type { ITag } from '../interfaces/tags.interface'
 import {
   SpaPriority,
   TaskStatus,
   type ITodo,
+  type ITodoUpdate,
   type TodoUpdateType
 } from '../interfaces/todo.interface'
 import { useFilterTodos } from '../stores/filterTodosStore'
@@ -67,7 +68,6 @@ const Todos: React.FC = () => {
     useTodosStore()
   const { pageSize, setPageSize, filteredTodos, setFilteredTodos } =
     useFilterTodos()
-  const { tags } = useTagsStore()
   const [messageApi, contextHolder] = message.useMessage()
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [searchText, setSearchText] = useState('')
@@ -77,6 +77,7 @@ const Todos: React.FC = () => {
   const [modaldata, setModaldata] = useState<TodoUpdateType | null>(null)
   const [open, setOpen] = useState(false)
   const [page, setPage] = useState(1)
+  const getTags = useTagsStore((state) => state.getTags)
 
   const deleteMsg = (): void => {
     void messageApi.open({
@@ -216,7 +217,7 @@ const Todos: React.FC = () => {
   const handleSubmit = (): void => {
     form
       .validateFields()
-      .then((values: TodoUpdateType) => {
+      .then((values: ITodoUpdate) => {
         const dateToDb = dayjs(values?.deadline).toDate()
         const translatedPriority = translateSpaToEngPriority(values?.priority)
         setConfirmLoading(true)
@@ -256,11 +257,12 @@ const Todos: React.FC = () => {
 
   useEffect(() => {
     if (modaldata) {
+      const tagsToForm = modaldata.tags.map((tag) => tag._id)
       form.setFieldsValue({
         title: modaldata.title,
         priority: modaldata.priority,
         deadline: modaldata.deadline,
-        tags: modaldata.tags
+        tags: tagsToForm
       })
     }
   }, [modaldata])
@@ -285,27 +287,20 @@ const Todos: React.FC = () => {
       title: 'Etiquetas',
       dataIndex: 'tags',
       width: '10%',
-      filters: tags.map((tag) => ({ text: tag.tagName, value: tag.tagName })),
-      onFilter: (value, record) => {
-        return record.tags.some(
-          (tagId) => tags.find((tag) => tag._id === tagId)?.tagName === value
-        )
-      },
+      filters: getUniqueTagNames(filteredTodos).map((tagName: string) => ({
+        text: tagName,
+        value: tagName
+      })),
+      onFilter: (value: boolean | Key, record: ITodo) =>
+        record.tags.map((tag) => tag.tagName).includes(value as string),
       render: (record) => {
-        const tagToDisplay: ITag[] = record
-          .map((tagId: string) => {
-            const tagInfo = tags.find((tag) => tag._id === tagId)
-            return tagInfo ?? null
-          })
-          .filter(Boolean)
-
         return (
           <>
-            {tagToDisplay.length === 0 ? (
+            {record.length === 0 ? (
               <NoTag />
             ) : (
               <Space size={4} wrap>
-                {tagToDisplay.map((tag, index) => (
+                {record.map((tag: ITag, index: number) => (
                   <Tag key={index} color={tag.tagColor}>
                     {tag.tagName}
                   </Tag>
@@ -319,7 +314,7 @@ const Todos: React.FC = () => {
     {
       title: 'Prioridad',
       dataIndex: 'priority',
-      filters: uniqueArrayDate(filteredTodos, 'priority').map((priority) => {
+      filters: uniqueArrayData(filteredTodos, 'priority').map((priority) => {
         return {
           text: translateEngToSpaPriority(priority as string),
           value: priority as string
@@ -447,6 +442,7 @@ const Todos: React.FC = () => {
                   rev={''}
                   onClick={() => {
                     showModal(record)
+                    getTags()
                   }}
                 />
               </Tooltip>
@@ -501,13 +497,6 @@ const Todos: React.FC = () => {
         open={open}
         onCancel={handleCancel}
         onOk={form.submit}
-        initialValues={{
-          _id: modaldata?._id,
-          title: modaldata?.title,
-          priority: modaldata?.priority,
-          deadline: dayjs(modaldata?.deadline),
-          tags: modaldata?.tags
-        }}
         onFinish={handleSubmit}
         name='editTodo'
         modalTitle='Editar tarea'

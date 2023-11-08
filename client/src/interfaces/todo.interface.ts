@@ -1,13 +1,14 @@
 import type { FormInstance } from 'antd/es/form'
 import { type Dayjs } from 'dayjs'
 import { type TODO_FILTERS } from '../constants/const'
+import type { ITag } from './tags.interface'
 
 export interface ITodo {
   _id?: string
   title: string
   priority: string
   completed: boolean
-  tags: string[]
+  tags: ITag[]
   deadline: Date | Dayjs
   createdAt?: Date
   updatedAt?: Date
@@ -21,6 +22,14 @@ export type TodoUpdateType = Pick<
   ITodo,
   '_id' | 'title' | 'priority' | 'deadline' | 'tags'
 >
+
+export interface ITodoUpdate {
+  _id: string | undefined
+  title: string
+  priority: string
+  deadline: Date | Dayjs
+  tags: string[]
+}
 
 export type FilterValue = (typeof TODO_FILTERS)[keyof typeof TODO_FILTERS]
 
@@ -46,7 +55,7 @@ export interface TodoModalProps {
   open: boolean
   onCancel: () => void
   onOk: () => void
-  initialValues: {
+  initialValues?: {
     _id?: string
     title: string | undefined
     priority: string | undefined
@@ -72,7 +81,7 @@ export interface ITodosStore {
   saveTodo: ({ title, priority, deadline }: TodoSave) => void
   removeTodo: ({ _id }: TodoId) => void
   updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
-  updateTodo: ({ _id, title, priority, deadline }: TodoUpdateType) => void
+  updateTodo: ({ _id, title, priority, deadline, tags }: ITodoUpdate) => void
   removeAllCompleted: () => void
 }
 

@@ -39,7 +39,7 @@ export interface CreateEditTagModalProps {
   open: boolean
   onCancel: () => void
   onOk: () => void
-  initialValues: {
+  initialValues?: {
     _id?: string
     tagName: string | undefined
     tagColor: string | undefined

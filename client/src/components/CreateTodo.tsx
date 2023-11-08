@@ -68,7 +68,14 @@ const CreateTodo: React.FC = () => {
         <Col span={20} offset={2}>
           <SFlexCreateTodo justify='start' align='center'>
             <Space>
-              <Button type='primary' onClick={showModal} danger>
+              <Button
+                type='primary'
+                onClick={() => {
+                  showModal()
+                  getTags()
+                }}
+                danger
+              >
                 Crear tarea
               </Button>
               <Button

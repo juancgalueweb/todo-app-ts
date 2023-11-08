@@ -84,6 +84,7 @@ export const useTagsStore = create<ITagsStore>((set, get) => ({
         .then((response: AxiosResponse) => {
           const { success, tag } = response.data
           if (success) {
+            useTodosStore.getState().getTodos()
             const currentTags = get().tags
             const tagsAfterUpdate = currentTags.map((currentTag) => {
               if (currentTag._id === _id) {

@@ -193,11 +193,6 @@ const TagModal: React.FC<TagModalProps> = ({
         open={open2}
         onCancel={handleCancel2}
         onOk={form2.submit}
-        initialValues={{
-          _id: editTagModal?._id,
-          tagName: editTagModal?.tagName,
-          tagColor: editTagModal?.tagColor
-        }}
         onFinish={handleSubmit2}
         form={form2}
         name='editTag'
