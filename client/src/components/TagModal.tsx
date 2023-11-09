@@ -1,6 +1,7 @@
 import { Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import useTagLogic from '../hooks/useTagsLogic'
+import useTagCreate from '../hooks/useTagsCreate'
+import useTagEdit from '../hooks/useTagsEdit'
 import type { ITag, TagModalProps } from '../interfaces/tags.interface'
 import {
   SButtonCreateTag,
@@ -18,23 +19,28 @@ const TagModal: React.FC<TagModalProps> = ({
 }) => {
   const {
     showModal,
-    showModal2,
-    removeTag,
-    deleteMsg,
-    contextHolder,
     handleSubmit,
-    handleSubmit2,
     handleCancel,
-    handleCancel2,
     tags,
     open,
-    open2,
     confirmLoading,
-    confirmLoading2,
     initialData,
     form,
-    form2
-  } = useTagLogic()
+    loadingTag
+  } = useTagCreate()
+
+  const {
+    showModalEdit,
+    removeTag,
+    deleteMsg,
+    contextHolderEdit,
+    handleSubmitEdit,
+    handleCancelEdit,
+    openEdit,
+    confirmLoadingEdit,
+    formEdit
+  } = useTagEdit()
+
   const columns: ColumnsType<ITag> = [
     {
       title: 'Etiqueta',
@@ -51,7 +57,7 @@ const TagModal: React.FC<TagModalProps> = ({
               <SEditTwoToneIcon
                 rev={''}
                 onClick={() => {
-                  showModal2(record)
+                  showModalEdit(record)
                 }}
               />
             </Tooltip>
@@ -74,7 +80,7 @@ const TagModal: React.FC<TagModalProps> = ({
 
   return (
     <>
-      {contextHolder}
+      {contextHolderEdit}
       <SModalTag
         open={openTagModal}
         title={modalTitleTag}
@@ -92,6 +98,7 @@ const TagModal: React.FC<TagModalProps> = ({
             pagination={false}
             bordered={false}
             rowKey={(record) => record._id ?? ''}
+            loading={loadingTag}
           />
         </SSpaceFlex>
       </SModalTag>
@@ -107,14 +114,14 @@ const TagModal: React.FC<TagModalProps> = ({
         confirmLoading={confirmLoading}
       />
       <CreateEditTagModal
-        open={open2}
-        onCancel={handleCancel2}
-        onOk={form2.submit}
-        onFinish={handleSubmit2}
-        form={form2}
+        open={openEdit}
+        onCancel={handleCancelEdit}
+        onOk={formEdit.submit}
+        onFinish={handleSubmitEdit}
+        form={formEdit}
         name='editTag'
         modalTitle='Editar etiqueta'
-        confirmLoading={confirmLoading2}
+        confirmLoading={confirmLoadingEdit}
       />
     </>
   )
