@@ -155,7 +155,7 @@ export const updateTodoService = async (
       { _id: id },
       body,
       { new: true, runValidators: true }
-    )
+    ).populate({ path: 'tags', select: ['tagName', 'tagColor', '_id'] })
 
     return {
       success: true,
