@@ -97,3 +97,34 @@ export interface IFilterStore {
   setActiveCount: () => void
   setCompletedCount: () => void
 }
+
+export interface UseCreateTodoReturn {
+  showModal: () => void
+  handleCancel: () => void
+  showTagModal: () => void
+  handleCancelTag: () => void
+  confirmLoading: boolean
+  open: boolean
+  openTag: boolean
+  form: any
+  getTags: () => void
+  saveTodo: (todo: TodoSave) => void
+  handleSubmit: (values: TodoSave) => void
+  initialData: {
+    title: string
+    priority: SpaPriority
+    deadline: null
+    tags: never[]
+  }
+}
+
+export interface UseFooterInfoReturn {
+  showPopconfirm: () => void
+  handleCancel: () => void
+  open: boolean
+  confirmLoading: boolean
+  activeCount: number
+  completedCount: number
+  removeAllCompleted: () => void
+  setConfirmLoading: (value: boolean) => void
+}

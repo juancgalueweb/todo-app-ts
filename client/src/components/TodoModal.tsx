@@ -47,7 +47,7 @@ const TodoModal: React.FC<TodoModalProps> = ({
       title={modalTitle}
       onCancel={onCancel}
       onOk={onOk}
-      okText='Guardar'
+      okText={confirmLoading ? 'Guardando...' : 'Guardar'}
       confirmLoading={confirmLoading}
     >
       <Form

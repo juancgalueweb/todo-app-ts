@@ -1,13 +1,7 @@
-import { Form, Popconfirm, Space, Table, Tag, Tooltip, message } from 'antd'
+import { Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { useEffect, useState } from 'react'
-import type {
-  ITag,
-  TagEdit,
-  TagModalProps,
-  TagSave
-} from '../interfaces/tags.interface'
-import { useTagsStore } from '../stores/tagsStore'
+import useTagLogic from '../hooks/useTagsLogic'
+import type { ITag, TagModalProps } from '../interfaces/tags.interface'
 import {
   SButtonCreateTag,
   SDeleteFilledIcon,
@@ -22,83 +16,25 @@ const TagModal: React.FC<TagModalProps> = ({
   onCancelTag,
   modalTitleTag
 }) => {
-  const initialData: TagSave = {
-    tagName: '',
-    tagColor: '#232323'
-  }
-  const { tags, removeTag, loadingTag, saveTag, editTag } = useTagsStore()
-  const [messageApi, contextHolder] = message.useMessage()
-  const [form] = Form.useForm()
-  const [form2] = Form.useForm()
-  const [open, setOpen] = useState(false)
-  const [open2, setOpen2] = useState(false)
-  const [confirmLoading, setConfirmLoading] = useState(false)
-  const [confirmLoading2, setConfirmLoading2] = useState(false)
-  const [editTagModal, setEditTagModal] = useState<ITag | null>(null)
-
-  const showModal = (): void => {
-    setOpen(true)
-  }
-
-  const showModal2 = (record: ITag): void => {
-    setEditTagModal({
-      _id: record._id,
-      tagName: record.tagName,
-      tagColor: record.tagColor
-    })
-    setOpen2(true)
-  }
-
-  const handleCancel = (): void => {
-    setOpen(false)
-    form.resetFields()
-  }
-
-  const handleCancel2 = (): void => {
-    setOpen2(false)
-    form2.resetFields()
-    setEditTagModal(null)
-  }
-
-  const handleSubmit2 = (values: TagEdit | TagSave): void => {
-    setConfirmLoading2(true)
-    let colorToDb
-    if (typeof values.tagColor === 'string') {
-      colorToDb = values.tagColor
-    } else {
-      colorToDb = (values.tagColor as any).toHexString() as ITag['tagColor']
-    }
-    editTag({
-      _id: editTagModal?._id,
-      tagName: values.tagName,
-      tagColor: colorToDb
-    })
-    setEditTagModal(null)
-  }
-
-  const handleSubmit = (values: TagSave): void => {
-    setConfirmLoading(true)
-    let colorToDb
-    if (typeof values.tagColor === 'string') {
-      colorToDb = values.tagColor
-    } else {
-      colorToDb = (values.tagColor as any).toHexString() as ITag['tagColor']
-    }
-    saveTag({
-      tagName: values.tagName,
-      tagColor: colorToDb
-    })
-    form.resetFields()
-  }
-
-  const deleteMsg = (): void => {
-    void messageApi.open({
-      type: 'loading',
-      content: 'Borrando etiqueta',
-      duration: 0
-    })
-  }
-
+  const {
+    showModal,
+    showModal2,
+    removeTag,
+    deleteMsg,
+    contextHolder,
+    handleSubmit,
+    handleSubmit2,
+    handleCancel,
+    handleCancel2,
+    tags,
+    open,
+    open2,
+    confirmLoading,
+    confirmLoading2,
+    initialData,
+    form,
+    form2
+  } = useTagLogic()
   const columns: ColumnsType<ITag> = [
     {
       title: 'Etiqueta',
@@ -135,25 +71,6 @@ const TagModal: React.FC<TagModalProps> = ({
       }
     }
   ]
-
-  useEffect(() => {
-    if (!loadingTag) {
-      messageApi.destroy()
-      setOpen(false)
-      setOpen2(false)
-      setConfirmLoading(false)
-      setConfirmLoading2(false)
-    }
-  }, [loadingTag])
-
-  useEffect(() => {
-    if (editTagModal) {
-      form2.setFieldsValue({
-        tagName: editTagModal.tagName,
-        tagColor: editTagModal.tagColor
-      })
-    }
-  }, [editTagModal])
 
   return (
     <>
