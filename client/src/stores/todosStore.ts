@@ -6,9 +6,7 @@ import {
   axiosWithTokenDeleteCompleted
 } from '../api/axios'
 import { handleError } from '../helpers/axiosErrorHandler'
-import { type ITag } from '../interfaces/tags.interface'
 import { type ITodosStore } from '../interfaces/todo.interface'
-import { useTagsStore } from './tagsStore'
 
 export const useTodosStore = create<ITodosStore>((set, get) => ({
   todos: [],
@@ -114,22 +112,15 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
           tags
         }
       }
-      const tagsStore = useTagsStore.getState()
       axiosWithTokenAndData('PUT', `todo/${_id}`, dataToAxios)
         .then((response: AxiosResponse) => {
           const { success } = response?.data
           if (success) {
+            const updatedTodo = response?.data?.todo
             const currentTodos = get().todos
             const updatedTodos = currentTodos.map((todo) => {
               if (todo._id === _id) {
-                // Mapear los IDs a objetos ITag
-                const updatedTags = tags.map((tagId) => {
-                  const foundTag = tagsStore.tags.find(
-                    (tag: ITag) => tag._id === tagId
-                  )
-                  return Array.isArray(foundTag) ? foundTag[0] : foundTag
-                })
-                return { ...todo, title, priority, deadline, tags: updatedTags }
+                return updatedTodo
               } else {
                 return todo
               }
