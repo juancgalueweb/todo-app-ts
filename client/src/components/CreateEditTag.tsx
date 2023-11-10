@@ -19,7 +19,7 @@ const CreateEditTagModal: React.FC<CreateEditTagModalProps> = ({
       title={modalTitle}
       onCancel={onCancel}
       onOk={onOk}
-      okText='Guardar'
+      okText={confirmLoading ? 'Guardando...' : 'Guardar'}
       confirmLoading={confirmLoading}
     >
       <Form

@@ -16,7 +16,8 @@ const todoSchema: Schema = new Schema(
     },
     completed: {
       type: Boolean,
-      required: [true, MSGS_RESPONSES.TODO_MODEL_COMPLETED]
+      required: [true, MSGS_RESPONSES.TODO_MODEL_COMPLETED],
+      default: false
     },
     priority: {
       type: String,

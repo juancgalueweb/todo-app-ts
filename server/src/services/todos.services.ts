@@ -18,7 +18,7 @@ export const getTodosService = async (
     // Fetch all the todos for the given user
     const allTodos: ITodo[] = await TodoModel.find({
       userId
-    })
+    }).populate({ path: 'tags', select: ['tagName', 'tagColor', '_id'] })
 
     // Send the response with all the fetched todos
     return {
@@ -44,12 +44,16 @@ export const addTodoService = async (
   try {
     // Create the new todo
     const newTodo: ITodo = await TodoModel.create({ ...body, userId })
+    const todoWithPopulatedTags = await TodoModel.populate(newTodo, {
+      path: 'tags',
+      select: ['tagName', 'tagColor', '_id']
+    })
 
     return {
       success: true,
       msg: MSGS_RESPONSES.ADD_TODO_OK,
       statusCode: HttpStatusCode.CREATED,
-      todo: newTodo
+      todo: todoWithPopulatedTags
     }
   } catch (error) {
     return {
@@ -151,7 +155,7 @@ export const updateTodoService = async (
       { _id: id },
       body,
       { new: true, runValidators: true }
-    )
+    ).populate({ path: 'tags', select: ['tagName', 'tagColor', '_id'] })
 
     return {
       success: true,

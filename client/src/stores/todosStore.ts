@@ -33,7 +33,6 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
     const dataToAxios = {
       data: {
         title,
-        completed: false,
         priority,
         deadline,
         tags
@@ -117,10 +116,11 @@ export const useTodosStore = create<ITodosStore>((set, get) => ({
         .then((response: AxiosResponse) => {
           const { success } = response?.data
           if (success) {
+            const updatedTodo = response?.data?.todo
             const currentTodos = get().todos
             const updatedTodos = currentTodos.map((todo) => {
               if (todo._id === _id) {
-                return { ...todo, title, priority, deadline, tags }
+                return updatedTodo
               } else {
                 return todo
               }

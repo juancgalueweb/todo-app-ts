@@ -6,6 +6,7 @@ import {
   Row,
   Segmented,
   Space,
+  Spin,
   Tag,
   Typography
 } from 'antd'
@@ -27,7 +28,7 @@ const TodoModal: React.FC<TodoModalProps> = ({
   modalTitle,
   confirmLoading
 }) => {
-  const { tags } = useTagsStore()
+  const { tags, loadingTag } = useTagsStore()
   const { Text } = Typography
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today
@@ -46,7 +47,7 @@ const TodoModal: React.FC<TodoModalProps> = ({
       title={modalTitle}
       onCancel={onCancel}
       onOk={onOk}
-      okText='Guardar'
+      okText={confirmLoading ? 'Guardando...' : 'Guardar'}
       confirmLoading={confirmLoading}
     >
       <Form
@@ -71,7 +72,11 @@ const TodoModal: React.FC<TodoModalProps> = ({
           <TextArea autoSize allowClear placeholder='¿Qué necesitas hacer?' />
         </Form.Item>
         <Form.Item label='Seleccione una etiqueta' name='tags'>
-          {tags.length === 0 ? (
+          {loadingTag ? (
+            <Row gutter={[8, 8]} align='middle' justify='center'>
+              <Spin />
+            </Row>
+          ) : tags.length === 0 ? (
             <Text type='secondary'>No hay etiquetas disponibles</Text>
           ) : (
             <Checkbox.Group style={{ width: '100%' }}>

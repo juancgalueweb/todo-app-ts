@@ -39,7 +39,7 @@ export interface CreateEditTagModalProps {
   open: boolean
   onCancel: () => void
   onOk: () => void
-  initialValues: {
+  initialValues?: {
     _id?: string
     tagName: string | undefined
     tagColor: string | undefined
@@ -49,4 +49,31 @@ export interface CreateEditTagModalProps {
   name: string
   modalTitle: string
   confirmLoading: boolean | undefined
+}
+
+export interface UseTagCreateReturn {
+  showModal: () => void
+  handleSubmit: (values: TagSave) => void
+  handleCancel: () => void
+  tags: ITag[]
+  open: boolean
+  confirmLoading: boolean
+  initialData: {
+    tagName: string
+    tagColor: string
+  }
+  form: FormInstance
+  loadingTag: boolean
+}
+
+export interface UseTagEditReturn {
+  showModalEdit: (record: ITag) => void
+  removeTag: ({ _id }: TagId) => void
+  deleteMsg: () => void
+  contextHolderEdit: React.ReactNode
+  handleSubmitEdit: (values: TagEdit | TagSave) => void
+  handleCancelEdit: () => void
+  openEdit: boolean
+  confirmLoadingEdit: boolean
+  formEdit: FormInstance
 }

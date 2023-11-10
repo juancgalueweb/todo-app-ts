@@ -1,25 +1,10 @@
-import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import useValidateEmail from '../hooks/useValidateEmail'
 import { SButton, SLink, SPinField } from '../styled-components/ValidateEmail'
 import { SContainer, SPinFieldContainer } from '../styled-components/Wrappers'
 
 const ValidateEmail: React.FC = () => {
-  const { validateOPT, setCode, completed, setCompleted } = useValidateEmail()
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Enter' && completed) {
-        validateOPT()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [completed, validateOPT])
+  const { validateOTP, setCode, completed, setCompleted } = useValidateEmail()
 
   return (
     <>
@@ -53,7 +38,7 @@ const ValidateEmail: React.FC = () => {
           type='primary'
           size='large'
           onClick={() => {
-            validateOPT()
+            validateOTP()
           }}
           disabled={!completed}
         >

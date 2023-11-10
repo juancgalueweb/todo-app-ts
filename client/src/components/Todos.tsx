@@ -6,39 +6,22 @@ import {
   SearchOutlined
 } from '@ant-design/icons'
 import type { InputRef } from 'antd'
-import {
-  Button,
-  Col,
-  Flex,
-  Form,
-  Popconfirm,
-  Space,
-  Table,
-  Tag,
-  Tooltip,
-  message
-} from 'antd'
+import { Button, Col, Flex, Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
 import type { FilterConfirmProps, Key } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
-import {
-  translateEngToSpaPriority,
-  translateSpaToEngPriority
-} from '../helpers/translatePriorities'
-import { uniqueArrayDate } from '../helpers/uniqueArrayData'
+import { translateEngToSpaPriority } from '../helpers/translatePriorities'
+import { getUniqueTagNames, uniqueArrayData } from '../helpers/uniqueArrayData'
+import useTodosTable from '../hooks/useTodosTable'
 import type { ITag } from '../interfaces/tags.interface'
 import {
   SpaPriority,
   TaskStatus,
-  type ITodo,
-  type TodoUpdateType
+  type ITodo
 } from '../interfaces/todo.interface'
-import { useFilterTodos } from '../stores/filterTodosStore'
-import { useTagsStore } from '../stores/tagsStore'
-import { useTodosStore } from '../stores/todosStore'
 import {
   SDeleteFilledIcon,
   SEditTwoToneIcon,
@@ -63,43 +46,28 @@ dayjs.extend(relativeTime)
 type DataIndex = keyof ITodo
 
 const Todos: React.FC = () => {
-  const { loading, removeTodo, updateCompletedStatus, updateTodo } =
-    useTodosStore()
-  const { pageSize, setPageSize, filteredTodos, setFilteredTodos } =
-    useFilterTodos()
-  const { tags } = useTagsStore()
-  const [messageApi, contextHolder] = message.useMessage()
-  const [confirmLoading, setConfirmLoading] = useState(false)
   const [searchText, setSearchText] = useState('')
   const [searchedColumn, setSearchedColumn] = useState('')
   const searchInput = useRef<InputRef>(null)
-  const [form] = Form.useForm()
-  const [modaldata, setModaldata] = useState<TodoUpdateType | null>(null)
-  const [open, setOpen] = useState(false)
   const [page, setPage] = useState(1)
-
-  const deleteMsg = (): void => {
-    void messageApi.open({
-      type: 'loading',
-      content: 'Borrando tarea',
-      duration: 0
-    })
-  }
-
-  const completeTodoMsg = (completed: boolean): void => {
-    if (completed) {
-      void messageApi.open({
-        type: 'success',
-        content: 'Tarea completada',
-        duration: 0
-      })
-    } else {
-      void messageApi.info({
-        content: 'Tarea abierta nuevamente',
-        duration: 0
-      })
-    }
-  }
+  const {
+    handleCancel,
+    showModal,
+    handleSubmit,
+    completeTodoMsg,
+    deleteMsg,
+    getTags,
+    open,
+    confirmLoading,
+    contextHolder,
+    filteredTodos,
+    removeTodo,
+    updateCompletedStatus,
+    loading,
+    form,
+    pageSize,
+    setPageSize
+  } = useTodosTable()
 
   const handleSearch = (
     selectedKeys: string[],
@@ -213,68 +181,6 @@ const Todos: React.FC = () => {
       )
   })
 
-  const handleSubmit = (): void => {
-    form
-      .validateFields()
-      .then((values: TodoUpdateType) => {
-        const dateToDb = dayjs(values?.deadline).toDate()
-        const translatedPriority = translateSpaToEngPriority(values?.priority)
-        setConfirmLoading(true)
-        const dataToDB = {
-          _id: modaldata?._id,
-          title: values?.title,
-          deadline: dateToDb,
-          priority: translatedPriority,
-          tags: values?.tags
-        }
-        updateTodo(dataToDB)
-        setModaldata(null)
-      })
-      .catch((error) => {
-        console.error('Error en el formulario:', error)
-      })
-  }
-
-  const showModal = (record: ITodo): void => {
-    const translatedPriority = translateEngToSpaPriority(record?.priority)
-    const formattedDeadline = dayjs(record?.deadline)
-    setModaldata({
-      _id: record?._id,
-      title: record?.title,
-      priority: translatedPriority,
-      deadline: formattedDeadline,
-      tags: record?.tags
-    })
-    setOpen(true)
-  }
-
-  const handleCancel = (): void => {
-    setOpen(false)
-    form.resetFields()
-    setModaldata(null)
-  }
-
-  useEffect(() => {
-    if (modaldata) {
-      form.setFieldsValue({
-        title: modaldata.title,
-        priority: modaldata.priority,
-        deadline: modaldata.deadline,
-        tags: modaldata.tags
-      })
-    }
-  }, [modaldata])
-
-  useEffect(() => {
-    setFilteredTodos()
-    // Cuando loading cambia a false, establece confirmLoading en false.
-    if (!loading) {
-      setOpen(false)
-      setConfirmLoading(false)
-      messageApi.destroy()
-    }
-  }, [loading])
-
   const columns: ColumnsType<ITodo> = [
     {
       title: 'Descripción de la tarea',
@@ -285,27 +191,20 @@ const Todos: React.FC = () => {
       title: 'Etiquetas',
       dataIndex: 'tags',
       width: '10%',
-      filters: tags.map((tag) => ({ text: tag.tagName, value: tag.tagName })),
-      onFilter: (value, record) => {
-        return record.tags.some(
-          (tagId) => tags.find((tag) => tag._id === tagId)?.tagName === value
-        )
-      },
+      filters: getUniqueTagNames(filteredTodos).map((tagName: string) => ({
+        text: tagName,
+        value: tagName
+      })),
+      onFilter: (value: boolean | Key, record: ITodo) =>
+        record.tags.map((tag) => tag.tagName).includes(value as string),
       render: (record) => {
-        const tagToDisplay: ITag[] = record
-          .map((tagId: string) => {
-            const tagInfo = tags.find((tag) => tag._id === tagId)
-            return tagInfo ?? null
-          })
-          .filter(Boolean)
-
         return (
           <>
-            {tagToDisplay.length === 0 ? (
+            {record.length === 0 ? (
               <NoTag />
             ) : (
               <Space size={4} wrap>
-                {tagToDisplay.map((tag, index) => (
+                {record.map((tag: ITag, index: number) => (
                   <Tag key={index} color={tag.tagColor}>
                     {tag.tagName}
                   </Tag>
@@ -319,7 +218,7 @@ const Todos: React.FC = () => {
     {
       title: 'Prioridad',
       dataIndex: 'priority',
-      filters: uniqueArrayDate(filteredTodos, 'priority').map((priority) => {
+      filters: uniqueArrayData(filteredTodos, 'priority').map((priority) => {
         return {
           text: translateEngToSpaPriority(priority as string),
           value: priority as string
@@ -447,6 +346,7 @@ const Todos: React.FC = () => {
                   rev={''}
                   onClick={() => {
                     showModal(record)
+                    getTags()
                   }}
                 />
               </Tooltip>
@@ -501,13 +401,6 @@ const Todos: React.FC = () => {
         open={open}
         onCancel={handleCancel}
         onOk={form.submit}
-        initialValues={{
-          _id: modaldata?._id,
-          title: modaldata?.title,
-          priority: modaldata?.priority,
-          deadline: dayjs(modaldata?.deadline),
-          tags: modaldata?.tags
-        }}
         onFinish={handleSubmit}
         name='editTodo'
         modalTitle='Editar tarea'

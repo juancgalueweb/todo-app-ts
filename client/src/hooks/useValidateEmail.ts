@@ -1,5 +1,5 @@
 import { type AxiosError, type AxiosResponse } from 'axios'
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -25,7 +25,7 @@ const useValidateEmail = (): useValidateEmailReturn => {
     }
   }
 
-  const validateOPT = (): void => {
+  const validateOTP = (): void => {
     axiosWithTokenValidateEmail('POST', 'auth/verifyEmail', dataToAxios)
       .then((response: AxiosResponse) => {
         const { userEmail, token, msg } = response.data
@@ -98,7 +98,21 @@ const useValidateEmail = (): useValidateEmailReturn => {
       })
   }
 
-  return { validateOPT, setCode, code, completed, setCompleted }
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Enter' && completed) {
+        validateOTP()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [completed, validateOTP])
+
+  return { validateOTP, setCode, code, completed, setCompleted }
 }
 
 export default useValidateEmail

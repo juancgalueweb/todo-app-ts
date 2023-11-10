@@ -2,6 +2,7 @@ import { type Document } from 'mongoose'
 import { type HttpStatusCode } from '../constants/http'
 
 export interface ITag extends Document {
+  _id: string
   userId: string
   tagName: string
   tagColor: `#${string}`

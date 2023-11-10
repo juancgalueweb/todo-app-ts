@@ -7,7 +7,7 @@ export interface UseLoginReturn {
 }
 
 export interface useValidateEmailReturn {
-  validateOPT: () => void
+  validateOTP: () => void
   code: string
   completed: boolean
   setCode: (code: string) => void

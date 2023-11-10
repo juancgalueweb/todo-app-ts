@@ -8,6 +8,7 @@ const Home: React.FC = () => {
     localStorage.getItem(APP_KEY) as string
   )
   const navigate = useNavigate()
+
   return (
     <SContainer>
       <h1>App para administrar tus tareas pendientes</h1>
