@@ -106,7 +106,7 @@ export interface UseCreateTodoReturn {
   confirmLoading: boolean
   open: boolean
   openTag: boolean
-  form: any
+  form: FormInstance
   getTags: () => void
   saveTodo: (todo: TodoSave) => void
   handleSubmit: (values: TodoSave) => void
@@ -127,4 +127,23 @@ export interface UseFooterInfoReturn {
   completedCount: number
   removeAllCompleted: () => void
   setConfirmLoading: (value: boolean) => void
+}
+
+export interface UseTodosTableReturn {
+  handleCancel: () => void
+  showModal: (record: ITodo) => void
+  handleSubmit: () => void
+  completeTodoMsg: (completed: boolean) => void
+  deleteMsg: () => void
+  getTags: () => void
+  open: boolean
+  confirmLoading: boolean
+  contextHolder: JSX.Element
+  filteredTodos: ITodo[]
+  removeTodo: ({ _id }: TodoId) => void
+  updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
+  loading: boolean
+  form: FormInstance
+  pageSize: number
+  setPageSize: (pageSize: number) => void
 }
