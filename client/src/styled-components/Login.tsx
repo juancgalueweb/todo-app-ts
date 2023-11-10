@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const SLoginForm = styled.form`
-  width: 32rem;
+  width: 100vw;
   height: 18rem;
   background-color: white;
   border-radius: 8px;
