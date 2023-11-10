@@ -6,7 +6,17 @@ import {
   SearchOutlined
 } from '@ant-design/icons'
 import type { InputRef } from 'antd'
-import { Button, Col, Flex, Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Flex,
+  Popconfirm,
+  Space,
+  Table,
+  Tag,
+  Tooltip
+} from 'antd'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
 import type { FilterConfirmProps, Key } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
@@ -411,13 +421,66 @@ const Todos: React.FC = () => {
         />
       </div>
 
+      {/* TASKS CARDS FOR SMALL SCREENS */}
+
       <div className='todos-cards'>
-        <p>
-          PRUEBA DE RENDERIZADO CONDICIONAL:{' '}
-          {filteredTodos.map((todo) => (
-            <div key={todo._id}>{todo.title}</div>
-          ))}
-        </p>
+        {filteredTodos.map((todo) => (
+          <Card key={todo._id} title={todo.title} style={{ width: 300 }}>
+            <div>{todo.completed ? 'completado' : 'pendiente'}</div>
+            <div>{dayjs(todo.deadline).format('DD-MM-YYYY')}</div>
+            <Space size='small'>
+              {todo.completed ? (
+                <Tooltip title='Cambiar a pendiente'>
+                  <SLockFilledIcon
+                    onClick={() => {
+                      const toggleStatus = !todo.completed
+                      updateCompletedStatus({
+                        _id: todo._id,
+                        completed: toggleStatus
+                      })
+                      completeTodoMsg(toggleStatus)
+                    }}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip title='Cambiar a completado'>
+                  <SUnlockFilledIcon
+                    onClick={() => {
+                      const toggleStatus = !todo.completed
+                      updateCompletedStatus({
+                        _id: todo._id,
+                        completed: toggleStatus
+                      })
+                      completeTodoMsg(toggleStatus)
+                    }}
+                  />
+                </Tooltip>
+              )}
+              {todo.completed !== undefined && !todo.completed ? (
+                <Tooltip title='Editar tarea'>
+                  <SEditTwoToneIcon
+                    rev={''}
+                    onClick={() => {
+                      showModal(todo)
+                      getTags()
+                    }}
+                  />
+                </Tooltip>
+              ) : null}
+              <Popconfirm
+                title='¿Desea eliminar la tarea?'
+                onConfirm={() => {
+                  removeTodo({ _id: todo._id })
+                  deleteMsg()
+                }}
+              >
+                <Tooltip title='Borrar tarea'>
+                  <SDeleteFilledIcon rev={''} />
+                </Tooltip>
+              </Popconfirm>
+            </Space>
+          </Card>
+        ))}
       </div>
     </STableOrCard>
   )
