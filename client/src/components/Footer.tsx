@@ -24,8 +24,8 @@ const Footer: React.FC = () => {
 
   return (
     <SRowFooter>
-      <Col span={20} offset={2}>
-        <Flex justify='space-between' align='center'>
+      <Col xs={{ span: 24 }} md={{ span: 20, offset: 2 }}>
+        <Flex justify='space-between' align='center' wrap='wrap' gap={8}>
           {activeCount > 0 && (
             <>
               <p>

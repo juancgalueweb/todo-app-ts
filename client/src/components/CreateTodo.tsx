@@ -28,8 +28,8 @@ const CreateTodo: React.FC = () => {
   return (
     <>
       <Row>
-        <Col span={20} offset={2}>
-          <SFlexCreateTodo justify='start' align='center'>
+        <Col xs={{ span: 24 }} md={{ span: 20, offset: 2 }}>
+          <SFlexCreateTodo>
             <Space>
               <Button
                 type='primary'

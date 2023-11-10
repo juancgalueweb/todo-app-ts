@@ -69,3 +69,12 @@ export const SPinFieldContainer = styled.div`
   text-align: center;
   margin: 1.25rem 0;
 `
+
+export const SMainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: between;
+  height: 100vh;
+  width: 100%;
+  padding: 1rem;
+`

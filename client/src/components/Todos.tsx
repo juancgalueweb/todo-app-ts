@@ -34,6 +34,7 @@ import {
   STableSearchOutlinedIcon,
   SUnlockFilledIcon
 } from '../styled-components/CustomAntDesignComponents'
+import { STableOrCard } from '../styled-components/STableOrCard'
 import TodoModal from './TodoModal'
 import ArrowDown from './icons/ArrowDown'
 import ArrowRight from './icons/ArrowRight'
@@ -370,44 +371,55 @@ const Todos: React.FC = () => {
   ]
 
   return (
-    <>
-      {contextHolder}
-      <SRowTodo justify='center'>
-        <Col span={20}>
-          <Table
-            columns={columns}
-            dataSource={filteredTodos}
-            rowKey={(record) => record._id ?? ''}
-            rowClassName={(record) => {
-              if (record.completed) {
-                return 'completed-table-cell'
-              }
-              return ''
-            }}
-            pagination={{
-              showSizeChanger: true,
-              current: page,
-              pageSize,
-              onChange: (page, pageSize) => {
-                setPage(page)
-                setPageSize(pageSize)
-              }
-            }}
-            loading={loading}
-          />
-        </Col>
-      </SRowTodo>
-      <TodoModal
-        open={open}
-        onCancel={handleCancel}
-        onOk={form.submit}
-        onFinish={handleSubmit}
-        name='editTodo'
-        modalTitle='Editar tarea'
-        form={form}
-        confirmLoading={confirmLoading}
-      />
-    </>
+    <STableOrCard>
+      <div className='todos-table'>
+        {contextHolder}
+        <SRowTodo justify='center'>
+          <Col span={20}>
+            <Table
+              columns={columns}
+              dataSource={filteredTodos}
+              rowKey={(record) => record._id ?? ''}
+              rowClassName={(record) => {
+                if (record.completed) {
+                  return 'completed-table-cell'
+                }
+                return ''
+              }}
+              pagination={{
+                showSizeChanger: true,
+                current: page,
+                pageSize,
+                onChange: (page, pageSize) => {
+                  setPage(page)
+                  setPageSize(pageSize)
+                }
+              }}
+              loading={loading}
+            />
+          </Col>
+        </SRowTodo>
+        <TodoModal
+          open={open}
+          onCancel={handleCancel}
+          onOk={form.submit}
+          onFinish={handleSubmit}
+          name='editTodo'
+          modalTitle='Editar tarea'
+          form={form}
+          confirmLoading={confirmLoading}
+        />
+      </div>
+
+      <div className='todos-cards'>
+        <p>
+          PRUEBA DE RENDERIZADO CONDICIONAL:{' '}
+          {filteredTodos.map((todo) => (
+            <div key={todo._id}>{todo.title}</div>
+          ))}
+        </p>
+      </div>
+    </STableOrCard>
   )
 }
 

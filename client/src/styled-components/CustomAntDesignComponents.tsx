@@ -7,9 +7,15 @@ import {
 } from '@ant-design/icons'
 import { Button, Flex, Input, Modal, Row, Space } from 'antd'
 import styled from 'styled-components'
+import { device } from '../helpers/devicesMediaqueries'
 
 export const SFlexCreateTodo = styled(Flex)`
-  padding: 1rem 0;
+  justify-content: center;
+  margin: 1rem 0;
+
+  @media ${device.tablet} {
+    justify-content: flex-start;
+  }
 `
 
 export const SRowFooter = styled(Row)`
