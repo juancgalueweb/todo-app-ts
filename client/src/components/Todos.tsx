@@ -192,6 +192,38 @@ const Todos: React.FC = () => {
       )
   })
 
+  // --- COMPONENTE PARA REPRESENTAR FECHA TOPE
+
+  const TodosDeadline: React.FC = (record: any) => {
+    const now = dayjs(new Date())
+    const deadline = dayjs(record.deadline)
+    const daysDifference = deadline.diff(now, 'd', true)
+    let tagColor = ''
+    let tagIcon = null
+    if (daysDifference < 2) {
+      tagColor = 'error'
+      tagIcon = <ClockCircleOutlined rev={''} />
+    } else if (daysDifference < 5) {
+      tagColor = 'warning'
+      tagIcon = <ExclamationCircleOutlined rev={''} />
+    } else {
+      tagColor = 'success'
+      tagIcon = <CheckCircleOutlined rev={''} />
+    }
+
+    if (record.completed) {
+      tagColor = '#D4D4D4'
+      tagIcon = <MinusCircleOutlined rev={''} />
+    }
+    return (
+      <Tag icon={tagIcon} color={tagColor}>
+        {deadline.format('DD-MM-YYYY')}
+      </Tag>
+    )
+  }
+
+  // ---
+
   const columns: ColumnsType<ITodo> = [
     {
       title: 'Descripción de la tarea',
@@ -274,33 +306,34 @@ const Todos: React.FC = () => {
       dataIndex: 'deadline',
       sorter: (a, b) => dayjs(a.deadline).unix() - dayjs(b.deadline).unix(),
       render: (record, row) => {
-        const deadline = dayjs(record)
-        const now = dayjs(new Date())
-        const daysDifference = deadline.diff(now, 'd', true)
+        // const deadline = dayjs(record)
+        // const now = dayjs(new Date())
+        // const daysDifference = deadline.diff(now, 'd', true)
 
-        let tagColor = ''
-        let tagIcon = null
-        if (daysDifference < 2) {
-          tagColor = 'error'
-          tagIcon = <ClockCircleOutlined rev={''} />
-        } else if (daysDifference < 5) {
-          tagColor = 'warning'
-          tagIcon = <ExclamationCircleOutlined rev={''} />
-        } else {
-          tagColor = 'success'
-          tagIcon = <CheckCircleOutlined rev={''} />
-        }
+        // let tagColor = ''
+        // let tagIcon = null
+        // if (daysDifference < 2) {
+        //   tagColor = 'error'
+        //   tagIcon = <ClockCircleOutlined rev={''} />
+        // } else if (daysDifference < 5) {
+        //   tagColor = 'warning'
+        //   tagIcon = <ExclamationCircleOutlined rev={''} />
+        // } else {
+        //   tagColor = 'success'
+        //   tagIcon = <CheckCircleOutlined rev={''} />
+        // }
 
-        if (row.completed) {
-          tagColor = '#D4D4D4'
-          tagIcon = <MinusCircleOutlined rev={''} />
-        }
+        // if (row.completed) {
+        //   tagColor = '#D4D4D4'
+        //   tagIcon = <MinusCircleOutlined rev={''} />
+        // }
 
-        return (
-          <Tag icon={tagIcon} color={tagColor}>
-            {deadline.format('DD-MM-YYYY')}
-          </Tag>
-        )
+        // return (
+        //   <Tag icon={tagIcon} color={tagColor}>
+        //     {deadline.format('DD-MM-YYYY')}
+        //   </Tag>
+        // )
+        return <TodosDeadline deadline={record} completed={row.completed} />
       },
       width: '10%'
     },
@@ -425,60 +458,86 @@ const Todos: React.FC = () => {
 
       <div className='todos-cards'>
         {filteredTodos.map((todo) => (
-          <Card key={todo._id} title={todo.title} style={{ width: 300 }}>
-            <div>{todo.completed ? 'completado' : 'pendiente'}</div>
-            <div>{dayjs(todo.deadline).format('DD-MM-YYYY')}</div>
-            <Space size='small'>
-              {todo.completed ? (
-                <Tooltip title='Cambiar a pendiente'>
-                  <SLockFilledIcon
-                    onClick={() => {
-                      const toggleStatus = !todo.completed
-                      updateCompletedStatus({
-                        _id: todo._id,
-                        completed: toggleStatus
-                      })
-                      completeTodoMsg(toggleStatus)
+          <Card
+            className={todo.completed ? 'task-card-completed' : 'task-card'}
+            key={todo._id}
+            title={todo.title}
+            headStyle={
+              todo.completed
+                ? { color: '#989898' }
+                : {
+                    color: ''
+                  }
+            }
+          >
+            <div className='task-details'>
+              <div className='task-status'>
+                {todo.completed ? 'Completado' : 'Pendiente'}
+              </div>
+
+              {/* Revisar (TS!!!) */}
+              <div className='task-deadline'>
+                <TodosDeadline
+                  deadline={todo.deadline}
+                  completed={todo.completed}
+                />
+              </div>
+
+              {/* Acciones, extraer a componente (TS!!!) */}
+              <div className='task-actions'>
+                <Space size='small'>
+                  {todo.completed ? (
+                    <Tooltip title='Cambiar a pendiente'>
+                      <SLockFilledIcon
+                        onClick={() => {
+                          const toggleStatus = !todo.completed
+                          updateCompletedStatus({
+                            _id: todo._id,
+                            completed: toggleStatus
+                          })
+                          completeTodoMsg(toggleStatus)
+                        }}
+                      />
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title='Cambiar a completado'>
+                      <SUnlockFilledIcon
+                        onClick={() => {
+                          const toggleStatus = !todo.completed
+                          updateCompletedStatus({
+                            _id: todo._id,
+                            completed: toggleStatus
+                          })
+                          completeTodoMsg(toggleStatus)
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                  {todo.completed !== undefined && !todo.completed ? (
+                    <Tooltip title='Editar tarea'>
+                      <SEditTwoToneIcon
+                        rev={''}
+                        onClick={() => {
+                          showModal(todo)
+                          getTags()
+                        }}
+                      />
+                    </Tooltip>
+                  ) : null}
+                  <Popconfirm
+                    title='¿Desea eliminar la tarea?'
+                    onConfirm={() => {
+                      removeTodo({ _id: todo._id })
+                      deleteMsg()
                     }}
-                  />
-                </Tooltip>
-              ) : (
-                <Tooltip title='Cambiar a completado'>
-                  <SUnlockFilledIcon
-                    onClick={() => {
-                      const toggleStatus = !todo.completed
-                      updateCompletedStatus({
-                        _id: todo._id,
-                        completed: toggleStatus
-                      })
-                      completeTodoMsg(toggleStatus)
-                    }}
-                  />
-                </Tooltip>
-              )}
-              {todo.completed !== undefined && !todo.completed ? (
-                <Tooltip title='Editar tarea'>
-                  <SEditTwoToneIcon
-                    rev={''}
-                    onClick={() => {
-                      showModal(todo)
-                      getTags()
-                    }}
-                  />
-                </Tooltip>
-              ) : null}
-              <Popconfirm
-                title='¿Desea eliminar la tarea?'
-                onConfirm={() => {
-                  removeTodo({ _id: todo._id })
-                  deleteMsg()
-                }}
-              >
-                <Tooltip title='Borrar tarea'>
-                  <SDeleteFilledIcon rev={''} />
-                </Tooltip>
-              </Popconfirm>
-            </Space>
+                  >
+                    <Tooltip title='Borrar tarea'>
+                      <SDeleteFilledIcon rev={''} />
+                    </Tooltip>
+                  </Popconfirm>
+                </Space>
+              </div>
+            </div>
           </Card>
         ))}
       </div>
