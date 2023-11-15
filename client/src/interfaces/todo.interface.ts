@@ -147,3 +147,19 @@ export interface UseTodosTableReturn {
   pageSize: number
   setPageSize: (pageSize: number) => void
 }
+
+export interface TodosDeadlineProps {
+  record: Dayjs
+  completed: boolean
+}
+
+export interface TodosActionsProps {
+  row: ITodo
+  record: ITodo
+  updateCompletedStatus: ({ _id, completed }: TodoIdAndCompleted) => void
+  completeTodoMsg: (completed: boolean) => void
+  showModal: (record: ITodo) => void
+  getTags: () => void
+  removeTodo: ({ _id }: TodoId) => void
+  deleteMsg: () => void
+}
