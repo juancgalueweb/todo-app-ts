@@ -33,6 +33,7 @@ import ArrowUp from './icons/ArrowUp'
 import NoTag from './icons/NoTag'
 import TodosDeadline from './TodosDeadline'
 import TodosActions from './TodosActions'
+import SiteFooter from './SiteFooter'
 import('dayjs/locale/es')
 dayjs.locale('es')
 dayjs.extend(relativeTime)
@@ -382,6 +383,7 @@ const Todos: React.FC = () => {
           </Card>
         ))}
       </div>
+      <SiteFooter />
     </STableOrCard>
   )
 }
