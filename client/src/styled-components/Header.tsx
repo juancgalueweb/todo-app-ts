@@ -6,7 +6,7 @@ export const SHeader = styled.header`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 5rem;
+  height: 8rem;
 
   h1 {
     font-size: 4rem;
