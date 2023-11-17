@@ -29,6 +29,22 @@ export const SFooterContainer = styled.footer`
 export const SFooterSection = styled.div`
   font-size: 0.8rem;
   color: ${gray500};
+
+  p {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    @media ${device.laptop} {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 `
 
 export const SFooterSocial = styled.div`

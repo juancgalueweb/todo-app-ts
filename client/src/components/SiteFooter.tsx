@@ -1,8 +1,4 @@
-import {
-  CopyrightOutlined,
-  GithubOutlined,
-  LinkedinOutlined
-} from '@ant-design/icons'
+import { GithubOutlined, LinkedinOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import {
   SFooterContainer,
@@ -19,7 +15,7 @@ function SiteFooter(): JSX.Element {
         <SFooterContainer>
           <SFooterSection>
             <p>
-              Copyright <CopyrightOutlined /> 2023{' '}
+              Copyright &copy; 2023{' '}
               <SHoverUnderlineAnimation
                 href='https://github.com/juancgalueweb'
                 target='_blank'
