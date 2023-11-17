@@ -7,7 +7,8 @@ import { Col, Row } from 'antd'
 import {
   SFooterContainer,
   SFooterSection,
-  SFooterSocial
+  SFooterSocial,
+  SHoverUnderlineAnimation
 } from '../styled-components/SiteFooter'
 
 function SiteFooter(): JSX.Element {
@@ -19,13 +20,13 @@ function SiteFooter(): JSX.Element {
           <SFooterSection>
             <p>
               Copyright <CopyrightOutlined /> 2023{' '}
-              <a
+              <SHoverUnderlineAnimation
                 href='https://github.com/juancgalueweb'
                 target='_blank'
                 rel='noreferrer'
               >
                 Juan Carlos Galué
-              </a>
+              </SHoverUnderlineAnimation>
             </p>
           </SFooterSection>
           <SFooterSocial>
@@ -49,13 +50,13 @@ function SiteFooter(): JSX.Element {
           <SFooterSection>
             <p>
               Responsive design by{' '}
-              <a
+              <SHoverUnderlineAnimation
                 href='https://www.linkedin.com/in/marcopdonoso/'
                 target='_blank'
                 rel='noreferrer'
               >
                 Marco Perez Donoso
-              </a>
+              </SHoverUnderlineAnimation>
             </p>
           </SFooterSection>
         </SFooterContainer>

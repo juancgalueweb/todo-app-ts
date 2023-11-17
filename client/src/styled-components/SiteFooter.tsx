@@ -6,6 +6,7 @@ const linkedInColor = '#0077b5'
 const gray500 = '#71717A'
 const gray800 = '#27272A'
 const black = '#000'
+const blue500 = '#3B82F6'
 
 export const SFooterContainer = styled.footer`
   width: 100%;
@@ -28,17 +29,6 @@ export const SFooterContainer = styled.footer`
 export const SFooterSection = styled.div`
   font-size: 0.8rem;
   color: ${gray500};
-
-  a {
-    color: ${gray800};
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-decoration: none;
-
-    &:visited {
-      color: ${gray800};
-    }
-  }
 `
 
 export const SFooterSocial = styled.div`
@@ -53,5 +43,35 @@ export const SFooterSocial = styled.div`
   }
   #linkedinIcon:hover {
     color: ${linkedInColor};
+  }
+`
+
+export const SHoverUnderlineAnimation = styled.a`
+  position: relative;
+  color: ${gray800};
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: ${blue500};
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  &:visited {
+    color: ${gray800};
   }
 `
