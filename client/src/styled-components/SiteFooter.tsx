@@ -2,34 +2,26 @@ import styled from 'styled-components'
 import { device } from '../helpers/devicesMediaqueries'
 
 export const SSiteFooter = styled.footer`
-  margin: 1rem 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding-top: 1rem;
   background-color: transparent;
   color: #232323;
-  padding: 1rem;
-  border-radius: 0 0 0.5rem 0.5rem;
+  align-items: center;
+  text-align: center;
 
-  .flex_container {
+  @media ${device.laptop} {
     width: 100%;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-
-    @media ${device.laptop} {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-    }
   }
 
   .footer_copyright {
     font-size: 0.8rem;
     color: #b6c7d6;
+
     p {
       margin: 0rem;
     }
@@ -38,6 +30,15 @@ export const SSiteFooter = styled.footer`
       font-weight: bold;
       color: #232323;
       text-decoration: none;
+    }
+
+    @media ${device.tablet} {
+      display: flex;
+      line-height: 1rem;
+      gap: 0.2rem;
+    }
+    @media ${device.laptop} {
+      display: inline-block;
     }
   }
 
@@ -54,9 +55,6 @@ export const SSiteFooter = styled.footer`
     #linkedinIcon:hover {
       color: #0768c4;
     }
-    #instagramIcon:hover {
-      color: #fe2b71;
-    }
   }
 
   .footer_mention {
@@ -69,6 +67,14 @@ export const SSiteFooter = styled.footer`
     a {
       color: #232323;
       text-decoration: none;
+    }
+
+    @media ${device.tablet} {
+      display: flex;
+      gap: 0.2rem;
+    }
+    @media ${device.laptop} {
+      display: inline-block;
     }
   }
 `
