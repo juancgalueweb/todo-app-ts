@@ -1,39 +1,42 @@
 import styled from 'styled-components'
+import { device } from '../helpers/devicesMediaqueries'
 
 export const SSiteFooter = styled.footer`
   margin: 1rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #b83f45;
-  color: #fff;
+  background-color: transparent;
+  color: #232323;
   padding: 1rem;
   border-radius: 0 0 0.5rem 0.5rem;
 
-  .footer_logo {
-    h1 {
-      margin: 0;
-      font-size: 2rem;
-      font-weight: 200;
-    }
+  .flex_container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
-    img {
-      width: 30px;
-      height: auto;
+    @media ${device.laptop} {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
     }
   }
 
   .footer_copyright {
     font-size: 0.8rem;
     color: #b6c7d6;
-    margin-bottom: 2rem;
     p {
       margin: 0rem;
     }
     a {
       font-size: 0.9rem;
       font-weight: bold;
-      color: #fff;
+      color: #232323;
       text-decoration: none;
     }
   }
@@ -41,9 +44,9 @@ export const SSiteFooter = styled.footer`
   .footer_social {
     display: flex;
     gap: 4rem;
-    margin-bottom: 1rem;
+    margin: 0.5rem 0;
     a {
-      color: #fff;
+      color: #232323;
     }
     #githubIcon:hover {
       color: #000;
@@ -57,14 +60,14 @@ export const SSiteFooter = styled.footer`
   }
 
   .footer_mention {
-    color: #fff;
+    color: #232323;
     font-size: 0.8rem;
     p {
       color: #b6c7d6;
       margin: 0;
     }
     a {
-      color: #fff;
+      color: #232323;
       text-decoration: none;
     }
   }
