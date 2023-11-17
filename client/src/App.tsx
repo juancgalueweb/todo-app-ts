@@ -6,6 +6,7 @@ import Header from './components/Header'
 import Todos from './components/Todos'
 import WelcomeAndLogout from './components/WelcomeAndLogout'
 import { useTodosStore } from './stores/todosStore'
+import { SMainContainer } from './styled-components/Wrappers'
 
 const App: React.FC = () => {
   const { getTodos } = useTodosStore()
@@ -15,14 +16,14 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <SMainContainer>
       <WelcomeAndLogout />
       <Header />
       <CreateTodo />
       <Footer />
       <Todos />
       <ToastContainer />
-    </>
+    </SMainContainer>
   )
 }
 

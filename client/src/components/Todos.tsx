@@ -1,12 +1,7 @@
-import {
-  CheckCircleOutlined,
-  ClockCircleOutlined,
-  ExclamationCircleOutlined,
-  MinusCircleOutlined,
-  SearchOutlined
-} from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 import type { InputRef } from 'antd'
-import { Button, Col, Flex, Popconfirm, Space, Table, Tag, Tooltip } from 'antd'
+import { Button, Card, Col, Flex, Space, Table, Tag } from 'antd'
+import { type Dayjs } from 'dayjs'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
 import type { FilterConfirmProps, Key } from 'antd/es/table/interface'
 import dayjs from 'dayjs'
@@ -23,22 +18,22 @@ import {
   type ITodo
 } from '../interfaces/todo.interface'
 import {
-  SDeleteFilledIcon,
-  SEditTwoToneIcon,
-  SLockFilledIcon,
   SRowTodo,
   STableClearButton,
   STableSearchButton,
   STableSearchDiv,
   STableSearchInput,
-  STableSearchOutlinedIcon,
-  SUnlockFilledIcon
+  STableSearchOutlinedIcon
 } from '../styled-components/CustomAntDesignComponents'
+import { STableOrCard } from '../styled-components/STableOrCard'
 import TodoModal from './TodoModal'
 import ArrowDown from './icons/ArrowDown'
 import ArrowRight from './icons/ArrowRight'
 import ArrowUp from './icons/ArrowUp'
 import NoTag from './icons/NoTag'
+import TodosDeadline from './TodosDeadline'
+import TodosActions from './TodosActions'
+import SiteFooter from './SiteFooter'
 import('dayjs/locale/es')
 dayjs.locale('es')
 dayjs.extend(relativeTime)
@@ -263,32 +258,8 @@ const Todos: React.FC = () => {
       dataIndex: 'deadline',
       sorter: (a, b) => dayjs(a.deadline).unix() - dayjs(b.deadline).unix(),
       render: (record, row) => {
-        const deadline = dayjs(record)
-        const now = dayjs(new Date())
-        const daysDifference = deadline.diff(now, 'd', true)
-
-        let tagColor = ''
-        let tagIcon = null
-        if (daysDifference < 2) {
-          tagColor = 'error'
-          tagIcon = <ClockCircleOutlined rev={''} />
-        } else if (daysDifference < 5) {
-          tagColor = 'warning'
-          tagIcon = <ExclamationCircleOutlined rev={''} />
-        } else {
-          tagColor = 'success'
-          tagIcon = <CheckCircleOutlined rev={''} />
-        }
-
-        if (row.completed) {
-          tagColor = '#D4D4D4'
-          tagIcon = <MinusCircleOutlined rev={''} />
-        }
-
         return (
-          <Tag icon={tagIcon} color={tagColor}>
-            {deadline.format('DD-MM-YYYY')}
-          </Tag>
+          <TodosDeadline record={record as Dayjs} completed={row.completed} />
         )
       },
       width: '10%'
@@ -312,57 +283,16 @@ const Todos: React.FC = () => {
       title: 'Acciones',
       render: (record, row) => {
         return (
-          <Space size='small'>
-            {row.completed ? (
-              <Tooltip title='Cambiar a pendiente'>
-                <SLockFilledIcon
-                  onClick={() => {
-                    const toggleStatus = !record.completed
-                    updateCompletedStatus({
-                      _id: record._id,
-                      completed: toggleStatus
-                    })
-                    completeTodoMsg(toggleStatus)
-                  }}
-                />
-              </Tooltip>
-            ) : (
-              <Tooltip title='Cambiar a completado'>
-                <SUnlockFilledIcon
-                  onClick={() => {
-                    const toggleStatus = !record.completed
-                    updateCompletedStatus({
-                      _id: record._id,
-                      completed: toggleStatus
-                    })
-                    completeTodoMsg(toggleStatus)
-                  }}
-                />
-              </Tooltip>
-            )}
-            {record.completed !== undefined && record.completed === false ? (
-              <Tooltip title='Editar tarea'>
-                <SEditTwoToneIcon
-                  rev={''}
-                  onClick={() => {
-                    showModal(record)
-                    getTags()
-                  }}
-                />
-              </Tooltip>
-            ) : null}
-            <Popconfirm
-              title='¿Desea eliminar la tarea?'
-              onConfirm={() => {
-                removeTodo({ _id: record._id })
-                deleteMsg()
-              }}
-            >
-              <Tooltip title='Borrar tarea'>
-                <SDeleteFilledIcon rev={''} />
-              </Tooltip>
-            </Popconfirm>
-          </Space>
+          <TodosActions
+            row={row}
+            record={record}
+            updateCompletedStatus={updateCompletedStatus}
+            completeTodoMsg={completeTodoMsg}
+            showModal={showModal}
+            getTags={getTags}
+            removeTodo={removeTodo}
+            deleteMsg={deleteMsg}
+          />
         )
       },
       width: '10%'
@@ -370,44 +300,91 @@ const Todos: React.FC = () => {
   ]
 
   return (
-    <>
-      {contextHolder}
-      <SRowTodo justify='center'>
-        <Col span={20}>
-          <Table
-            columns={columns}
-            dataSource={filteredTodos}
-            rowKey={(record) => record._id ?? ''}
-            rowClassName={(record) => {
-              if (record.completed) {
-                return 'completed-table-cell'
-              }
-              return ''
-            }}
-            pagination={{
-              showSizeChanger: true,
-              current: page,
-              pageSize,
-              onChange: (page, pageSize) => {
-                setPage(page)
-                setPageSize(pageSize)
-              }
-            }}
-            loading={loading}
-          />
-        </Col>
-      </SRowTodo>
-      <TodoModal
-        open={open}
-        onCancel={handleCancel}
-        onOk={form.submit}
-        onFinish={handleSubmit}
-        name='editTodo'
-        modalTitle='Editar tarea'
-        form={form}
-        confirmLoading={confirmLoading}
-      />
-    </>
+    <STableOrCard>
+      <div className='todos-table'>
+        {contextHolder}
+        <SRowTodo justify='center'>
+          <Col span={20}>
+            <Table
+              columns={columns}
+              dataSource={filteredTodos}
+              rowKey={(record) => record._id ?? ''}
+              rowClassName={(record) => {
+                if (record.completed) {
+                  return 'completed-table-cell'
+                }
+                return ''
+              }}
+              pagination={{
+                showSizeChanger: true,
+                current: page,
+                pageSize,
+                onChange: (page, pageSize) => {
+                  setPage(page)
+                  setPageSize(pageSize)
+                }
+              }}
+              loading={loading}
+            />
+          </Col>
+        </SRowTodo>
+        <TodoModal
+          open={open}
+          onCancel={handleCancel}
+          onOk={form.submit}
+          onFinish={handleSubmit}
+          name='editTodo'
+          modalTitle='Editar tarea'
+          form={form}
+          confirmLoading={confirmLoading}
+        />
+      </div>
+
+      {/* TASKS CARDS FOR SMALL SCREENS */}
+      <div className='todos-cards'>
+        {filteredTodos.map((todo: ITodo) => (
+          <Card
+            className={todo.completed ? 'task-card-completed' : 'task-card'}
+            key={todo._id}
+            title={todo.title}
+            headStyle={
+              todo.completed
+                ? { color: '#989898' }
+                : {
+                    color: ''
+                  }
+            }
+          >
+            <div className='task-details'>
+              <div className='task-status'>
+                {todo.completed ? 'Completado' : 'Pendiente'}
+              </div>
+
+              <div className='task-deadline'>
+                <TodosDeadline
+                  record={todo.deadline as Dayjs}
+                  completed={todo.completed}
+                />
+              </div>
+
+              <div className='task-actions'>
+                <TodosActions
+                  row={todo}
+                  record={todo}
+                  updateCompletedStatus={updateCompletedStatus}
+                  completeTodoMsg={completeTodoMsg}
+                  showModal={showModal}
+                  getTags={getTags}
+                  removeTodo={removeTodo}
+                  deleteMsg={deleteMsg}
+                />
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+      <SiteFooter />
+    </STableOrCard>
   )
 }
 

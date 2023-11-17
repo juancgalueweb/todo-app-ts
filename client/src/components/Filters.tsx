@@ -34,7 +34,7 @@ const Filters: React.FC = () => {
   }
 
   return (
-    <Flex justify='center' align='center' gap={6}>
+    <Flex wrap='wrap' justify='flex-start' align='center' gap={8}>
       {renderFilterButtons()}
     </Flex>
   )

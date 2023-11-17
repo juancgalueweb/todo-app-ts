@@ -16,13 +16,13 @@ const WelcomeAndLogout: React.FC = () => {
 
   return (
     <Row>
-      <Col span={20} offset={2}>
+      <Col xs={{ span: 24 }} md={{ span: 20, offset: 2 }}>
         <Flex justify='space-between' align='center'>
           <SWelcomeParagraph>
-            Bienvenid@, {dataFromLocalStorage?.userEmail}
+            Bienvenid@, <span>{dataFromLocalStorage?.userEmail}</span>
           </SWelcomeParagraph>
           <Button
-            size='large'
+            size='middle'
             type='primary'
             onClick={() => {
               handleOnClick()
