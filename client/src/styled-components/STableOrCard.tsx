@@ -2,25 +2,6 @@ import styled from 'styled-components'
 import { device } from '../helpers/devicesMediaqueries'
 
 export const STableOrCard = styled.div`
-  .todos-table {
-    display: none;
-    @media ${device.laptop} {
-      display: block;
-    }
-  }
-
-  .todos-cards {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-
-    @media ${device.laptop} {
-      display: none;
-    }
-  }
-
   .task-card {
     width: 100%;
 
@@ -39,11 +20,30 @@ export const STableOrCard = styled.div`
       width: 60%;
     }
   }
+`
 
-  .task-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+export const STodosTableContainer = styled.div`
+  display: none;
+  @media ${device.laptop} {
+    display: block;
   }
+`
+
+export const STodosCardsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+
+  @media ${device.laptop} {
+    display: none;
+  }
+`
+
+export const STaskDetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 `

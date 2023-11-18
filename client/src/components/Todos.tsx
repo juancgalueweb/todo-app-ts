@@ -1,10 +1,9 @@
 import { SearchOutlined } from '@ant-design/icons'
 import type { InputRef } from 'antd'
 import { Button, Card, Col, Flex, Space, Table, Tag } from 'antd'
-import { type Dayjs } from 'dayjs'
 import type { ColumnType, ColumnsType } from 'antd/es/table'
 import type { FilterConfirmProps, Key } from 'antd/es/table/interface'
-import dayjs from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useRef, useState } from 'react'
 import Highlighter from 'react-highlight-words'
@@ -25,15 +24,20 @@ import {
   STableSearchInput,
   STableSearchOutlinedIcon
 } from '../styled-components/CustomAntDesignComponents'
-import { STableOrCard } from '../styled-components/STableOrCard'
+import {
+  STableOrCard,
+  STaskDetailsContainer,
+  STodosCardsContainer,
+  STodosTableContainer
+} from '../styled-components/STableOrCard'
+import SiteFooter from './SiteFooter'
 import TodoModal from './TodoModal'
+import TodosActions from './TodosActions'
+import TodosDeadline from './TodosDeadline'
 import ArrowDown from './icons/ArrowDown'
 import ArrowRight from './icons/ArrowRight'
 import ArrowUp from './icons/ArrowUp'
 import NoTag from './icons/NoTag'
-import TodosDeadline from './TodosDeadline'
-import TodosActions from './TodosActions'
-import SiteFooter from './SiteFooter'
 import('dayjs/locale/es')
 dayjs.locale('es')
 dayjs.extend(relativeTime)
@@ -301,7 +305,7 @@ const Todos: React.FC = () => {
 
   return (
     <STableOrCard>
-      <div className='todos-table'>
+      <STodosTableContainer>
         {contextHolder}
         <SRowTodo justify='center'>
           <Col span={20}>
@@ -338,10 +342,10 @@ const Todos: React.FC = () => {
           form={form}
           confirmLoading={confirmLoading}
         />
-      </div>
+      </STodosTableContainer>
 
       {/* TASKS CARDS FOR SMALL SCREENS */}
-      <div className='todos-cards'>
+      <STodosCardsContainer>
         {filteredTodos.map((todo: ITodo) => (
           <Card
             className={todo.completed ? 'task-card-completed' : 'task-card'}
@@ -355,34 +359,26 @@ const Todos: React.FC = () => {
                   }
             }
           >
-            <div className='task-details'>
-              <div className='task-status'>
-                {todo.completed ? 'Completado' : 'Pendiente'}
-              </div>
-
-              <div className='task-deadline'>
-                <TodosDeadline
-                  record={todo.deadline as Dayjs}
-                  completed={todo.completed}
-                />
-              </div>
-
-              <div className='task-actions'>
-                <TodosActions
-                  row={todo}
-                  record={todo}
-                  updateCompletedStatus={updateCompletedStatus}
-                  completeTodoMsg={completeTodoMsg}
-                  showModal={showModal}
-                  getTags={getTags}
-                  removeTodo={removeTodo}
-                  deleteMsg={deleteMsg}
-                />
-              </div>
-            </div>
+            <STaskDetailsContainer>
+              {todo.completed ? 'Completado' : 'Pendiente'}
+              <TodosDeadline
+                record={todo.deadline as Dayjs}
+                completed={todo.completed}
+              />
+              <TodosActions
+                row={todo}
+                record={todo}
+                updateCompletedStatus={updateCompletedStatus}
+                completeTodoMsg={completeTodoMsg}
+                showModal={showModal}
+                getTags={getTags}
+                removeTodo={removeTodo}
+                deleteMsg={deleteMsg}
+              />
+            </STaskDetailsContainer>
           </Card>
         ))}
-      </div>
+      </STodosCardsContainer>
       <SiteFooter />
     </STableOrCard>
   )
