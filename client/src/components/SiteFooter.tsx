@@ -1,21 +1,22 @@
-import { GithubOutlined, LinkedinOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import {
   SFooterContainer,
   SFooterSection,
   SFooterSocial,
-  SHoverUnderlineAnimation
+  SGithubOutlined,
+  SHeartFilled,
+  SHoverUnderlineAnimation,
+  SLinkedinOutlined
 } from '../styled-components/SiteFooter'
 
 function SiteFooter(): JSX.Element {
-  const SOCIAL_ICON_SIZE = 30
   return (
     <Row justify='center'>
       <Col span={20}>
         <SFooterContainer>
           <SFooterSection>
             <p>
-              Copyright &copy; 2023{' '}
+              Made with <SHeartFilled /> by{' '}
               <SHoverUnderlineAnimation
                 href='https://github.com/juancgalueweb'
                 target='_blank'
@@ -32,7 +33,7 @@ function SiteFooter(): JSX.Element {
               target='_blank'
               rel='noreferrer'
             >
-              <GithubOutlined style={{ fontSize: SOCIAL_ICON_SIZE }} />
+              <SGithubOutlined />
             </a>
             <a
               id='linkedinIcon'
@@ -40,7 +41,7 @@ function SiteFooter(): JSX.Element {
               target='_blank'
               rel='noreferrer'
             >
-              <LinkedinOutlined style={{ fontSize: SOCIAL_ICON_SIZE }} />
+              <SLinkedinOutlined />
             </a>
           </SFooterSocial>
           <SFooterSection>
@@ -51,7 +52,7 @@ function SiteFooter(): JSX.Element {
                 target='_blank'
                 rel='noreferrer'
               >
-                Marco Perez Donoso
+                Marco Pérez Donoso
               </SHoverUnderlineAnimation>
             </p>
           </SFooterSection>

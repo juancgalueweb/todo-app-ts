@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import { device } from '../helpers/devicesMediaqueries'
 
 export const SLoginForm = styled.form`
-  width: 100vw;
-  height: 18rem;
+  width: 95vw;
+  height: 14rem;
   background-color: white;
   border-radius: 8px;
   display: flex;
@@ -10,6 +11,18 @@ export const SLoginForm = styled.form`
   justify-content: center;
   align-items: center;
   align-self: center;
+
+  @media ${device.laptop} {
+    width: 70vw;
+  }
+
+  @media ${device.laptopL} {
+    width: 45vw;
+  }
+
+  @media ${device.desktop} {
+    width: 40vw;
+  }
 
   label {
     display: block;
@@ -29,9 +42,17 @@ export const SLoginForm = styled.form`
     line-height: 1.5rem;
     border-radius: 0.5rem;
     display: block;
-    width: 50%;
+    width: 90%;
     padding: 0.625rem;
     margin-bottom: 1.5rem;
+
+    @media ${device.laptop} {
+      width: 70%;
+    }
+
+    @media ${device.laptopL} {
+      width: 50%;
+    }
 
     &:focus {
       outline: none;

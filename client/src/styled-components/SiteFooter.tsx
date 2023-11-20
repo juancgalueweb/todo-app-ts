@@ -1,3 +1,8 @@
+import {
+  GithubOutlined,
+  HeartFilled,
+  LinkedinOutlined
+} from '@ant-design/icons'
 import styled from 'styled-components'
 import { device } from '../helpers/devicesMediaqueries'
 
@@ -7,6 +12,8 @@ const gray500 = '#71717A'
 const gray800 = '#27272A'
 const black = '#000'
 const blue500 = '#3B82F6'
+const SOCIAL_ICON_SIZE = '30px'
+const HEART_ICON_SIZE = '15px'
 
 export const SFooterContainer = styled.footer`
   width: 100%;
@@ -90,4 +97,17 @@ export const SHoverUnderlineAnimation = styled.a`
   &:visited {
     color: ${gray800};
   }
+`
+
+export const SGithubOutlined = styled(GithubOutlined)`
+  font-size: ${SOCIAL_ICON_SIZE};
+`
+
+export const SLinkedinOutlined = styled(LinkedinOutlined)`
+  font-size: ${SOCIAL_ICON_SIZE};
+`
+
+export const SHeartFilled = styled(HeartFilled)`
+  font-size: ${HEART_ICON_SIZE};
+  color: #f43f5e;
 `

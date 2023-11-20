@@ -1,5 +1,5 @@
-import { device } from '../helpers/devicesMediaqueries'
 import styled from 'styled-components'
+import { device } from '../helpers/devicesMediaqueries'
 
 export const SContainer = styled.div`
   height: 100vh;
@@ -27,12 +27,12 @@ export const SContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0;
-    flex-grow: 0.7;
+    flex-grow: 0.5;
     justify-content: center;
     align-items: center;
 
     @media ${device.laptop} {
-      width: 70%;
+      width: 60%;
     }
   }
 
