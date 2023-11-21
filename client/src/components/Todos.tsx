@@ -190,6 +190,15 @@ const Todos: React.FC = () => {
       title: 'Etiquetas',
       dataIndex: 'tags',
       width: '10%',
+      sorter: (a, b) => {
+        if (a.tags.length === 0) {
+          return -1
+        }
+        if (b.tags.length === 0) {
+          return 1
+        }
+        return a.tags[0].tagName.localeCompare(b.tags[0].tagName)
+      },
       filters: getUniqueTagNames(filteredTodos).map((tagName: string) => ({
         text: tagName,
         value: tagName
