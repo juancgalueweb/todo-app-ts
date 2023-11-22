@@ -70,12 +70,6 @@ export const STableClearButton = styled(Button)`
   width: 70px;
 `
 
-export const STableSearchOutlinedIcon = styled(SearchOutlined)<{
-  $filtered?: boolean
-}>`
-  color: ${(props) => (props.$filtered ? '#1677ff' : undefined)};
-`
-
 export const SLockFilledIcon = styled(LockFilled)`
   color: #4b5563;
   font-size: 16px;
@@ -84,4 +78,14 @@ export const SLockFilledIcon = styled(LockFilled)`
 export const SUnlockFilledIcon = styled(UnlockFilled)`
   color: #4b5563;
   font-size: 16px;
+`
+
+export const SFlexTodoActions = styled(Flex)`
+  width: 100%;
+`
+
+export const STableSearchOutlinedIcon = styled(SearchOutlined)<{
+  $filtered?: boolean
+}>`
+  color: ${(props) => (props.$filtered ? '#1677ff' : undefined)};
 `

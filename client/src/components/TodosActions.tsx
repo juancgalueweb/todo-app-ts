@@ -1,11 +1,12 @@
-import { Popconfirm, Space, Tooltip } from 'antd'
+import { Popconfirm, Tooltip } from 'antd'
+import type { TodosActionsProps } from '../interfaces/todo.interface'
 import {
   SDeleteFilledIcon,
   SEditTwoToneIcon,
+  SFlexTodoActions,
   SLockFilledIcon,
   SUnlockFilledIcon
 } from '../styled-components/CustomAntDesignComponents'
-import type { TodosActionsProps } from '../interfaces/todo.interface'
 
 function TodosActions({
   row,
@@ -18,7 +19,7 @@ function TodosActions({
   deleteMsg
 }: TodosActionsProps): JSX.Element {
   return (
-    <Space size='small'>
+    <SFlexTodoActions justify='space-evenly'>
       {row.completed ? (
         <Tooltip title='Cambiar a pendiente'>
           <SLockFilledIcon
@@ -68,7 +69,7 @@ function TodosActions({
           <SDeleteFilledIcon rev={''} />
         </Tooltip>
       </Popconfirm>
-    </Space>
+    </SFlexTodoActions>
   )
 }
 export default TodosActions
