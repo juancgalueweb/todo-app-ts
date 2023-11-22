@@ -19,7 +19,7 @@ function TodosActions({
   deleteMsg
 }: TodosActionsProps): JSX.Element {
   return (
-    <SFlexTodoActions justify='space-between'>
+    <SFlexTodoActions>
       {row.completed ? (
         <Tooltip title='Cambiar a pendiente'>
           <SLockFilledIcon

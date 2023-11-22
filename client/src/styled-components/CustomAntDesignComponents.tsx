@@ -80,8 +80,18 @@ export const SUnlockFilledIcon = styled(UnlockFilled)`
   font-size: 16px;
 `
 
-export const SFlexTodoActions = styled(Flex)`
+export const SFlexTodoActions = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   width: 100%;
+
+  @media ${device.laptop} {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1rem;
+    align-items: center;
+  }
 `
 
 export const STableSearchOutlinedIcon = styled(SearchOutlined)<{
