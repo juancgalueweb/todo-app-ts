@@ -94,8 +94,6 @@ export const SFlexTodoActions = styled.div`
   }
 `
 
-export const STableSearchOutlinedIcon = styled(SearchOutlined)<{
-  $filtered?: boolean
-}>`
+export const SSearchIcon = styled(SearchOutlined)<{ $filtered?: boolean }>`
   color: ${(props) => (props.$filtered ? '#1677ff' : undefined)};
 `

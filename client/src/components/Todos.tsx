@@ -18,11 +18,11 @@ import {
 } from '../interfaces/todo.interface'
 import {
   SRowTodo,
+  SSearchIcon,
   STableClearButton,
   STableSearchButton,
   STableSearchDiv,
-  STableSearchInput,
-  STableSearchOutlinedIcon
+  STableSearchInput
 } from '../styled-components/CustomAntDesignComponents'
 import {
   STableOrCard,
@@ -149,9 +149,7 @@ const Todos: React.FC = () => {
         </Space>
       </STableSearchDiv>
     ),
-    filterIcon: (filtered: boolean) => (
-      <STableSearchOutlinedIcon $filtered={filtered} />
-    ),
+    filterIcon: (filtered: boolean) => <SSearchIcon $filtered={filtered} />,
     onFilter: (value, record) => {
       const dataIndexValue = record[dataIndex]
       if (dataIndexValue !== undefined) {
