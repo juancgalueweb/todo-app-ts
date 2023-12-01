@@ -69,7 +69,7 @@ export const deleteTodoService = async (
 ): Promise<IDeleteOrUpdateTodo> => {
   try {
     // Check if todo item exists
-    const todoToBeDeleted: ITodo | null = await TodoModel.findById({ _id: id })
+    const todoToBeDeleted: ITodo | null = await TodoModel.findById(id)
     if (todoToBeDeleted === null) {
       return {
         success: false,
@@ -79,7 +79,7 @@ export const deleteTodoService = async (
     }
 
     // Delete item
-    const deletedTodo: ITodo | null = await TodoModel.findByIdAndRemove(id)
+    const deletedTodo: ITodo | null = await TodoModel.findByIdAndDelete(id)
 
     return {
       success: true,
@@ -141,7 +141,7 @@ export const updateTodoService = async (
 ): Promise<IDeleteOrUpdateTodo> => {
   try {
     // Check if todo item exists
-    const todoToBeUpdated: ITodo | null = await TodoModel.findById({ _id: id })
+    const todoToBeUpdated: ITodo | null = await TodoModel.findById(id)
     if (todoToBeUpdated === null) {
       return {
         success: false,
@@ -152,7 +152,7 @@ export const updateTodoService = async (
 
     // Update the todo item
     const updatedTodo: ITodo | null = await TodoModel.findByIdAndUpdate(
-      { _id: id },
+      id,
       body,
       { new: true, runValidators: true }
     ).populate({ path: 'tags', select: ['tagName', 'tagColor', '_id'] })

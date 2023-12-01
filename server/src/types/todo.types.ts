@@ -2,7 +2,7 @@ import { type Document } from 'mongoose'
 import type { HttpStatusCode } from '../constants/http'
 
 export interface ITodo extends Document {
-  id: string
+  _id: string
   userId: string
   title: string
   completed: boolean

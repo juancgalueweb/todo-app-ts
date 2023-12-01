@@ -100,7 +100,7 @@ export const getTagsByUserService = async (
 export const deleteTagService = async (tagId: string): Promise<ISaveTag> => {
   try {
     // check if tag exists
-    const tagToDelete: ITag | null = await TagModel.findById({ _id: tagId })
+    const tagToDelete: ITag | null = await TagModel.findById(tagId)
     if (tagToDelete === null) {
       return {
         success: false,
@@ -139,7 +139,7 @@ export const updateTagService = async (
 ): Promise<ISaveTag> => {
   try {
     // Check if tag exists in the database
-    const tagToUpdate: ITag | null = await TagModel.findById({ _id: tagId })
+    const tagToUpdate: ITag | null = await TagModel.findById(tagId)
     if (tagToUpdate === null) {
       return {
         success: false,
@@ -184,7 +184,7 @@ export const updateTagService = async (
     }
 
     const updatedTag: ITag | null = await TagModel.findByIdAndUpdate(
-      { _id: tagId },
+      tagId,
       { ...body, tagName: modifiedTagName },
       { new: true, runValidators: true }
     )
