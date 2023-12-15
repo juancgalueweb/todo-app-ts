@@ -18,7 +18,8 @@ const PORT = 4000
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:5173', 'https://todos.juancgalue-web.cl']
+    origin: ['http://localhost:5173', 'https://todos.juancgalue-web.cl'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
   })
 )
 app.use(express.json())
