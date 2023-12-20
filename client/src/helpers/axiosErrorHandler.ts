@@ -7,7 +7,7 @@ export const handleError = (error: AxiosError): void => {
   if (
     typeof errorData === 'object' &&
     errorData !== null &&
-    'expiredToken' in errorData &&
+    ('expiredToken' in errorData || 'tokenNotProvided' in errorData) &&
     'msg' in errorData
   ) {
     const errorMsgByExpiredToken = errorData.msg as string
