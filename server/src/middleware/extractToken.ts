@@ -10,8 +10,9 @@ export const extractToken = (
   const authHeader = req.headers.authorization
   const token = authHeader?.split(' ')[1]
   if (!token) {
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
+    return res.status(HttpStatusCode.UNAUTHORIZED).json({
       success: false,
+      tokenNotProvided: true,
       msg: MSGS_RESPONSES.MIDDLEWARE_NO_TOKEN
     })
   }
