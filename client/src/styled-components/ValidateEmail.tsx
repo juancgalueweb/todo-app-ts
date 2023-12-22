@@ -48,14 +48,14 @@ export const SPinField = styled(PinField)<{ $completed?: boolean }>`
   border-color: ${(props) => (props.$completed ? 'rgb(40, 167, 69)' : '')};
   background-color: ${(props) =>
     props.$completed ? 'rgba(40, 167, 69, 0.1)' : ''};
-  font-size: 3rem;
+  font-size: 2rem;
   margin: 0.25rem;
   outline: none;
   text-align: center;
   transition-duration: 250ms;
   transition-property: background, color, border, box-shadow, transform;
-  height: 4.5rem;
-  width: 4rem;
+  height: 5rem;
+  width: 4.5rem;
 
   @media ${device.tablet} {
     height: 3.5rem;
