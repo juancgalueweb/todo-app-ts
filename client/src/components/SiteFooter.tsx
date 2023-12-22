@@ -16,14 +16,18 @@ function SiteFooter(): JSX.Element {
         <SFooterContainer>
           <SFooterSection>
             <p>
-              Made with <SHeartFilled /> by{' '}
-              <SHoverUnderlineAnimation
-                href='https://github.com/juancgalueweb'
-                target='_blank'
-                rel='noreferrer'
-              >
-                Juan Carlos Galué
-              </SHoverUnderlineAnimation>
+              <section>
+                Made with <SHeartFilled /> by <br />
+              </section>
+              <section>
+                <SHoverUnderlineAnimation
+                  href='https://github.com/juancgalueweb'
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  Juan Carlos Galué
+                </SHoverUnderlineAnimation>
+              </section>
             </p>
           </SFooterSection>
           <SFooterSocial>

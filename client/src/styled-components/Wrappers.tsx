@@ -67,7 +67,6 @@ export const SContainer = styled.div`
 export const SPinFieldContainer = styled.div`
   display: block;
   text-align: center;
-  margin: 1.25rem 0;
 `
 
 export const SMainContainer = styled.div`

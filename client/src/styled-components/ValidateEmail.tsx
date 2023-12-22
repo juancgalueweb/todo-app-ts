@@ -2,6 +2,7 @@ import { Button } from 'antd'
 import PinField from 'react-pin-field'
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
+import { device } from '../helpers/devicesMediaqueries'
 
 export const SLink = styled(Link)`
   outline: none;
@@ -47,14 +48,19 @@ export const SPinField = styled(PinField)<{ $completed?: boolean }>`
   border-color: ${(props) => (props.$completed ? 'rgb(40, 167, 69)' : '')};
   background-color: ${(props) =>
     props.$completed ? 'rgba(40, 167, 69, 0.1)' : ''};
-  font-size: 2rem;
+  font-size: 3rem;
   margin: 0.25rem;
-  height: 3.5rem;
   outline: none;
   text-align: center;
   transition-duration: 250ms;
   transition-property: background, color, border, box-shadow, transform;
-  width: 3rem;
+  height: 4.5rem;
+  width: 4rem;
+
+  @media ${device.tablet} {
+    height: 3.5rem;
+    width: 3rem;
+  }
 
   &:focus {
     border-color: rgb(0, 123, 255);
