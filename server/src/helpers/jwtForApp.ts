@@ -9,18 +9,17 @@ import { MSGS_RESPONSES } from '../constants/msgs'
 const jwtForApp = async (userId: string): Promise<string> => {
   return await new Promise((resolve, reject) => {
     const payload = { userId }
-    const secretKey = process?.env?.SECRET_KEY_APP_USE_JWT
-    if (typeof secretKey === 'string') {
-      jwt.sign(payload, secretKey, { expiresIn: '30d' }, (error, token) => {
-        if (error != null) {
-          reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR1))
-        } else if (token !== undefined) {
-          resolve(token)
-        } else {
-          reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR2))
-        }
-      })
-    }
+    const secretKey = process?.env.SECRET_KEY_APP_USE_JWT as string
+
+    jwt.sign(payload, secretKey, { expiresIn: '30d' }, (error, token) => {
+      if (error != null) {
+        reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR1))
+      } else if (token !== undefined) {
+        resolve(token)
+      } else {
+        reject(new Error(MSGS_RESPONSES.JWT_FOR_APP_ERROR2))
+      }
+    })
   })
 }
 

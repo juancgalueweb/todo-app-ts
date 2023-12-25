@@ -9,12 +9,10 @@ export const authApp = (req: Request, res: Response, next: NextFunction) => {
     const token = req.token as string
     const secretKey = process?.env?.SECRET_KEY_APP_USE_JWT as string
 
-    if (typeof secretKey === 'string') {
-      const { userId } = jwt.verify(token, secretKey) as JwtPayload &
-        JwtTokenAppVerificationResponse
+    const { userId } = jwt.verify(token, secretKey) as JwtPayload &
+      JwtTokenAppVerificationResponse
 
-      req.userId = userId
-    }
+    req.userId = userId
 
     next()
   } catch (error: any) {

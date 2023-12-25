@@ -17,7 +17,7 @@ function SiteFooter(): JSX.Element {
           <SFooterSection>
             <p>
               <section>
-                Made with <SHeartFilled /> by <br />
+                Made with <SHeartFilled /> by
               </section>
               <section>
                 <SHoverUnderlineAnimation
@@ -50,9 +50,9 @@ function SiteFooter(): JSX.Element {
           </SFooterSocial>
           <SFooterSection>
             <p>
-              Responsive design by{' '}
+              Responsive design by
               <SHoverUnderlineAnimation
-                href='https://www.linkedin.com/in/marcopdonoso/'
+                href='https://github.com/marcopdonoso'
                 target='_blank'
                 rel='noreferrer'
               >

@@ -9,13 +9,11 @@ export const authOTP = (req: Request, res: Response, next: NextFunction) => {
     const token = req.token as string
     const secretKey = process?.env?.SECRET_KEY_OTP_JWT as string
 
-    if (typeof secretKey === 'string') {
-      const { userId, otpHash } = jwt.verify(token, secretKey) as JwtPayload &
-        JwtOtpVerificationResponse
+    const { userId, otpHash } = jwt.verify(token, secretKey) as JwtPayload &
+      JwtOtpVerificationResponse
 
-      req.userId = userId
-      req.otpHash = otpHash
-    }
+    req.userId = userId
+    req.otpHash = otpHash
 
     next()
   } catch (error: any) {
