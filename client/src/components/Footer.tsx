@@ -4,6 +4,7 @@
  */
 import { Badge, Button, Col, Flex, Popconfirm } from 'antd'
 import useFooterInfo from '../hooks/useFooterInfo'
+import { useTodosStore } from '../stores/todosStore'
 import {
   SDeleteFilledIcon,
   SRowFooter
@@ -21,16 +22,18 @@ const Footer: React.FC = () => {
     confirmLoading,
     showPopconfirm
   } = useFooterInfo()
+  const { todos } = useTodosStore()
+  const todosQuantity = todos.length
 
   return (
     <SRowFooter>
       <Col xs={{ span: 24 }} md={{ span: 20, offset: 2 }}>
         <Flex justify='space-between' align='center' wrap='wrap' gap={8}>
-          {activeCount > 0 && (
+          {todosQuantity > 0 && (
             <>
-              <p>
-                Tareas pendientes <Badge count={activeCount} />
-              </p>
+              <span>
+                Tareas pendientes <Badge count={activeCount} showZero />
+              </span>
               <Filters />
             </>
           )}
