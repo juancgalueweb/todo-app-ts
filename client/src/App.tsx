@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import CreateTodo from './components/CreateTodo'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import SiteFooter from './components/SiteFooter'
 import Todos from './components/Todos'
 import WelcomeAndLogout from './components/WelcomeAndLogout'
 import { useTodosStore } from './stores/todosStore'
@@ -22,6 +23,7 @@ const App: React.FC = () => {
       <CreateTodo />
       <Footer />
       <Todos />
+      <SiteFooter />
       <ToastContainer />
     </SMainContainer>
   )
