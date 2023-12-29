@@ -30,7 +30,6 @@ import {
   STodosCardsContainer,
   STodosTableContainer
 } from '../styled-components/STableOrCard'
-import SiteFooter from './SiteFooter'
 import TodoModal from './TodoModal'
 import TodosActions from './TodosActions'
 import TodosDeadline from './TodosDeadline'
@@ -355,9 +354,10 @@ const Todos: React.FC = () => {
       <STodosCardsContainer>
         {filteredTodos.map((todo: ITodo) => (
           <Card
+            loading={loading}
             className={todo.completed ? 'task-card-completed' : 'task-card'}
             key={todo._id}
-            title={todo.title}
+            title={<div style={{ whiteSpace: 'pre-wrap' }}>{todo.title}</div>}
             headStyle={
               todo.completed
                 ? { color: '#989898' }
@@ -386,7 +386,6 @@ const Todos: React.FC = () => {
           </Card>
         ))}
       </STodosCardsContainer>
-      <SiteFooter />
     </STableOrCard>
   )
 }
