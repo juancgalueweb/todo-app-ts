@@ -1,7 +1,6 @@
-import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { APP_KEY } from '../constants/const'
-import { SContainer } from '../styled-components/Wrappers'
+import { SButtonHome, SContainer } from '../styled-components/Wrappers'
 
 const Home: React.FC = () => {
   const dataFromLocalStorage = JSON.parse(
@@ -25,7 +24,7 @@ const Home: React.FC = () => {
       </figure>
       <footer>
         {dataFromLocalStorage === null ? (
-          <Button
+          <SButtonHome
             type='primary'
             size='large'
             onClick={() => {
@@ -33,9 +32,9 @@ const Home: React.FC = () => {
             }}
           >
             Login
-          </Button>
+          </SButtonHome>
         ) : (
-          <Button
+          <SButtonHome
             type='primary'
             size='large'
             onClick={() => {
@@ -43,7 +42,7 @@ const Home: React.FC = () => {
             }}
           >
             Ver mis tareas
-          </Button>
+          </SButtonHome>
         )}
       </footer>
     </SContainer>

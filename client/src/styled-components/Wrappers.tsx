@@ -1,3 +1,4 @@
+import { Button } from 'antd'
 import styled from 'styled-components'
 import { device } from '../helpers/devicesMediaqueries'
 
@@ -7,7 +8,7 @@ export const SContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem 1rem;
+  padding: 1.5rem 0.5rem;
   text-align: justify;
 
   h1 {
@@ -46,13 +47,6 @@ export const SContainer = styled.div`
     width: 100%;
   }
 
-  footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 1.5rem;
-  }
-
   figcaption {
     text-align: center;
     color: red;
@@ -77,4 +71,8 @@ export const SMainContainer = styled.div`
   height: 100vh;
   width: 100%;
   padding: 1rem;
+`
+
+export const SButtonHome = styled(Button)`
+  margin-bottom: 1.5rem;
 `
