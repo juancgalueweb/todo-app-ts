@@ -30,7 +30,6 @@ function SiteFooter(): JSX.Element {
           </SFooterSection>
           <SFooterSocial>
             <a
-              id='githubIcon'
               href='https://github.com/juancgalueweb/todo-app-ts'
               target='_blank'
               rel='noreferrer'
@@ -38,7 +37,6 @@ function SiteFooter(): JSX.Element {
               <SGithubOutlined />
             </a>
             <a
-              id='linkedinIcon'
               href='https://www.linkedin.com/in/juancgalue/'
               target='_blank'
               rel='noreferrer'

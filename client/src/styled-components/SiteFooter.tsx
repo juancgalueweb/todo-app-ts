@@ -11,7 +11,6 @@ const linkedInColor = '#0077b5'
 const gray500 = '#71717A'
 const gray800 = '#27272A'
 const black = '#000'
-const blue500 = '#3B82F6'
 const SOCIAL_ICON_SIZE = '30px'
 const HEART_ICON_SIZE = '15px'
 
@@ -58,14 +57,9 @@ export const SFooterSocial = styled.div`
   display: flex;
   gap: 4rem;
   margin: 0.5rem 0;
+
   a {
     color: ${gray800};
-  }
-  #githubIcon:hover {
-    color: ${black};
-  }
-  #linkedinIcon:hover {
-    color: ${linkedInColor};
   }
 `
 
@@ -75,36 +69,63 @@ export const SHoverUnderlineAnimation = styled.a`
   font-size: 0.9rem;
   font-weight: bold;
   text-decoration: none;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
 
-  &:after {
+  &:before {
     content: '';
     position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
     bottom: -2px;
     left: 0;
-    background-color: ${blue500};
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
+    right: 0;
+    width: 0px;
+    height: 2px;
+    border-radius: 9999px;
+    opacity: 0;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+    background: linear-gradient(
+      90deg,
+      hsla(333, 100%, 53%, 1) 0%,
+      hsla(33, 94%, 57%, 1) 100%
+    );
   }
 
-  &:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+  &:hover::before {
+    width: 100%;
+    opacity: 1;
   }
 
-  &:visited {
+  &:visited,
+  &:hover {
     color: ${gray800};
   }
 `
 
 export const SGithubOutlined = styled(GithubOutlined)`
   font-size: ${SOCIAL_ICON_SIZE};
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+
+  &:hover {
+    transform: scale(1.25);
+    color: ${black};
+  }
 `
 
 export const SLinkedinOutlined = styled(LinkedinOutlined)`
   font-size: ${SOCIAL_ICON_SIZE};
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+
+  &:hover {
+    transform: scale(1.25);
+    color: ${linkedInColor};
+  }
 `
 
 export const SHeartFilled = styled(HeartFilled)`
