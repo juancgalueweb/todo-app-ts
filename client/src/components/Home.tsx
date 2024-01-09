@@ -31,7 +31,7 @@ const Home: React.FC = () => {
               navigate('/login')
             }}
           >
-            Login
+            Iniciar sesión
           </SButtonHome>
         ) : (
           <SButtonHome

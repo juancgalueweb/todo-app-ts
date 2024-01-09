@@ -28,7 +28,7 @@ const WelcomeAndLogout: React.FC = () => {
               handleOnClick()
             }}
           >
-            Logout
+            Cerrar sesión
           </Button>
         </Flex>
       </Col>

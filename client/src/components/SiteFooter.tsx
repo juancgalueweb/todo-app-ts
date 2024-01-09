@@ -17,7 +17,7 @@ function SiteFooter(): JSX.Element {
           <SFooterSection>
             <p>
               <span>
-                Made with <SHeartFilled /> by
+                Hecho con <SHeartFilled /> por
               </span>
               <SHoverUnderlineAnimation
                 href='https://github.com/juancgalueweb'
@@ -46,7 +46,7 @@ function SiteFooter(): JSX.Element {
           </SFooterSocial>
           <SFooterSection>
             <p>
-              Responsive design by
+              Diseño responsivo por
               <SHoverUnderlineAnimation
                 href='https://github.com/marcopdonoso'
                 target='_blank'
